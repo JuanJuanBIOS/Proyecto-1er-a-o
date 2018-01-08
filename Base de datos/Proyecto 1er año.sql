@@ -33,6 +33,7 @@ playa bit,
 estrellas int,
 -- FALTA LA FOTO
 )
+go
 
 -- Se crea la tabla de Habitaciones
 create table Habitaciones(
@@ -44,14 +45,27 @@ huespedes int,
 costodiario float,
 constraint PK_Habitaciones primary key (numero, hotel),
 )
+go
+
+-- Se crea la tabla Tipo de usuario y se cargan los valores
+create table Tipo_Usuario(
+idTipo int not null primary key,
+descripcion varchar(15),
+)
+go
+INSERT INTO Tipo_Usuario VALUES
+(0, 'Administrador'),
+(1, 'Cliente')
+go
 
 -- Se crea la tabla de Usuarios
 create table Usuarios(
 nomusu varchar(10) not null primary key,
 pass varchar(20),
 nombre varchar(50),
-tipo int,
+tipo int not null foreign key references Tipo_Usuario(idTipo),
 )
+go
 
 -- Se crea la tabla de Clientes
 create table Clientes(
@@ -61,18 +75,33 @@ calle varchar(30),
 numpuerta int,
 ciudad varchar(30),
 )
+go
 
 -- Se crea la tabla de Telefonos
 create table Telefonos(
 nomusu varchar(10) foreign key references Usuarios(nomusu),
 telefono bigint,
 )
+go
+
+-- Se crea la tabla Cargos y se cargan los valores
+create table Cargos(
+idCargo int not null primary key,
+descripcion varchar(15),
+)
+go
+INSERT INTO Cargos VALUES
+(0, 'Gerente'),
+(1, 'Jefe'),
+(2, 'Administrativo')
+go
 
 -- Se crea la tabla de Administradores
 create table Administradores(
 nomusu varchar(10) not null foreign key references Usuarios(nomusu),
-cargo int,
+cargo int not null foreign key references Cargos(idCargo),
 )
+go
 
 -- Se crea la tabla de Reservas
 create table Reservas(
@@ -85,6 +114,7 @@ fechafin datetime not null,
 estado int,
 constraint FK_Reservas foreign key (numhab, nomhot) references Habitaciones(numero, hotel),
 )
+go
 
 -- -----------------------------------------------------------------------------------------------
 -- CARGA DE DATOS INICIALES PARA PRUEBAS
@@ -101,6 +131,7 @@ INSERT INTO Hoteles VALUES
 ('Hotel 7','Calle 7',7777,'Santiago de Chile',5677777777,5677777770,0,3),
 ('Hotel 8','Calle 8',8888,'Sydney',6188888888,6188888880,1,2),
 ('Hotel 9','Calle 9',9999,'Moscu',799999999,79999990,0,1)
+go
 
 -- Se agregan datos a la tabla Habitaciones
 INSERT INTO Habitaciones VALUES
@@ -131,15 +162,18 @@ INSERT INTO Habitaciones VALUES
 (1,'Hotel 9',1,'Habitacion 1 del Hotel 9',4,30),
 (2,'Hotel 9',2,'Habitacion 2 del Hotel 9',4,20),
 (3,'Hotel 9',3,'Habitacion 3 del Hotel 9',8,40)
+go
 
 -- Se agregan datos a la tabla Usuarios
 INSERT INTO Usuarios VALUES
-('usu1','usu1','Usuario 1',0),
-('usu2','usu2','Usuario 2',1),
-('usu3','usu3','Usuario 3',1),
-('usu4','usu4','Usuario 4',0),
-('usu5','usu5','Usuario 5',0),
-('usu6','usu6','Usuario 6',0)
+('usu1','usu1','Usuario 1',1),
+('usu2','usu2','Usuario 2',0),
+('usu3','usu3','Usuario 3',0),
+('usu4','usu4','Usuario 4',1),
+('usu5','usu5','Usuario 5',1),
+('usu6','usu6','Usuario 6',1)
+go
+
 
 -- Se agregan datos a la tabla Clientes
 INSERT INTO Clientes VALUES
@@ -147,6 +181,7 @@ INSERT INTO Clientes VALUES
 ('usu4',6548753214586987,'Street 4',4444,'Lima'),
 ('usu5',6658745215896547,'Street 5',5555,'Paris'),
 ('usu6',3332545896541258,'Street 6',6666,'Roma')
+go
 
 -- Se agregan datos a la tabla Telefonos
 INSERT INTO Telefonos VALUES
@@ -156,11 +191,13 @@ INSERT INTO Telefonos VALUES
 ('usu5',3398654125),
 ('usu6',3965987541),
 ('usu6',3911658648)
+go
 
 -- Se agregan datos a la tabla Administradores
 INSERT INTO Administradores VALUES
 ('usu2',0),
 ('usu3',1)
+go
 
 -- Se agregan datos a la tabla Reservas
 INSERT INTO Reservas VALUES
@@ -174,6 +211,7 @@ INSERT INTO Reservas VALUES
 ('usu1', 1, 'Hotel 8', '11/15/2018', '11/30/2018',0),
 ('usu1', 1, 'Hotel 9', '11/15/2018', '11/30/2018',0),
 ('usu1', 2, 'Hotel 1', '02/15/2018', '02/28/2018',0)
+go
 
 
 -- -----------------------------------------------------------------------------------------------
