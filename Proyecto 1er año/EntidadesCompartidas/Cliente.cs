@@ -9,12 +9,12 @@ namespace EntidadesCompartidas
     {
         //Atributos
         private string _nomusu;
-        private Int64 _tarjeta;
+        private string _tarjeta;
         private string _calle;
-        private int _numpuerta;
+        private string _numpuerta;
         private string _ciudad;
-        private int _telefono1;
-        private int _telefono2;
+        private string _telefono1;
+        private string _telefono2;
 
         //Propiedades
         public string Nomusu
@@ -36,7 +36,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public Int64 Tarjeta
+        public string Tarjeta
         {
             get
             {
@@ -44,7 +44,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value >= 0 && value.ToString().Length == 16)
+                if (Convert.ToInt64(value) >= 0 && value.Length == 16)
                 {
                     _tarjeta = value;
                 }
@@ -74,7 +74,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Numpuerta
+        public string Numpuerta
         {
             get
             {
@@ -82,7 +82,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value >= 0)
+                if (Convert.ToInt16(value) >= 0 && value.Length <= 6)
                 {
                     _numpuerta = value;
                 }
@@ -112,7 +112,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Telefono1
+        public string Telefono1
         {
             get
             {
@@ -120,7 +120,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0 && value.ToString().Length > 7)
+                if (Convert.ToInt64(value) > 0 && value.Length > 7 && value.Length <= 15)
                 {
                     _telefono1 = value;
                 }
@@ -131,7 +131,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Telefono2
+        public string Telefono2
         {
             get
             {
@@ -139,7 +139,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0 && value.ToString().Length > 7)
+                if (Convert.ToInt64(value) > 0 && value.Length > 7 && value.Length <= 15)
                 {
                     _telefono2 = value;
                 }
@@ -151,7 +151,7 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Cliente(string pNomusu, Int32 pTarjeta, string pCalle, int pNumpuerta, string pCiudad, int pTelefono1, int pTelefono2)
+        public Cliente(string pNomusu, string pTarjeta, string pCalle, string pNumpuerta, string pCiudad, string pTelefono1, string pTelefono2)
         {
             Nomusu = pNomusu;
             Tarjeta = pTarjeta;

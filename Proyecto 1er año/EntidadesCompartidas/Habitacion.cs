@@ -10,9 +10,9 @@ namespace EntidadesCompartidas
         //Atributos
         private int _numero;
         private string _hotel;
-        private int _piso;
+        private string _piso;
         private string _descripcion;
-        private int _huespedes;
+        private string _huespedes;
         private double _costodiario;
 
         //Propiedades
@@ -54,7 +54,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Piso
+        public string Piso
         {
             get
             {
@@ -62,7 +62,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0)
+                if (Convert.ToInt16(value) > 0 && value.Length <= 3)
                 {
                     _piso = value;
                 }
@@ -92,7 +92,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Huespedes
+        public string Huespedes
         {
             get
             {
@@ -100,7 +100,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0)
+                if (Convert.ToInt16(value) > 0 && value.Length <= 3)
                 {
                     _huespedes = value;
                 }
@@ -131,7 +131,7 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Habitacion(int pNumero, string pHotel, int pPiso, string pDescripcion, int pHuespedes, float pCostodiario)
+        public Habitacion(int pNumero, string pHotel, string pPiso, string pDescripcion, string pHuespedes, float pCostodiario)
         {
             Numero = pNumero;
             Hotel = pHotel;

@@ -19,5 +19,12 @@ namespace EntidadesCompartidas
             Jefe = 1,
             Administrativo = 2
         }
+
+        public enum Estado
+        {
+            Activa = 0,
+            Cancelada = 1,
+            Finalizada = 2
+        }
     }
 }

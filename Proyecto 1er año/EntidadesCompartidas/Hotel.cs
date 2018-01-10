@@ -10,12 +10,12 @@ namespace EntidadesCompartidas
         //Atributos
         private string _nombre;
         private string _calle;
-        private int _numpuerta;
+        private string _numpuerta;
         private string _ciudad;
-        private int _telefono;
-        private int _fax;
+        private string _telefono;
+        private string _fax;
         private bool _playa;
-        private int _estrellas;
+        private string _estrellas;
 
         //Propiedades
         public string Nombre
@@ -56,7 +56,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Numpuerta
+        public string Numpuerta
         {
             get
             {
@@ -64,7 +64,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value >= 0)
+                if (Convert.ToInt16(value) >= 0 &&  value.Length <= 6)
                 {
                     _numpuerta = value;
                 }
@@ -94,7 +94,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Telefono
+        public string Telefono
         {
             get
             {
@@ -102,7 +102,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0 && value.ToString().Length > 7)
+                if (Convert.ToInt64(value) > 0 && value.Length > 7 && value.Length <= 15)
                 {
                     _telefono = value;
                 }
@@ -113,7 +113,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Fax
+        public string Fax
         {
             get
             {
@@ -121,7 +121,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0 && value.ToString().Length > 7)
+                if (Convert.ToInt64(value) > 0 && value.Length > 7 && value.Length <= 15)
                 {
                     _fax = value;
                 }
@@ -144,7 +144,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Estrellas
+        public string Estrellas
         {
             get
             {
@@ -152,7 +152,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value >= 1 && value <= 5)
+                if (Convert.ToInt16(value) >= 1 && Convert.ToInt16(value) <= 5)
                 {
                     _estrellas = value;
                 }
@@ -166,7 +166,7 @@ namespace EntidadesCompartidas
         
 
        //Constructor
-        public Hotel(string pNombre, string pCalle, int pNumpuerta, string pCiudad, int pTelefono, int pFax, bool pPlaya, int pEstrellas)
+        public Hotel(string pNombre, string pCalle, string pNumpuerta, string pCiudad, string pTelefono, string pFax, bool pPlaya, string pEstrellas)
         {
             Nombre = pNombre;
             Calle = pCalle;
