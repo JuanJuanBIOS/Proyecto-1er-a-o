@@ -1,7 +1,9 @@
 use master
 go
 
---------------------------
+alter database Hoteles set single_user with rollback immediate
+go
+
 if exists(select * from sysdatabases where name = 'Hoteles')
 begin
 	drop database Hoteles
@@ -142,7 +144,7 @@ INSERT INTO Hoteles VALUES
 ('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,'5'),
 ('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,'3'),
 ('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,'2'),
-('Hotel 9','Calle 9','9999','Moscu','799999999','79999990',0,'1')
+('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,'1')
 go
 
 -- Se agregan datos a la tabla Habitaciones
@@ -234,7 +236,8 @@ go
 -- HOTELES
 -- -----------------------------------------------------------------------------------------------
 
---Se crea procedimiento para búsqueda de Hotel
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR HOTEL
 create procedure Buscar_Hotel
 @nombre varchar(50)
 as
@@ -250,4 +253,95 @@ else
 end
 go
 -- Prueba Buscar_Hotel 'Hotel 1'
+-- -----------------------------------------------------------------------------------------------
 
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CREAR HOTEL
+create procedure Crear_Hotel
+@nombre varchar(50), @calle varchar(30), @numpuerta varchar(6), @ciudad varchar(30),
+@telefono varchar(15), @fax varchar(15), @playa bit, @estrellas char
+as
+begin
+if exists (select * from Hoteles where nombre = @nombre)
+	return -1
+
+begin tran
+insert into Hoteles values (@nombre, @calle, @numpuerta, @ciudad, @telefono, @fax, @playa, @estrellas)
+
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -2
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Crear_Hotel 'Hotel 10','Calle 10','1010','Las Vegas','110101010','110101000',0,'5'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA MODIFICAR HOTEL
+create procedure Modificar_Hotel
+@nombre varchar(50), @calle varchar(30), @numpuerta varchar(6), @ciudad varchar(30),
+@telefono varchar(15), @fax varchar(15), @playa bit, @estrellas char
+as
+begin
+if not exists (select * from Hoteles where nombre = @nombre)
+	return -1
+	
+begin tran
+update Hoteles
+set nombre = @nombre, calle = @calle, numpuerta = @numpuerta, ciudad = @ciudad, 
+telefono = @telefono, fax = @fax, playa = @playa, estrellas = @estrellas 
+where nombre = @nombre
+
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -2
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Modificar_Hotel 'Hotel 10','Calle 1010','0101','San Francisco','110101010','110101000',0,'5'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA ELIMINAR HOTEL
+create procedure Eliminar_Hotel
+@nombre varchar(50)
+as
+if not exists(select * from Hoteles where nombre = @nombre)
+	return -1
+
+begin transaction
+	delete from Reservas where Reservas.nomhot = @nombre
+	delete from Habitaciones where Habitaciones.hotel = @nombre
+	delete from Hoteles where Hoteles.nombre = @nombre
+if @@ERROR<>0
+begin
+	rollback transaction
+	return -2
+end
+else
+begin
+	commit transaction
+	return 1
+end
+go
+-- Prueba Eliminar_Hotel 'Hotel 1'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- HABITACIONES
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
