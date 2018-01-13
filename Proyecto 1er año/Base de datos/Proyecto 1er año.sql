@@ -340,117 +340,115 @@ begin
 	return 1
 end
 go
--- Prueba Eliminar_Hotel 1
+ -- Prueba Eliminar_Hotel 1
+ -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- HABITACIONES
 -- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- HABITACIONES
----- -----------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR HABITACION
+create procedure Buscar_Habitacion
+@numero int, @idHotel int
+as
+begin
+if not exists(select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
+	begin
+	return -1
+	end
+else
+	begin
+	select * from Habitaciones where (numero = @numero and idHotel  = @idHotel)
+	end
+end
+go
+-- Prueba Buscar_Habitacion 3, 1
+-- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CREAR HABITACION
+create procedure Crear_Habitacion
+@numero int, @idHotel int, @piso varchar(3), @descripcion varchar(100),
+@huespedes varchar(3), @costodiario float
+as
+begin
+if exists (select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
+	return -1
 
----- SE CREA PROCEDIMIENTO PARA BUSCAR HABITACION
---create procedure Buscar_Habitacion
---@numero int, @hotel varchar(50)
---as
---begin
---if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
---	begin
---	return -1
---	end
---else
---	begin
---	select * from Habitaciones where (numero = @numero and hotel  = @hotel)
---	end
---end
---go
----- Prueba Buscar_Habitacion 3, 'Hotel 1'
----- -----------------------------------------------------------------------------------------------
+begin tran
+insert into Habitaciones values (@numero, @idHotel, @piso, @descripcion, @huespedes, @costodiario)
 
----- -----------------------------------------------------------------------------------------------
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -2
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Crear_Habitacion 15,1,'10','Habitacion 1015','10',60.35
+-- -----------------------------------------------------------------------------------------------
 
----- SE CREA PROCEDIMIENTO PARA CREAR HABITACION
---create procedure Crear_Habitacion
---@numero int, @hotel varchar(50), @piso varchar(3), @descripcion varchar(100),
---@huespedes varchar(3), @costodiario float
---as
---begin
---if exists (select * from Habitaciones where (numero = @numero and hotel  = @hotel))
---	return -1
-
---begin tran
---insert into Habitaciones values (@numero, @hotel, @piso, @descripcion, @huespedes, @costodiario)
-
---if @@ERROR<>0
---	begin
---		rollback transaction
---		return -2
---	end
---else
---	begin
---		commit transaction
---		return 1
---	end
---end
---go
----- Prueba Crear_Habitacion 15,'Hotel 1','10','Habitacion 1015','10',60.35
----- -----------------------------------------------------------------------------------------------
-
----- -----------------------------------------------------------------------------------------------
----- SE CREA PROCEDIMIENTO PARA MODIFICAR HABITACION
---create procedure Modificar_Habitacion
---@numero int, @hotel varchar(50), @piso varchar(3), @descripcion varchar(100),
---@huespedes varchar(3), @costodiario float
---as
---begin
---if not exists (select * from Habitaciones where (numero = @numero and hotel  = @hotel))
---	return -1
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA MODIFICAR HABITACION
+create procedure Modificar_Habitacion
+@numero int, @idHotel int, @piso varchar(3), @descripcion varchar(100),
+@huespedes varchar(3), @costodiario float
+as
+begin
+if not exists (select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
+	return -1
 	
---begin tran
---update Habitaciones
---set numero = @numero, hotel = @hotel, piso = @piso, descripcion = @descripcion, 
---huespedes = @huespedes, costodiario = @costodiario 
---where (numero = @numero and hotel  = @hotel)
+begin tran
+update Habitaciones
+set numero = @numero, idHotel = @idHotel, piso = @piso, descripcion = @descripcion, 
+huespedes = @huespedes, costodiario = @costodiario 
+where (numero = @numero and idHotel  = @idHotel)
 
---if @@ERROR<>0
---	begin
---		rollback transaction
---		return -2
---	end
---else
---	begin
---		commit transaction
---		return 1
---	end
---end
---go
----- Prueba Modificar_Habitacion 15,'Hotel 1','10','Habitacion 1015','8',48.35
----- -----------------------------------------------------------------------------------------------
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -2
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Modificar_Habitacion 15,1,'10','Habitacion 1015','8',48.35
+-- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- SE CREA PROCEDIMIENTO PARA ELIMINAR HABITACION
---create procedure Eliminar_Habitacion
---@numero int, @hotel varchar(50)
---as
---if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
---	return -1
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA ELIMINAR HABITACION
+create procedure Eliminar_Habitacion
+@numero int, @idHotel int
+as
+if not exists(select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
+	return -1
 
---begin transaction
---	delete from Reservas where (Reservas.numhab = @numero and Reservas.nomhot  = @hotel)
---	delete from Habitaciones where (Habitaciones.numero = @numero and Habitaciones.hotel  = @hotel)
---if @@ERROR<>0
---begin
---	rollback transaction
---	return -2
---end
---else
---begin
---	commit transaction
---	return 1
---end
---go
----- Prueba Eliminar_Habitacion 15, 'Hotel 1'
----- -----------------------------------------------------------------------------------------------
+begin transaction
+	delete from Reservas where (Reservas.numhab = @numero and Reservas.idHotel  = @idHotel)
+	delete from Habitaciones where (Habitaciones.numero = @numero and Habitaciones.idHotel  = @idHotel)
+if @@ERROR<>0
+begin
+	rollback transaction
+	return -2
+end
+else
+begin
+	commit transaction
+	return 1
+end
+go
+-- Prueba Eliminar_Habitacion 15, 1
+-- -----------------------------------------------------------------------------------------------
 
 ---- -----------------------------------------------------------------------------------------------
 ---- ADMINISTRADORES
