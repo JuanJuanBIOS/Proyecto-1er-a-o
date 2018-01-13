@@ -450,136 +450,158 @@ go
 -- Prueba Eliminar_Habitacion 15, 1
 -- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- ADMINISTRADORES
----- -----------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
+-- ADMINISTRADORES
+-- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- SE CREA PROCEDIMIENTO PARA BUSCAR ADMINISTRADOR
---create procedure Buscar_Administrador
---@nomusu varchar(10)
---as
---begin
---if not exists(select * from Usuarios where nomusu = @nomusu)
---	begin
---	return -1
---	end
---else if not exists(select * from Administradores where nomusu = @nomusu)
---	begin
---	return -2
---	end
---else if exists(select * from Clientes where nomusu = @nomusu)
---	begin
---	return -3
---	end
---else
---	begin
---	select Usuarios.*, Administradores.cargo from Usuarios, Administradores
---	where (Usuarios.nomusu = @nomusu and Usuarios.nomusu = Administradores.nomusu)
---	end
---end
---go
----- Prueba Buscar_Administrador 'usu2'
----- -----------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR ADMINISTRADOR
+create procedure Buscar_Administrador
+@nomusu varchar(10)
+as
+begin
+if not exists(select * from Usuarios where nomusu = @nomusu)
+	begin
+	return -1
+	end
+else
+	declare @idUsuario int
+	select @idUsuario = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
+	if not exists(select * from Administradores where idAdministrador = @idUsuario)
+	begin
+	return -2
+	end
+	if exists(select * from Clientes where idCliente = @idUsuario)
+	begin
+	return -3
+	end
+	begin
+	select Usuarios.*, Administradores.cargo from Usuarios, Administradores
+	where (Usuarios.idUsuario = @idUsuario and Usuarios.idUsuario = Administradores.idAdministrador)
+	end
+end
+go
+-- Prueba Buscar_Administrador 'usu2'
+-- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- SE CREA PROCEDIMIENTO PARA CREAR ADMINISTRADOR
---create procedure Crear_Administrador
---@nomusu varchar(10), @pass varchar(20), @nombre varchar(50), @tipo int, @cargo int
---as
---begin
---if exists(select * from Clientes where nomusu = @nomusu)
---	begin
---	return -1
---	end
---if exists (select * from Usuarios where nomusu = @nomusu)
---	return -2
---if exists (select * from Administradores where nomusu = @nomusu)
---	return -3
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CREAR ADMINISTRADOR
+create procedure Crear_Administrador
+@nomusu varchar(10), @pass varchar(20), @nombre varchar(50), @tipo int, @cargo int
+as
+begin
+if exists(select * from Usuarios where nomusu = @nomusu)
+	begin
+	return -1
+	end
+else
+	declare @idUsuario int
+	select @idUsuario = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
+	if exists(select * from Clientes where idCliente = @idUsuario)
+	begin
+	return -2
+	end
+	if exists(select * from Administradores where idAdministrador = @idUsuario)
+	begin
+	return -3
+	end
+end
 
---begin tran
---insert into Usuarios values (@nomusu, @pass, @nombre, @tipo)
---insert into Administradores values (@nomusu, @cargo)
+begin tran
+insert into Usuarios values (@nomusu, @pass, @nombre, @tipo)
+declare @idAdministrador int
+select @idAdministrador = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
+insert into Administradores values (@idAdministrador, @cargo)
 
---if @@ERROR<>0
---	begin
---		rollback transaction
---		return -4
---	end
---else
---	begin
---		commit transaction
---		return 1
---	end
---end
---go
----- Prueba Crear_Administrador 'usu 7', 'usu 7', 'Usuario 7', 0, 2
----- -----------------------------------------------------------------------------------------------
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -4
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+go
+-- Prueba Crear_Administrador 'usu 7', 'usu 7', 'Usuario 7', 0, 2
+-- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- SE CREA PROCEDIMIENTO PARA MODIFICAR ADMINISTRADOR
---create procedure Modificar_Administrador
---@nomusu varchar(10), @pass varchar(20), @nombre varchar(50), @tipo int, @cargo int
---as
---begin
---if not exists(select * from Usuarios where nomusu = @nomusu)
---	begin
---	return -1
---	end
---else if not exists(select * from Administradores where nomusu = @nomusu)
---	begin
---	return -2
---	end
---else if exists(select * from Clientes where nomusu = @nomusu)
---	begin
---	return -3
---	end
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA MODIFICAR ADMINISTRADOR
+create procedure Modificar_Administrador
+@idAdministrador int, @nomusu varchar(10), @pass varchar(20), @nombre varchar(50), 
+@tipo int, @cargo int
+as
+begin
+if not exists(select * from Usuarios where idUsuario = @idAdministrador)
+	begin
+	return -1
+	end
+else if not exists(select * from Administradores where idAdministrador = @idAdministrador)
+	begin
+	return -2
+	end
+else if exists(select * from Clientes where idCliente = @idAdministrador)
+	begin
+	return -3
+	end
 	
---begin tran
---update Usuarios
---set pass = @pass, nombre = @nombre, tipo = @tipo
---where (nomusu = @nomusu)
+begin tran
+update Usuarios
+set pass = @pass, nombre = @nombre, tipo = @tipo
+where (idUsuario = @idAdministrador)
 
---update Administradores
---set cargo = @cargo
---where (nomusu = @nomusu)
+update Administradores
+set cargo = @cargo
+where (idAdministrador = @idAdministrador)
 
---if @@ERROR<>0
---	begin
---		rollback transaction
---		return -4
---	end
---else
---	begin
---		commit transaction
---		return 1
---	end
---end
---go
----- Prueba Modificar_Administrador 'usu 7', 'usu 7', 'Usuario 77', 0, 1
----- -----------------------------------------------------------------------------------------------
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -4
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Modificar_Administrador 7, 'usu 7', 'usu 7', 'Usuario 77', 0, 1
+-- -----------------------------------------------------------------------------------------------
 
----- -----------------------------------------------------------------------------------------------
----- SE CREA PROCEDIMIENTO PARA ELIMINAR HABITACION
---create procedure Eliminar_Habitacion
---@numero int, @hotel varchar(50)
---as
---if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
---	return -1
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA ELIMINAR ADMINISTRADOR
+create procedure Eliminar_Administrador
+@idAdministrador int
+as
+if not exists(select * from Usuarios where idUsuario = @idAdministrador)
+	begin
+	return -1
+	end
+else if not exists(select * from Administradores where idAdministrador = @idAdministrador)
+	begin
+	return -2
+	end
+else if exists(select * from Clientes where idCliente = @idAdministrador)
+	begin
+	return -3
+	end
 
---begin transaction
---	delete from Reservas where (Reservas.numhab = @numero and Reservas.nomhot  = @hotel)
---	delete from Habitaciones where (Habitaciones.numero = @numero and Habitaciones.hotel  = @hotel)
---if @@ERROR<>0
---begin
---	rollback transaction
---	return -2
---end
---else
---begin
---	commit transaction
---	return 1
---end
---go
----- Prueba Eliminar_Habitacion 15, 'Hotel 1'
----- -----------------------------------------------------------------------------------------------
+begin transaction
+	delete from Administradores where (idAdministrador = @idAdministrador)
+	delete from Usuarios where (idUsuario = @idAdministrador)
+if @@ERROR<>0
+begin
+	rollback transaction
+	return -4
+end
+else
+begin
+	commit transaction
+	return 1
+end
+go
+-- Prueba Eliminar_Administrador 3
+-- -----------------------------------------------------------------------------------------------
