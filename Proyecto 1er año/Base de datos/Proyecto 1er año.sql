@@ -25,27 +25,29 @@ go
 
 -- Se crea la tabla de Hoteles
 create table Hoteles(
-nombre varchar(50)not null primary key,
+idHotel int identity(1,1) not null primary key,
+nombre varchar(50)not null unique,
 calle varchar(30),
 numpuerta varchar(6),
 ciudad varchar(30),
 telefono varchar(15),
 fax varchar(15),
 playa bit,
-estrellas char,
+estrellas char
 -- FALTA LA FOTO
 )
 go
 
 -- Se crea la tabla de Habitaciones
 create table Habitaciones(
+idHabitacion int identity(1,1) not null primary key,
 numero int not null,
-hotel varchar(50) not null foreign key references Hoteles(nombre),
+idHotel int not null foreign key references Hoteles(idHotel),
 piso varchar(3),
 descripcion varchar(100),
 huespedes varchar(3),
 costodiario float,
-constraint PK_Habitaciones primary key (numero, hotel),
+constraint U_Habitaciones unique(numero, idHotel)
 )
 go
 
@@ -62,8 +64,9 @@ go
 
 -- Se crea la tabla de Usuarios
 create table Usuarios(
-nomusu varchar(10) not null primary key,
-pass varchar(20),
+idUsuario int identity(1,1) not null primary key,
+nomusu varchar(10) not null,
+pass varchar(20) not null,
 nombre varchar(50),
 tipo int not null foreign key references Tipo_Usuario(idTipo),
 )
@@ -71,7 +74,7 @@ go
 
 -- Se crea la tabla de Clientes
 create table Clientes(
-nomusu varchar(10)not null foreign key references Usuarios(nomusu),
+idCliente int not null unique,
 tarjeta varchar(16) unique,
 calle varchar(30),
 numpuerta varchar(6),
@@ -81,7 +84,7 @@ go
 
 -- Se crea la tabla de Telefonos
 create table Telefonos(
-nomusu varchar(10) foreign key references Usuarios(nomusu),
+idCliente int foreign key references Clientes(idCliente),
 telefono varchar(15),
 )
 go
@@ -100,7 +103,7 @@ go
 
 -- Se crea la tabla de Administradores
 create table Administradores(
-nomusu varchar(10) not null foreign key references Usuarios(nomusu),
+idAdministrador int not null unique,
 cargo int not null foreign key references Cargos(idCargo),
 )
 go
@@ -120,13 +123,13 @@ go
 -- Se crea la tabla de Reservas
 create table Reservas(
 idReserva int identity(1,1) not null primary key,
-cliente varchar(10) not null foreign key references Usuarios(nomusu),
+idCliente int not null foreign key references Clientes(idCliente),
 numhab int not null,
-nomhot varchar(50) not null,
+idHotel int not null,
 fechaini datetime not null,
 fechafin datetime not null,
 estado int not null foreign key references Estados(idEstado),
-constraint FK_Reservas foreign key (numhab, nomhot) references Habitaciones(numero, hotel),
+constraint FK_Reservas foreign key (numhab, idHotel) references Habitaciones(numero,idHotel),
 )
 go
 
@@ -149,33 +152,33 @@ go
 
 -- Se agregan datos a la tabla Habitaciones
 INSERT INTO Habitaciones VALUES
-(1,'Hotel 1',1,'Habitacion 1 del Hotel 1','4',30),
-(2,'Hotel 1',2,'Habitacion 2 del Hotel 1','2',20),
-(3,'Hotel 1',3,'Habitacion 3 del Hotel 1','6',40),
-(1,'Hotel 2',1,'Habitacion 1 del Hotel 2','1',30),
-(2,'Hotel 2',2,'Habitacion 2 del Hotel 2','4',20),
-(3,'Hotel 2',3,'Habitacion 3 del Hotel 2','5',40),
-(1,'Hotel 3',1,'Habitacion 1 del Hotel 3','2',30),
-(2,'Hotel 3',2,'Habitacion 2 del Hotel 3','2',20),
-(3,'Hotel 3',3,'Habitacion 3 del Hotel 3','4',40),
-(1,'Hotel 4',1,'Habitacion 1 del Hotel 4','1',30),
-(2,'Hotel 4',2,'Habitacion 2 del Hotel 4','2',20),
-(3,'Hotel 4',3,'Habitacion 3 del Hotel 4','4',40),
-(1,'Hotel 5',1,'Habitacion 1 del Hotel 5','4',30),
-(2,'Hotel 5',2,'Habitacion 2 del Hotel 5','4',20),
-(3,'Hotel 5',3,'Habitacion 3 del Hotel 5','2',40),
-(1,'Hotel 6',1,'Habitacion 1 del Hotel 6','2',30),
-(2,'Hotel 6',2,'Habitacion 2 del Hotel 6','5',20),
-(3,'Hotel 6',3,'Habitacion 3 del Hotel 6','6',40),
-(1,'Hotel 7',1,'Habitacion 1 del Hotel 7','1',30),
-(2,'Hotel 7',2,'Habitacion 2 del Hotel 7','2',20),
-(3,'Hotel 7',3,'Habitacion 3 del Hotel 7','2',40),
-(1,'Hotel 8',1,'Habitacion 1 del Hotel 8','3',30),
-(2,'Hotel 8',2,'Habitacion 2 del Hotel 8','3',20),
-(3,'Hotel 8',3,'Habitacion 3 del Hotel 8','4',40),
-(1,'Hotel 9',1,'Habitacion 1 del Hotel 9','4',30),
-(2,'Hotel 9',2,'Habitacion 2 del Hotel 9','4',20),
-(3,'Hotel 9',3,'Habitacion 3 del Hotel 9','8',40)
+(1,1,1,'Habitacion 1 del Hotel 1','4',30),
+(2,1,2,'Habitacion 2 del Hotel 1','2',20),
+(3,1,3,'Habitacion 3 del Hotel 1','6',40),
+(1,2,1,'Habitacion 1 del Hotel 2','1',30),
+(2,2,2,'Habitacion 2 del Hotel 2','4',20),
+(3,2,3,'Habitacion 3 del Hotel 2','5',40),
+(1,3,1,'Habitacion 1 del Hotel 3','2',30),
+(2,3,2,'Habitacion 2 del Hotel 3','2',20),
+(3,3,3,'Habitacion 3 del Hotel 3','4',40),
+(1,4,1,'Habitacion 1 del Hotel 4','1',30),
+(2,4,2,'Habitacion 2 del Hotel 4','2',20),
+(3,4,3,'Habitacion 3 del Hotel 4','4',40),
+(1,5,1,'Habitacion 1 del Hotel 5','4',30),
+(2,5,2,'Habitacion 2 del Hotel 5','4',20),
+(3,5,3,'Habitacion 3 del Hotel 5','2',40),
+(1,6,1,'Habitacion 1 del Hotel 6','2',30),
+(2,6,2,'Habitacion 2 del Hotel 6','5',20),
+(3,6,3,'Habitacion 3 del Hotel 6','6',40),
+(1,7,1,'Habitacion 1 del Hotel 7','1',30),
+(2,7,2,'Habitacion 2 del Hotel 7','2',20),
+(3,7,3,'Habitacion 3 del Hotel 7','2',40),
+(1,8,1,'Habitacion 1 del Hotel 8','3',30),
+(2,8,2,'Habitacion 2 del Hotel 8','3',20),
+(3,8,3,'Habitacion 3 del Hotel 8','4',40),
+(1,9,1,'Habitacion 1 del Hotel 9','4',30),
+(2,9,2,'Habitacion 2 del Hotel 9','4',20),
+(3,9,3,'Habitacion 3 del Hotel 9','8',40)
 go
 
 -- Se agregan datos a la tabla Usuarios
@@ -191,40 +194,40 @@ go
 
 -- Se agregan datos a la tabla Clientes
 INSERT INTO Clientes VALUES
-('usu1','3256987452156985','Street 1','1111','Bogota'),
-('usu4','6548753214586987','Street 4','4444','Lima'),
-('usu5','6658745215896547','Street 5','5555','Paris'),
-('usu6','3332545896541258','Street 6','6666','Roma')
+(1,'3256987452156985','Street 1','1111','Bogota'),
+(4,'6548753214586987','Street 4','4444','Lima'),
+(5,'6658745215896547','Street 5','5555','Paris'),
+(6,'3332545896541258','Street 6','6666','Roma')
 go
 
 -- Se agregan datos a la tabla Telefonos
 INSERT INTO Telefonos VALUES
-('usu1','5765412589'),
-('usu4','5135485475'),
-('usu4','5136985248'),
-('usu5','3398654125'),
-('usu6','3965987541'),
-('usu6','3911658648')
+(1,'5765412589'),
+(4,'5135485475'),
+(4,'5136985248'),
+(5,'3398654125'),
+(6,'3965987541'),
+(6,'3911658648')
 go
 
 -- Se agregan datos a la tabla Administradores
 INSERT INTO Administradores VALUES
-('usu2',0),
-('usu3',1)
+(2,0),
+(3,1)
 go
 
 -- Se agregan datos a la tabla Reservas
 INSERT INTO Reservas VALUES
-('usu1', 2, 'Hotel 1', '01/15/2018', '01/30/2018',0),
-('usu4', 1, 'Hotel 2', '03/15/2018', '03/30/2018',0),
-('usu5', 3, 'Hotel 3', '03/15/2018', '03/30/2018',0),
-('usu6', 3, 'Hotel 4', '05/15/2018', '05/30/2018',0),
-('usu4', 2, 'Hotel 5', '08/15/2018', '08/30/2018',0),
-('usu6', 2, 'Hotel 6', '10/15/2018', '10/30/2018',0),
-('usu6', 1, 'Hotel 7', '12/15/2018', '12/30/2018',0),
-('usu1', 1, 'Hotel 8', '11/15/2018', '11/30/2018',0),
-('usu1', 1, 'Hotel 9', '11/15/2018', '11/30/2018',0),
-('usu1', 2, 'Hotel 1', '02/15/2018', '02/28/2018',0)
+(1, 2, 1, '01/15/2018', '01/30/2018',0),
+(4, 1, 2, '03/15/2018', '03/30/2018',0),
+(5, 3, 3, '03/15/2018', '03/30/2018',0),
+(6, 3, 4, '05/15/2018', '05/30/2018',0),
+(4, 2, 5, '08/15/2018', '08/30/2018',0),
+(6, 2, 6, '10/15/2018', '10/30/2018',0),
+(6, 1, 7, '12/15/2018', '12/30/2018',0),
+(1, 1, 8, '11/15/2018', '11/30/2018',0),
+(1, 1, 9, '11/15/2018', '11/30/2018',0),
+(1, 2, 1, '02/15/2018', '02/28/2018',0)
 go
 
 
@@ -286,18 +289,18 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA MODIFICAR HOTEL
 create procedure Modificar_Hotel
-@nombre varchar(50), @calle varchar(30), @numpuerta varchar(6), @ciudad varchar(30),
+@idHotel int, @nombre varchar(50), @calle varchar(30), @numpuerta varchar(6), @ciudad varchar(30),
 @telefono varchar(15), @fax varchar(15), @playa bit, @estrellas char
 as
 begin
-if not exists (select * from Hoteles where nombre = @nombre)
+if not exists (select * from Hoteles where idHotel = @idHotel)
 	return -1
 	
 begin tran
 update Hoteles
 set nombre = @nombre, calle = @calle, numpuerta = @numpuerta, ciudad = @ciudad, 
 telefono = @telefono, fax = @fax, playa = @playa, estrellas = @estrellas 
-where nombre = @nombre
+where idHotel = @idHotel
 
 if @@ERROR<>0
 	begin
@@ -311,21 +314,21 @@ else
 	end
 end
 go
--- Prueba Modificar_Hotel 'Hotel 10','Calle 1010','0101','San Francisco','110101010','110101000',0,'5'
+-- Prueba Modificar_Hotel 10, 'Hotel 10','Calle 1010','0101','San Francisco','110101010','110101000',0,'5'
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA ELIMINAR HOTEL
 create procedure Eliminar_Hotel
-@nombre varchar(50)
+@idHotel int
 as
-if not exists(select * from Hoteles where nombre = @nombre)
+if not exists(select * from Hoteles where idHotel = @idHotel)
 	return -1
 
 begin transaction
-	delete from Reservas where Reservas.nomhot = @nombre
-	delete from Habitaciones where Habitaciones.hotel = @nombre
-	delete from Hoteles where Hoteles.nombre = @nombre
+	delete from Reservas where Reservas.idHotel = @idHotel
+	delete from Habitaciones where Habitaciones.idHotel = @idHotel
+	delete from Hoteles where Hoteles.idHotel = @idHotel
 if @@ERROR<>0
 begin
 	rollback transaction
@@ -337,11 +340,248 @@ begin
 	return 1
 end
 go
--- Prueba Eliminar_Hotel 'Hotel 1'
+-- Prueba Eliminar_Hotel 1
 -- -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
--- HABITACIONES
--- -----------------------------------------------------------------------------------------------
+---- -----------------------------------------------------------------------------------------------
+---- HABITACIONES
+---- -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
+---- -----------------------------------------------------------------------------------------------
+
+---- SE CREA PROCEDIMIENTO PARA BUSCAR HABITACION
+--create procedure Buscar_Habitacion
+--@numero int, @hotel varchar(50)
+--as
+--begin
+--if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+--	begin
+--	return -1
+--	end
+--else
+--	begin
+--	select * from Habitaciones where (numero = @numero and hotel  = @hotel)
+--	end
+--end
+--go
+---- Prueba Buscar_Habitacion 3, 'Hotel 1'
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+
+---- SE CREA PROCEDIMIENTO PARA CREAR HABITACION
+--create procedure Crear_Habitacion
+--@numero int, @hotel varchar(50), @piso varchar(3), @descripcion varchar(100),
+--@huespedes varchar(3), @costodiario float
+--as
+--begin
+--if exists (select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+--	return -1
+
+--begin tran
+--insert into Habitaciones values (@numero, @hotel, @piso, @descripcion, @huespedes, @costodiario)
+
+--if @@ERROR<>0
+--	begin
+--		rollback transaction
+--		return -2
+--	end
+--else
+--	begin
+--		commit transaction
+--		return 1
+--	end
+--end
+--go
+---- Prueba Crear_Habitacion 15,'Hotel 1','10','Habitacion 1015','10',60.35
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- SE CREA PROCEDIMIENTO PARA MODIFICAR HABITACION
+--create procedure Modificar_Habitacion
+--@numero int, @hotel varchar(50), @piso varchar(3), @descripcion varchar(100),
+--@huespedes varchar(3), @costodiario float
+--as
+--begin
+--if not exists (select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+--	return -1
+	
+--begin tran
+--update Habitaciones
+--set numero = @numero, hotel = @hotel, piso = @piso, descripcion = @descripcion, 
+--huespedes = @huespedes, costodiario = @costodiario 
+--where (numero = @numero and hotel  = @hotel)
+
+--if @@ERROR<>0
+--	begin
+--		rollback transaction
+--		return -2
+--	end
+--else
+--	begin
+--		commit transaction
+--		return 1
+--	end
+--end
+--go
+---- Prueba Modificar_Habitacion 15,'Hotel 1','10','Habitacion 1015','8',48.35
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- SE CREA PROCEDIMIENTO PARA ELIMINAR HABITACION
+--create procedure Eliminar_Habitacion
+--@numero int, @hotel varchar(50)
+--as
+--if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+--	return -1
+
+--begin transaction
+--	delete from Reservas where (Reservas.numhab = @numero and Reservas.nomhot  = @hotel)
+--	delete from Habitaciones where (Habitaciones.numero = @numero and Habitaciones.hotel  = @hotel)
+--if @@ERROR<>0
+--begin
+--	rollback transaction
+--	return -2
+--end
+--else
+--begin
+--	commit transaction
+--	return 1
+--end
+--go
+---- Prueba Eliminar_Habitacion 15, 'Hotel 1'
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- ADMINISTRADORES
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- SE CREA PROCEDIMIENTO PARA BUSCAR ADMINISTRADOR
+--create procedure Buscar_Administrador
+--@nomusu varchar(10)
+--as
+--begin
+--if not exists(select * from Usuarios where nomusu = @nomusu)
+--	begin
+--	return -1
+--	end
+--else if not exists(select * from Administradores where nomusu = @nomusu)
+--	begin
+--	return -2
+--	end
+--else if exists(select * from Clientes where nomusu = @nomusu)
+--	begin
+--	return -3
+--	end
+--else
+--	begin
+--	select Usuarios.*, Administradores.cargo from Usuarios, Administradores
+--	where (Usuarios.nomusu = @nomusu and Usuarios.nomusu = Administradores.nomusu)
+--	end
+--end
+--go
+---- Prueba Buscar_Administrador 'usu2'
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- SE CREA PROCEDIMIENTO PARA CREAR ADMINISTRADOR
+--create procedure Crear_Administrador
+--@nomusu varchar(10), @pass varchar(20), @nombre varchar(50), @tipo int, @cargo int
+--as
+--begin
+--if exists(select * from Clientes where nomusu = @nomusu)
+--	begin
+--	return -1
+--	end
+--if exists (select * from Usuarios where nomusu = @nomusu)
+--	return -2
+--if exists (select * from Administradores where nomusu = @nomusu)
+--	return -3
+
+--begin tran
+--insert into Usuarios values (@nomusu, @pass, @nombre, @tipo)
+--insert into Administradores values (@nomusu, @cargo)
+
+--if @@ERROR<>0
+--	begin
+--		rollback transaction
+--		return -4
+--	end
+--else
+--	begin
+--		commit transaction
+--		return 1
+--	end
+--end
+--go
+---- Prueba Crear_Administrador 'usu 7', 'usu 7', 'Usuario 7', 0, 2
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- SE CREA PROCEDIMIENTO PARA MODIFICAR ADMINISTRADOR
+--create procedure Modificar_Administrador
+--@nomusu varchar(10), @pass varchar(20), @nombre varchar(50), @tipo int, @cargo int
+--as
+--begin
+--if not exists(select * from Usuarios where nomusu = @nomusu)
+--	begin
+--	return -1
+--	end
+--else if not exists(select * from Administradores where nomusu = @nomusu)
+--	begin
+--	return -2
+--	end
+--else if exists(select * from Clientes where nomusu = @nomusu)
+--	begin
+--	return -3
+--	end
+	
+--begin tran
+--update Usuarios
+--set pass = @pass, nombre = @nombre, tipo = @tipo
+--where (nomusu = @nomusu)
+
+--update Administradores
+--set cargo = @cargo
+--where (nomusu = @nomusu)
+
+--if @@ERROR<>0
+--	begin
+--		rollback transaction
+--		return -4
+--	end
+--else
+--	begin
+--		commit transaction
+--		return 1
+--	end
+--end
+--go
+---- Prueba Modificar_Administrador 'usu 7', 'usu 7', 'Usuario 77', 0, 1
+---- -----------------------------------------------------------------------------------------------
+
+---- -----------------------------------------------------------------------------------------------
+---- SE CREA PROCEDIMIENTO PARA ELIMINAR HABITACION
+--create procedure Eliminar_Habitacion
+--@numero int, @hotel varchar(50)
+--as
+--if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+--	return -1
+
+--begin transaction
+--	delete from Reservas where (Reservas.numhab = @numero and Reservas.nomhot  = @hotel)
+--	delete from Habitaciones where (Habitaciones.numero = @numero and Habitaciones.hotel  = @hotel)
+--if @@ERROR<>0
+--begin
+--	rollback transaction
+--	return -2
+--end
+--else
+--begin
+--	commit transaction
+--	return 1
+--end
+--go
+---- Prueba Eliminar_Habitacion 15, 'Hotel 1'
+---- -----------------------------------------------------------------------------------------------
