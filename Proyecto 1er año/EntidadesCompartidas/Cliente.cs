@@ -8,7 +8,7 @@ namespace EntidadesCompartidas
     public class Cliente
     {
         //Atributos
-        private string _nomusu;
+        private int _idcliente;
         private string _tarjeta;
         private string _calle;
         private string _numpuerta;
@@ -17,21 +17,21 @@ namespace EntidadesCompartidas
         private string _telefono2;
 
         //Propiedades
-        public string Nomusu
+        public int idCliente
         {
             get
             {
-                return _nomusu;
+                return _idcliente;
             }
             set
             {
-                if (value.Length > 0)
+                if (value >= 0)
                 {
-                    _nomusu = value;
+                    _idcliente = value;
                 }
                 else
                 {
-                    throw new Exception("El nombre de usuario ingresado no es válido");
+                    throw new Exception("El idCliente ingresado no es válido");
                 }
             }
         }
@@ -151,9 +151,9 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Cliente(string pNomusu, string pTarjeta, string pCalle, string pNumpuerta, string pCiudad, string pTelefono1, string pTelefono2)
+        public Cliente(int pidCliente, string pTarjeta, string pCalle, string pNumpuerta, string pCiudad, string pTelefono1, string pTelefono2)
         {
-            Nomusu = pNomusu;
+            idCliente = pidCliente;
             Tarjeta = pTarjeta;
             Calle = pCalle;
             Numpuerta = pNumpuerta;

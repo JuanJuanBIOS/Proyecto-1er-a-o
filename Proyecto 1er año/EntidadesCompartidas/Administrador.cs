@@ -8,29 +8,29 @@ namespace EntidadesCompartidas
     public class Administrador
     {
         //Atributos
-        private string _nomusu;
+        private int _idadministrador;
         private int _cargo;
 
         //Propiedades
-        public string Nomusu
+        public int idAdministrador
         {
             get
             {
-                return _nomusu;
+                return _idadministrador;
             }
             set
             {
-                if (value.Length > 0)
+                if (value >= 0)
                 {
-                    _nomusu = value;
+                    _idadministrador = value;
                 }
                 else
                 {
-                    throw new Exception("El nombre de usuario ingresado no es válido");
+                    throw new Exception("El idAdministrador ingresado no es válido");
                 }
             }
         }
-
+        
         public int Cargo
         {
             get
@@ -51,9 +51,9 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Administrador(string pNomusu, int pCargo)
+        public Administrador(int pidAdministrador, int pCargo)
         {
-            Nomusu = pNomusu;
+            idAdministrador = pidAdministrador;
             Cargo = pCargo;
         }
     }

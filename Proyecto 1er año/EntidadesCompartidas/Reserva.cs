@@ -8,6 +8,7 @@ namespace EntidadesCompartidas
     public class Reserva
     {
         //Atributos
+        private int _idreserva;
         private Cliente _cliente;
         private Habitacion _habitacion;
         private DateTime _fechaini;
@@ -15,6 +16,25 @@ namespace EntidadesCompartidas
         private int _estado;
 
         //Propiedades
+        public int idReserva
+        {
+            get
+            {
+                return _idreserva;
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    _idreserva = value;
+                }
+                else
+                {
+                    throw new Exception("El idReserva ingresado no es válido");
+                }
+            }
+        }
+
         public Cliente Cliente
         {
             get
@@ -84,8 +104,9 @@ namespace EntidadesCompartidas
 
 
        //Constructor
-        public Reserva(Cliente pCliente, Habitacion pHabitacion, DateTime pFechaini, DateTime pFechafin, int pEstado)
+        public Reserva(int pidReserva, Cliente pCliente, Habitacion pHabitacion, DateTime pFechaini, DateTime pFechafin, int pEstado)
         {
+            idReserva = pidReserva;
             Cliente = pCliente;
             Habitacion = pHabitacion;
             Fechaini = pFechaini;

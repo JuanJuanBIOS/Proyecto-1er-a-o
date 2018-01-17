@@ -124,12 +124,12 @@ go
 create table Reservas(
 idReserva int identity(1,1) not null primary key,
 idCliente int not null foreign key references Clientes(idCliente),
-numhab int not null,
-idHotel int not null,
+idHabitacion int not null foreign key references Habitaciones(idHabitacion),
+--idHotel int not null,
 fechaini datetime not null,
 fechafin datetime not null,
-estado int not null foreign key references Estados(idEstado),
-constraint FK_Reservas foreign key (numhab, idHotel) references Habitaciones(numero,idHotel),
+estado int not null foreign key references Estados(idEstado)
+--constraint FK_Reservas foreign key (idHabitacion, idHotel) references Habitaciones(idHabitacion, idHotel),
 )
 go
 
@@ -218,16 +218,16 @@ go
 
 -- Se agregan datos a la tabla Reservas
 INSERT INTO Reservas VALUES
-(1, 2, 1, '01/15/2018', '01/30/2018',0),
-(4, 1, 2, '03/15/2018', '03/30/2018',0),
-(5, 3, 3, '03/15/2018', '03/30/2018',0),
-(6, 3, 4, '05/15/2018', '05/30/2018',0),
-(4, 2, 5, '08/15/2018', '08/30/2018',0),
-(6, 2, 6, '10/15/2018', '10/30/2018',0),
-(6, 1, 7, '12/15/2018', '12/30/2018',0),
-(1, 1, 8, '11/15/2018', '11/30/2018',0),
-(1, 1, 9, '11/15/2018', '11/30/2018',0),
-(1, 2, 1, '02/15/2018', '02/28/2018',0)
+(1, 1, '01/15/2018', '01/30/2018',0),
+(4, 2, '03/15/2018', '03/30/2018',0),
+(5, 3, '03/15/2018', '03/30/2018',1),
+(6, 4, '05/15/2018', '05/30/2018',0),
+(4, 5, '08/15/2018', '08/30/2018',0),
+(6, 2, '10/15/2018', '10/30/2018',2),
+(6, 7, '12/15/2018', '12/30/2018',0),
+(1, 8, '11/15/2018', '11/30/2018',2),
+(1, 9, '11/15/2018', '11/30/2018',1),
+(1, 1, '02/15/2018', '02/28/2018',0)
 go
 
 
@@ -255,7 +255,7 @@ else
 	end
 end
 go
--- Prueba Buscar_Hotel 'Hotel 1'
+-- Prueba Buscar_Hotel 'Hotel 2'
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
@@ -326,7 +326,8 @@ if not exists(select * from Hoteles where idHotel = @idHotel)
 	return -1
 
 begin transaction
-	delete from Reservas where Reservas.idHotel = @idHotel
+	delete from Reservas where Reservas.idHabitacion in 
+				(select idHabitacion from Habitaciones where Habitaciones.idHotel = @idHotel)
 	delete from Habitaciones where Habitaciones.idHotel = @idHotel
 	delete from Hoteles where Hoteles.idHotel = @idHotel
 if @@ERROR<>0
@@ -363,7 +364,8 @@ else
 	end
 end
 go
--- Prueba Buscar_Habitacion 3, 1
+-- Prueba Buscar_Habitacion 3, 2
+
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
@@ -391,7 +393,7 @@ else
 	end
 end
 go
--- Prueba Crear_Habitacion 15,1,'10','Habitacion 1015','10',60.35
+-- Prueba Crear_Habitacion 15,2,'10','Habitacion 1015','10',60.35
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
@@ -422,20 +424,20 @@ else
 	end
 end
 go
--- Prueba Modificar_Habitacion 15,1,'10','Habitacion 1015','8',48.35
+-- Prueba Modificar_Habitacion 15,2,'10','Habitacion 1015','8',48.35
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA ELIMINAR HABITACION
 create procedure Eliminar_Habitacion
-@numero int, @idHotel int
+@idHabitacion int
 as
-if not exists(select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
+if not exists(select * from Habitaciones where idHabitacion = @idHabitacion)
 	return -1
 
 begin transaction
-	delete from Reservas where (Reservas.numhab = @numero and Reservas.idHotel  = @idHotel)
-	delete from Habitaciones where (Habitaciones.numero = @numero and Habitaciones.idHotel  = @idHotel)
+	delete from Reservas where (Reservas.idHabitacion = @idHabitacion)
+	delete from Habitaciones where (idHabitacion = @idHabitacion)
 if @@ERROR<>0
 begin
 	rollback transaction
@@ -447,7 +449,7 @@ begin
 	return 1
 end
 go
--- Prueba Eliminar_Habitacion 15, 1
+-- Prueba Eliminar_Habitacion 15
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
@@ -605,3 +607,60 @@ end
 go
 -- Prueba Eliminar_Administrador 3
 -- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- RESERVAS
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CONFIRMAR RESERVA
+create procedure Confirmar_Reserva
+@idReserva int
+as
+if not exists(select * from Reservas where idReserva = @idReserva)
+	begin
+	return -1
+	end
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 1))
+	begin
+	return -2
+	end
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 2))
+	begin
+	return -3
+	end
+
+begin tran
+update Reservas
+set estado = 2
+where (idReserva = @idReserva and estado = 0)
+
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -4
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+go
+-- Prueba Confirmar_Reserva 9
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- LISTADOS
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
+create procedure Reservas_por_Habitacion
+@idHabitacion int
+as
+
+select * from Reservas where (idHabitacion = @idHabitacion)
+go
+-- Prueba Reservas_por_Habitacion 1
+-- -----------------------------------------------------------------------------------------------
+
