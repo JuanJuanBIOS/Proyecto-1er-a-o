@@ -125,11 +125,9 @@ create table Reservas(
 idReserva int identity(1,1) not null primary key,
 idCliente int not null foreign key references Clientes(idCliente),
 idHabitacion int not null foreign key references Habitaciones(idHabitacion),
---idHotel int not null,
 fechaini datetime not null,
 fechafin datetime not null,
 estado int not null foreign key references Estados(idEstado)
---constraint FK_Reservas foreign key (idHabitacion, idHotel) references Habitaciones(idHabitacion, idHotel),
 )
 go
 
@@ -235,10 +233,9 @@ go
 -- CREACIÓN DE STORED PROCEDURES
 -- -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
 -- HOTELES
--- -----------------------------------------------------------------------------------------------
-
+-- ***********************************************************************************************
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR HOTEL
 create procedure Buscar_Hotel
@@ -246,13 +243,9 @@ create procedure Buscar_Hotel
 as
 begin
 if not exists(select * from Hoteles where nombre = @nombre)
-	begin
 	return -1
-	end
 else
-	begin
 	select * from Hoteles where (nombre = @nombre)
-	end
 end
 go
 -- Prueba Buscar_Hotel 'Hotel 2'
@@ -261,26 +254,25 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CREAR HOTEL
 create procedure Crear_Hotel
-@nombre varchar(50), @calle varchar(30), @numpuerta varchar(6), @ciudad varchar(30),
-@telefono varchar(15), @fax varchar(15), @playa bit, @estrellas char
+@nombre varchar(50), 
+@calle varchar(30), 
+@numpuerta varchar(6), 
+@ciudad varchar(30),
+@telefono varchar(15), 
+@fax varchar(15), 
+@playa bit, 
+@estrellas char
 as
 begin
 if exists (select * from Hoteles where nombre = @nombre)
 	return -1
 
-begin tran
 insert into Hoteles values (@nombre, @calle, @numpuerta, @ciudad, @telefono, @fax, @playa, @estrellas)
 
 if @@ERROR<>0
-	begin
-		rollback transaction
 		return -2
-	end
 else
-	begin
-		commit transaction
-		return 1
-	end
+	return 1
 end
 go
 -- Prueba Crear_Hotel 'Hotel 10','Calle 10','1010','Las Vegas','110101010','110101000',0,'5'
@@ -289,29 +281,29 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA MODIFICAR HOTEL
 create procedure Modificar_Hotel
-@idHotel int, @nombre varchar(50), @calle varchar(30), @numpuerta varchar(6), @ciudad varchar(30),
-@telefono varchar(15), @fax varchar(15), @playa bit, @estrellas char
+@idHotel int, 
+@nombre varchar(50), 
+@calle varchar(30), 
+@numpuerta varchar(6), 
+@ciudad varchar(30),
+@telefono varchar(15), 
+@fax varchar(15), 
+@playa bit, 
+@estrellas char
 as
 begin
 if not exists (select * from Hoteles where idHotel = @idHotel)
 	return -1
-	
-begin tran
+
 update Hoteles
 set nombre = @nombre, calle = @calle, numpuerta = @numpuerta, ciudad = @ciudad, 
 telefono = @telefono, fax = @fax, playa = @playa, estrellas = @estrellas 
 where idHotel = @idHotel
 
 if @@ERROR<>0
-	begin
-		rollback transaction
-		return -2
-	end
+	return -2
 else
-	begin
-		commit transaction
-		return 1
-	end
+	return 1
 end
 go
 -- Prueba Modificar_Hotel 10, 'Hotel 10','Calle 1010','0101','San Francisco','110101010','110101000',0,'5'
@@ -322,6 +314,7 @@ go
 create procedure Eliminar_Hotel
 @idHotel int
 as
+begin
 if not exists(select * from Hoteles where idHotel = @idHotel)
 	return -1
 
@@ -331,37 +324,35 @@ begin transaction
 	delete from Habitaciones where Habitaciones.idHotel = @idHotel
 	delete from Hoteles where Hoteles.idHotel = @idHotel
 if @@ERROR<>0
-begin
-	rollback transaction
-	return -2
-end
+	begin
+		rollback transaction
+		return -2
+	end
 else
-begin
-	commit transaction
-	return 1
+	begin
+		commit transaction
+		return 1
+	end
 end
 go
  -- Prueba Eliminar_Hotel 1
  -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
 -- HABITACIONES
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR HABITACION
 create procedure Buscar_Habitacion
-@numero int, @idHotel int
+@numero int, 
+@idHotel int
 as
 begin
 if not exists(select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
-	begin
 	return -1
-	end
 else
-	begin
 	select * from Habitaciones where (numero = @numero and idHotel  = @idHotel)
-	end
 end
 go
 -- Prueba Buscar_Habitacion 3, 2
@@ -371,26 +362,23 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CREAR HABITACION
 create procedure Crear_Habitacion
-@numero int, @idHotel int, @piso varchar(3), @descripcion varchar(100),
-@huespedes varchar(3), @costodiario float
+@numero int, 
+@idHotel int, 
+@piso varchar(3), 
+@descripcion varchar(100),
+@huespedes varchar(3), 
+@costodiario float
 as
 begin
 if exists (select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
 	return -1
 
-begin tran
 insert into Habitaciones values (@numero, @idHotel, @piso, @descripcion, @huespedes, @costodiario)
 
 if @@ERROR<>0
-	begin
-		rollback transaction
-		return -2
-	end
+	return -2
 else
-	begin
-		commit transaction
-		return 1
-	end
+	return 1
 end
 go
 -- Prueba Crear_Habitacion 15,2,'10','Habitacion 1015','10',60.35
@@ -399,29 +387,26 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA MODIFICAR HABITACION
 create procedure Modificar_Habitacion
-@numero int, @idHotel int, @piso varchar(3), @descripcion varchar(100),
-@huespedes varchar(3), @costodiario float
+@numero int, 
+@idHotel int, 
+@piso varchar(3), 
+@descripcion varchar(100),
+@huespedes varchar(3), 
+@costodiario float
 as
 begin
 if not exists (select * from Habitaciones where (numero = @numero and idHotel  = @idHotel))
 	return -1
 	
-begin tran
 update Habitaciones
 set numero = @numero, idHotel = @idHotel, piso = @piso, descripcion = @descripcion, 
 huespedes = @huespedes, costodiario = @costodiario 
 where (numero = @numero and idHotel  = @idHotel)
 
 if @@ERROR<>0
-	begin
-		rollback transaction
-		return -2
-	end
+	return -2
 else
-	begin
-		commit transaction
-		return 1
-	end
+	return 1
 end
 go
 -- Prueba Modificar_Habitacion 15,2,'10','Habitacion 1015','8',48.35
@@ -432,6 +417,7 @@ go
 create procedure Eliminar_Habitacion
 @idHabitacion int
 as
+begin
 if not exists(select * from Habitaciones where idHabitacion = @idHabitacion)
 	return -1
 
@@ -439,22 +425,23 @@ begin transaction
 	delete from Reservas where (Reservas.idHabitacion = @idHabitacion)
 	delete from Habitaciones where (idHabitacion = @idHabitacion)
 if @@ERROR<>0
-begin
-	rollback transaction
-	return -2
-end
+	begin
+		rollback transaction
+		return -2
+	end
 else
-begin
-	commit transaction
-	return 1
+	begin
+		commit transaction
+		return 1
+	end
 end
 go
 -- Prueba Eliminar_Habitacion 15
 -- -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
 -- ADMINISTRADORES
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR ADMINISTRADOR
@@ -463,21 +450,15 @@ create procedure Buscar_Administrador
 as
 begin
 if not exists(select * from Usuarios where nomusu = @nomusu)
-	begin
 	return -1
-	end
 else
+	begin
 	declare @idUsuario int
 	select @idUsuario = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
 	if not exists(select * from Administradores where idAdministrador = @idUsuario)
-	begin
-	return -2
-	end
+		return -2
 	if exists(select * from Clientes where idCliente = @idUsuario)
-	begin
-	return -3
-	end
-	begin
+		return -3
 	select Usuarios.*, Administradores.cargo from Usuarios, Administradores
 	where (Usuarios.idUsuario = @idUsuario and Usuarios.idUsuario = Administradores.idAdministrador)
 	end
@@ -489,27 +470,17 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CREAR ADMINISTRADOR
 create procedure Crear_Administrador
-@nomusu varchar(10), @pass varchar(20), @nombre varchar(50), @tipo int, @cargo int
+@nomusu varchar(10), 
+@pass varchar(20), 
+@nombre varchar(50),
+@tipo int, 
+@cargo int
 as
 begin
 if exists(select * from Usuarios where nomusu = @nomusu)
-	begin
 	return -1
-	end
-else
-	declare @idUsuario int
-	select @idUsuario = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
-	if exists(select * from Clientes where idCliente = @idUsuario)
-	begin
-	return -2
-	end
-	if exists(select * from Administradores where idAdministrador = @idUsuario)
-	begin
-	return -3
-	end
-end
 
-begin tran
+begin transaction
 insert into Usuarios values (@nomusu, @pass, @nombre, @tipo)
 declare @idAdministrador int
 select @idAdministrador = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
@@ -518,13 +489,14 @@ insert into Administradores values (@idAdministrador, @cargo)
 if @@ERROR<>0
 	begin
 		rollback transaction
-		return -4
+		return -2
 	end
 else
 	begin
 		commit transaction
 		return 1
 	end
+end
 go
 -- Prueba Crear_Administrador 'usu 7', 'usu 7', 'Usuario 7', 0, 2
 -- -----------------------------------------------------------------------------------------------
@@ -532,24 +504,22 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA MODIFICAR ADMINISTRADOR
 create procedure Modificar_Administrador
-@idAdministrador int, @nomusu varchar(10), @pass varchar(20), @nombre varchar(50), 
-@tipo int, @cargo int
+@idAdministrador int, 
+@nomusu varchar(10), 
+@pass varchar(20), 
+@nombre varchar(50), 
+@tipo int, 
+@cargo int
 as
 begin
 if not exists(select * from Usuarios where idUsuario = @idAdministrador)
-	begin
 	return -1
-	end
 else if not exists(select * from Administradores where idAdministrador = @idAdministrador)
-	begin
 	return -2
-	end
 else if exists(select * from Clientes where idCliente = @idAdministrador)
-	begin
 	return -3
-	end
 	
-begin tran
+begin transaction
 update Usuarios
 set pass = @pass, nombre = @nombre, tipo = @tipo
 where (idUsuario = @idAdministrador)
@@ -578,62 +548,165 @@ go
 create procedure Eliminar_Administrador
 @idAdministrador int
 as
+begin
 if not exists(select * from Usuarios where idUsuario = @idAdministrador)
-	begin
 	return -1
-	end
 else if not exists(select * from Administradores where idAdministrador = @idAdministrador)
-	begin
 	return -2
-	end
 else if exists(select * from Clientes where idCliente = @idAdministrador)
-	begin
 	return -3
-	end
 
 begin transaction
 	delete from Administradores where (idAdministrador = @idAdministrador)
 	delete from Usuarios where (idUsuario = @idAdministrador)
 if @@ERROR<>0
-begin
-	rollback transaction
-	return -4
-end
+	begin
+		rollback transaction
+		return -4
+	end
 else
-begin
-	commit transaction
-	return 1
+	begin
+		commit transaction
+		return 1
+	end
 end
 go
 -- Prueba Eliminar_Administrador 3
 -- -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
 -- RESERVAS
+-- ***********************************************************************************************
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA FINALIZAR RESERVA
+create procedure Finalizar_Reserva
+@idReserva int
+as
+begin
+if not exists(select * from Reservas where idReserva = @idReserva)
+	return -1
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 1))
+	return -2
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 2))
+	return -3
+
+update Reservas
+set estado = 2
+where (idReserva = @idReserva and estado = 0)
+
+if @@ERROR<>0
+	return -4
+else
+	return 1
+end
+go
+-- Prueba Finalizar_Reserva 9
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CONSULTAR RESERVA
+create procedure Consultar_Reserva
+@idCliente int, 
+@idHabitacion int, 
+@fechaini datetime, 
+@fechafin datetime
+as
+begin
+if not exists(select * from Clientes where idCliente = @idCliente)
+	return -1
+if not exists(select * from Habitaciones where idHabitacion = @idHabitacion)
+	return -2
+if (@fechaini < convert(date,GETDATE()))
+	return -3
+if (@fechaini >= @fechafin)
+	return -4
+if	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechafin<=fechafin and @fechafin>=fechaini)) or
+	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechafin and @fechaini>=fechaini)) or
+	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechaini and @fechafin>=fechafin))
+	return -5
+else
+	return 1
+end
+go
+-- Prueba Consultar_Reserva 
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CONFIRMAR RESERVA
 create procedure Confirmar_Reserva
-@idReserva int
+@idCliente int, 
+@idHabitacion int, 
+@fechaini datetime, 
+@fechafin datetime,
+@estado int
 as
-if not exists(select * from Reservas where idReserva = @idReserva)
-	begin
+begin
+if not exists(select * from Clientes where idCliente = @idCliente)
 	return -1
-	end
-if exists(select * from Reservas where (idReserva = @idReserva and estado = 1))
-	begin
+if not exists(select * from Habitaciones where idHabitacion = @idHabitacion)
 	return -2
-	end
-if exists(select * from Reservas where (idReserva = @idReserva and estado = 2))
-	begin
+if (@fechaini < convert(date,GETDATE()))
 	return -3
+if (@fechaini >= @fechafin)
+	return -4
+if	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechafin<=fechafin and @fechafin>=fechaini)) or
+	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechafin and @fechaini>=fechaini)) or
+	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechaini and @fechafin>=fechafin))
+	return -5
+else
+	begin
+	insert into Reservas values(@idCliente, @idHabitacion, @fechaini, @fechafin, @estado)
+	if @@ERROR<>0
+		begin
+			return -6
+		end
 	end
+end
+go
+-- Prueba Confirmar_Reserva 1, 1, '02/01/2018', '02/12/2018', 0
+-- -----------------------------------------------------------------------------------------------
 
-begin tran
-update Reservas
-set estado = 2
-where (idReserva = @idReserva and estado = 0)
+-- ***********************************************************************************************
+-- LISTADOS
+-- ***********************************************************************************************
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
+create procedure Reservas_por_Habitacion
+@idHabitacion int
+as
+
+select * from Reservas where (idHabitacion = @idHabitacion)
+go
+-- Prueba Reservas_por_Habitacion 4
+-- -----------------------------------------------------------------------------------------------
+
+-- ***********************************************************************************************
+-- CLIENTES
+-- ***********************************************************************************************
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CREAR CLIENTE
+create procedure Crear_Cliente
+@nomusu varchar(10), 
+@pass varchar(20), 
+@nombre varchar(50), 
+@tipo int, 
+@tarjeta varchar(16), 
+@calle varchar (30), 
+@numpuerta varchar(6), 
+@ciudad varchar(30)
+as
+begin
+if exists(select * from Usuarios where nomusu = @nomusu)
+	return -1
+
+begin transaction
+insert into Usuarios values (@nomusu, @pass, @nombre, @tipo)
+declare @idCliente int
+select @idCliente = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
+insert into Clientes values (@idCliente, @tarjeta, @calle, @numpuerta, @ciudad)
 
 if @@ERROR<>0
 	begin
@@ -645,22 +718,7 @@ else
 		commit transaction
 		return 1
 	end
+end
 go
--- Prueba Confirmar_Reserva 9
+-- Prueba Crear_Cliente 'usu 8', 'usu 8', 'Usuario 8', 1, '1254856985478569', 'Calle 8', '8888', 'La Paz'
 -- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- LISTADOS
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
-create procedure Reservas_por_Habitacion
-@idHabitacion int
-as
-
-select * from Reservas where (idHabitacion = @idHabitacion)
-go
--- Prueba Reservas_por_Habitacion 1
--- -----------------------------------------------------------------------------------------------
-
