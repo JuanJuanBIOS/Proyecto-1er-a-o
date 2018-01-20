@@ -2,8 +2,24 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto 1er año", "Proyecto 1er año\Proyecto 1er año.csproj", "{21F3ABAB-D83D-41CB-850A-EC644463BDA2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{821B4F05-E3F2-4830-948A-750877C5D8EC} = {821B4F05-E3F2-4830-948A-750877C5D8EC}
+		{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE} = {41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}
+		{20778F9E-0B32-4CAA-88D1-697249E43515} = {20778F9E-0B32-4CAA-88D1-697249E43515}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntidadesCompartidas", "EntidadesCompartidas\EntidadesCompartidas.csproj", "{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logica", "Logica\Logica.csproj", "{20778F9E-0B32-4CAA-88D1-697249E43515}"
+	ProjectSection(ProjectDependencies) = postProject
+		{821B4F05-E3F2-4830-948A-750877C5D8EC} = {821B4F05-E3F2-4830-948A-750877C5D8EC}
+		{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE} = {41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "Persistencia\Persistencia.csproj", "{821B4F05-E3F2-4830-948A-750877C5D8EC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE} = {41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +35,14 @@ Global
 		{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41C49021-4C65-4DEA-8DFB-8AA74A4FD2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20778F9E-0B32-4CAA-88D1-697249E43515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20778F9E-0B32-4CAA-88D1-697249E43515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20778F9E-0B32-4CAA-88D1-697249E43515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20778F9E-0B32-4CAA-88D1-697249E43515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{821B4F05-E3F2-4830-948A-750877C5D8EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{821B4F05-E3F2-4830-948A-750877C5D8EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{821B4F05-E3F2-4830-948A-750877C5D8EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{821B4F05-E3F2-4830-948A-750877C5D8EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

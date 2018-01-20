@@ -33,6 +33,7 @@ ciudad varchar(30),
 telefono varchar(15),
 fax varchar(15),
 playa bit,
+piscina bit,
 estrellas char
 -- FALTA LA FOTO
 )
@@ -137,15 +138,15 @@ go
 
 -- Se agregan datos a la tabla Hoteles
 INSERT INTO Hoteles VALUES
-('Hotel 1','Calle 1','1111','Montevideo','59811111111','59811111110',0,'3'),
-('Hotel 2','Calle 2','2222','Buenos Aires','5422222222','5422222220',0,'4'),
-('Hotel 3','Calle 3','3333','Rio de Janeiro','5533333333','5533333330',1,'4'),
-('Hotel 4','Calle 4','4444','Madrid','3444444444','3444444440',0,'5'),
-('Hotel 5','Calle 5','5555','Barcelona','3455555555','3455555550',1,'4'),
-('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,'5'),
-('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,'3'),
-('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,'2'),
-('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,'1')
+('Hotel 1','Calle 1','1111','Montevideo','59811111111','59811111110',0,1,'3'),
+('Hotel 2','Calle 2','2222','Buenos Aires','5422222222','5422222220',0,0,'4'),
+('Hotel 3','Calle 3','3333','Rio de Janeiro','5533333333','5533333330',1,0,'4'),
+('Hotel 4','Calle 4','4444','Madrid','3444444444','3444444440',0,0,'5'),
+('Hotel 5','Calle 5','5555','Barcelona','3455555555','3455555550',1,1,'4'),
+('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,1,'5'),
+('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,1,'3'),
+('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,0,'2'),
+('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,1,'1')
 go
 
 -- Se agregan datos a la tabla Habitaciones
@@ -260,14 +261,15 @@ create procedure Crear_Hotel
 @ciudad varchar(30),
 @telefono varchar(15), 
 @fax varchar(15), 
-@playa bit, 
+@playa bit,
+@piscina bit, 
 @estrellas char
 as
 begin
 if exists (select * from Hoteles where nombre = @nombre)
 	return -1
 
-insert into Hoteles values (@nombre, @calle, @numpuerta, @ciudad, @telefono, @fax, @playa, @estrellas)
+insert into Hoteles values (@nombre, @calle, @numpuerta, @ciudad, @telefono, @fax, @playa, @piscina, @estrellas)
 
 if @@ERROR<>0
 		return -2
@@ -275,7 +277,7 @@ else
 	return 1
 end
 go
--- Prueba Crear_Hotel 'Hotel 10','Calle 10','1010','Las Vegas','110101010','110101000',0,'5'
+-- Prueba Crear_Hotel 'Hotel 10','Calle 10','1010','Las Vegas','110101010','110101000',0,1,'5'
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
@@ -288,7 +290,8 @@ create procedure Modificar_Hotel
 @ciudad varchar(30),
 @telefono varchar(15), 
 @fax varchar(15), 
-@playa bit, 
+@playa bit,
+@piscina bit, 
 @estrellas char
 as
 begin
@@ -297,7 +300,7 @@ if not exists (select * from Hoteles where idHotel = @idHotel)
 
 update Hoteles
 set nombre = @nombre, calle = @calle, numpuerta = @numpuerta, ciudad = @ciudad, 
-telefono = @telefono, fax = @fax, playa = @playa, estrellas = @estrellas 
+telefono = @telefono, fax = @fax, playa = @playa, piscina = @piscina, estrellas = @estrellas 
 where idHotel = @idHotel
 
 if @@ERROR<>0
@@ -306,7 +309,7 @@ else
 	return 1
 end
 go
--- Prueba Modificar_Hotel 10, 'Hotel 10','Calle 1010','0101','San Francisco','110101010','110101000',0,'5'
+-- Prueba Modificar_Hotel 10, 'Hotel 10','Calle 1010','0101','San Francisco','110101010','110101000',0,1,'5'
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------

@@ -16,6 +16,7 @@ namespace EntidadesCompartidas
         private string _telefono;
         private string _fax;
         private bool _playa;
+        private bool _piscina;
         private string _estrellas;
 
         //Propiedades
@@ -164,6 +165,18 @@ namespace EntidadesCompartidas
             }
         }
 
+        public bool Piscina
+        {
+            get
+            {
+                return _piscina;
+            }
+            set
+            {
+                _piscina = value;
+            }
+        }
+
         public string Estrellas
         {
             get
@@ -186,7 +199,7 @@ namespace EntidadesCompartidas
         
 
        //Constructor
-        public Hotel(int pidHotel, string pNombre, string pCalle, string pNumpuerta, string pCiudad, string pTelefono, string pFax, bool pPlaya, string pEstrellas)
+        public Hotel(int pidHotel, string pNombre, string pCalle, string pNumpuerta, string pCiudad, string pTelefono, string pFax, bool pPlaya, bool pPiscina, string pEstrellas)
         {
             idHotel = pidHotel;
             Nombre = pNombre;
@@ -196,6 +209,7 @@ namespace EntidadesCompartidas
             Telefono = pTelefono;
             Fax = pFax;
             Playa = pPlaya;
+            Piscina = pPiscina;
             Estrellas = pEstrellas;
         }
     }
