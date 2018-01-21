@@ -21,8 +21,27 @@ namespace Proyecto_1er_año
 
         protected void BtnLogin_Click(object sender, EventArgs e)
         {
-            //Verifico el usuario y contraseña
-            
+            try
+            {
+                //Verifico el usuario y contraseña
+                EntidadesCompartidas.Usuario unUsu = Logica.LogicaUsuario.Login(TBNombre.Text, TBContrasenia.Text);
+                if (unUsu != null)
+                {
+                    Session["Usuario"] = unUsu;
+                    //Response.Redirect(".aspx");
+                }
+                else
+                {
+                    LblException.Text = "";
+                    LblError.Text = "Usuario y/o contraseña incorrectos.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LblError.Text = "";
+                LblException.Text = "Error en la base de datos. Contacte con el administrador.";
+            }
         }
     }
 }

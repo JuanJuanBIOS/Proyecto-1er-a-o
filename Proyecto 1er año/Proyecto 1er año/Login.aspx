@@ -36,8 +36,12 @@
                     Contraseña:
                 </td>
                 <td>
-                    <asp:TextBox ID="TBContrasenia" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TBContrasenia" runat="server" TextMode="Password"></asp:TextBox>
                 </td>
+            </tr>
+            <tr>
+                <td align="center" class="style2" colspan="2">
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td align="center" class="style2" colspan="2">
@@ -47,7 +51,12 @@
             </tr>
             <tr>
                 <td align="center" class="style2" colspan="2">
-                    <asp:Label ID="LblError" runat="server"></asp:Label>
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td align="center" class="style2" colspan="2">
+                    <asp:Label ID="LblError" runat="server" ForeColor="Red"></asp:Label>
+                    <asp:Label ID="LblException" runat="server" ForeColor="Red"></asp:Label>
                 </td>
             </tr>
         </table>
