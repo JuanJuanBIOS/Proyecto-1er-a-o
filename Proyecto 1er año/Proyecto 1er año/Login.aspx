@@ -8,10 +8,18 @@
     <style type="text/css">
         .style1
         {
-            width: 24%;
+            width: 29%;
         }
         .style2
         {
+        }
+        .style4
+        {
+            width: 112px;
+        }
+        .style5
+        {
+            width: 125px;
         }
     </style>
 </head>
@@ -24,19 +32,20 @@
         <br />
         <table align="center" class="style1">
             <tr>
-                <td align="center" class="style2">
-                    Nombre:
+                <td align="center" class="style5">
+                    Nombre de Usuario:
                 </td>
-                <td>
-                    <asp:TextBox ID="TBNombre" runat="server"></asp:TextBox>
+                <td class="style4">
+                    <asp:TextBox ID="TBNombre" runat="server" MaxLength="10"></asp:TextBox>
                 </td>
             </tr>
             <tr>
-                <td align="center" class="style2">
+                <td align="center" class="style5">
                     Contraseña:
                 </td>
-                <td>
-                    <asp:TextBox ID="TBContrasenia" runat="server" TextMode="Password"></asp:TextBox>
+                <td class="style4">
+                    <asp:TextBox ID="TBContrasenia" runat="server" TextMode="Password" 
+                        MaxLength="20"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -47,6 +56,9 @@
                 <td align="center" class="style2" colspan="2">
                     <asp:Button ID="BtnLogin" runat="server" onclick="BtnLogin_Click" 
                         Text="Ingresar" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Button ID="BtnRegistro" runat="server" onclick="BtnRegistro_Click" 
+                        Text="Registrarse" />
                 </td>
             </tr>
             <tr>

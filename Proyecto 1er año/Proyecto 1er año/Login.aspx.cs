@@ -28,7 +28,18 @@ namespace Proyecto_1er_año
                 if (unUsu != null)
                 {
                     Session["Usuario"] = unUsu;
-                    //Response.Redirect(".aspx");
+                    if (unUsu.Tipo == (int)EntidadesCompartidas.Enums.Tipo_Usuario.Administrador)
+                    {
+                        Response.Redirect("BienvenidaAdministrador.aspx");
+                    }
+                    else if (unUsu.Tipo == (int)EntidadesCompartidas.Enums.Tipo_Usuario.Cliente)
+                    {
+                        Response.Redirect("RealizarReserva.aspx");
+                    }
+                    else
+                    {
+                        Response.Redirect("Login.aspx");
+                    }
                 }
                 else
                 {
@@ -42,6 +53,11 @@ namespace Proyecto_1er_año
                 LblError.Text = "";
                 LblException.Text = "Error en la base de datos. Contacte con el administrador.";
             }
+        }
+
+        protected void BtnRegistro_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("RegistroCliente.aspx");
         }
     }
 }
