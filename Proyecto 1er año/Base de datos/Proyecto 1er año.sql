@@ -245,10 +245,13 @@ create procedure Login_Usuario
 @pass varchar(20)
 as
 begin
-select * from Usuarios where (Usuarios.nomusu = @nomusu and Usuarios.pass = @pass)
+select * from ((select * from Usuarios left join Clientes on Usuarios.idUsuario = Clientes.idCliente)
+	as TablaAux left join Administradores on TablaAux.idUsuario = Administradores.idAdministrador)
+	where (TablaAux.nomusu = @nomusu and TablaAux.pass = @pass)
 end
 go
--- Prueba Login_Usuario 'usu1', 'usu1'
+-- Prueba Login_Usuario 'usu1', 'usu1' 
+-- Prueba Login_Usuario 'usu2', 'usu2'
 
 -- ***********************************************************************************************
 -- HOTELES

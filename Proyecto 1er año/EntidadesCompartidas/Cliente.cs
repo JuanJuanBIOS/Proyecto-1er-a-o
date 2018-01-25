@@ -5,10 +5,9 @@ using System.Text;
 
 namespace EntidadesCompartidas
 {
-    public class Cliente
+    public class Cliente : Usuario
     {
         //Atributos
-        private int _idcliente;
         private string _tarjeta;
         private string _calle;
         private string _numpuerta;
@@ -17,25 +16,6 @@ namespace EntidadesCompartidas
         private string _telefono2;
 
         //Propiedades
-        public int idCliente
-        {
-            get
-            {
-                return _idcliente;
-            }
-            set
-            {
-                if (value >= 0)
-                {
-                    _idcliente = value;
-                }
-                else
-                {
-                    throw new Exception("El idCliente ingresado no es válido");
-                }
-            }
-        }
-
         public string Tarjeta
         {
             get
@@ -151,9 +131,9 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Cliente(int pidCliente, string pTarjeta, string pCalle, string pNumpuerta, string pCiudad, string pTelefono1, string pTelefono2)
+        public Cliente(int pidUsuario, string pNomusu, string pPass, string pNombre, int pTipo, string pTarjeta, string pCalle, string pNumpuerta, string pCiudad, string pTelefono1, string pTelefono2)
+            :base(pidUsuario, pNomusu, pPass, pNombre, pTipo)
         {
-            idCliente = pidCliente;
             Tarjeta = pTarjeta;
             Calle = pCalle;
             Numpuerta = pNumpuerta;

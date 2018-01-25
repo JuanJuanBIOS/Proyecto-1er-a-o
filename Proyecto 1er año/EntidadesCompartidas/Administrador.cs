@@ -5,32 +5,12 @@ using System.Text;
 
 namespace EntidadesCompartidas
 {
-    public class Administrador
+    public class Administrador : Usuario
     {
         //Atributos
-        private int _idadministrador;
         private int _cargo;
 
         //Propiedades
-        public int idAdministrador
-        {
-            get
-            {
-                return _idadministrador;
-            }
-            set
-            {
-                if (value >= 0)
-                {
-                    _idadministrador = value;
-                }
-                else
-                {
-                    throw new Exception("El idAdministrador ingresado no es válido");
-                }
-            }
-        }
-        
         public int Cargo
         {
             get
@@ -39,7 +19,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value > 0)
+                if (value >= 0)
                 {
                     _cargo = value;
                 }
@@ -51,9 +31,9 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Administrador(int pidAdministrador, int pCargo)
+        public Administrador(int pidUsuario, string pNomusu, string pPass, string pNombre, int pTipo, int pCargo)
+            :base(pidUsuario, pNomusu, pPass, pNombre, pTipo)
         {
-            idAdministrador = pidAdministrador;
             Cargo = pCargo;
         }
     }
