@@ -473,33 +473,31 @@ end
 go
 -- Prueba Crear_Administrador 'usu 7', 'usu 7', 'Usuario 7', 'Recepcionista'
 -- -----------------------------------------------------------------------------------------------
-/*
+
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA MODIFICAR ADMINISTRADOR
 create procedure Modificar_Administrador
-@idAdministrador int, 
 @nomusu varchar(10), 
 @pass varchar(20), 
-@nombre varchar(50), 
-@tipo int, 
-@cargo int
+@nombre varchar(50),
+@cargo varchar(20)
 as
 begin
-if not exists(select * from Usuarios where idUsuario = @idAdministrador)
+if not exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
-else if not exists(select * from Administradores where idAdministrador = @idAdministrador)
+else if not exists(select * from Administradores where nomusu = @nomusu)
 	return -2
-else if exists(select * from Clientes where idCliente = @idAdministrador)
+else if exists(select * from Clientes where nomusu = @nomusu)
 	return -3
 	
 begin transaction
 update Usuarios
-set pass = @pass, nombre = @nombre, tipo = @tipo
-where (idUsuario = @idAdministrador)
+set pass = @pass, nombre = @nombre
+where (nomusu = @nomusu)
 
 update Administradores
 set cargo = @cargo
-where (idAdministrador = @idAdministrador)
+where (nomusu = @nomusu)
 
 if @@ERROR<>0
 	begin
@@ -513,25 +511,25 @@ else
 	end
 end
 go
--- Prueba Modificar_Administrador 7, 'usu 7', 'usu 7', 'Usuario 77', 0, 1
+-- Prueba Modificar_Administrador 'usu 7', 'usu 7', 'Usuario 77', 'Recepcionista ' 
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA ELIMINAR ADMINISTRADOR
 create procedure Eliminar_Administrador
-@idAdministrador int
+@nomusu varchar(10)
 as
 begin
-if not exists(select * from Usuarios where idUsuario = @idAdministrador)
+if not exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
-else if not exists(select * from Administradores where idAdministrador = @idAdministrador)
+else if not exists(select * from Administradores where nomusu = @nomusu)
 	return -2
-else if exists(select * from Clientes where idCliente = @idAdministrador)
+else if exists(select * from Clientes where nomusu = @nomusu)
 	return -3
 
 begin transaction
-	delete from Administradores where (idAdministrador = @idAdministrador)
-	delete from Usuarios where (idUsuario = @idAdministrador)
+	delete from Administradores where (nomusu = @nomusu)
+	delete from Usuarios where (nomusu = @nomusu)
 if @@ERROR<>0
 	begin
 		rollback transaction
@@ -544,7 +542,7 @@ else
 	end
 end
 go
--- Prueba Eliminar_Administrador 3
+-- Prueba Eliminar_Administrador 'usu3'
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
@@ -552,21 +550,20 @@ go
 -- ***********************************************************************************************
 
 -- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA FINALIZAR RESERVA
-create procedure Finalizar_Reserva
+-- SE CREA PROCEDIMIENTO PARA CONFIRMAR USO DE RESERVA
+create procedure Confirmar_uso_reserva
 @idReserva int
 as
 begin
 if not exists(select * from Reservas where idReserva = @idReserva)
 	return -1
-if exists(select * from Reservas where (idReserva = @idReserva and estado = 1))
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 'Cancelada'))
 	return -2
-if exists(select * from Reservas where (idReserva = @idReserva and estado = 2))
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 'Finalizada'))
 	return -3
 
 update Reservas
-set estado = 2
-where (idReserva = @idReserva and estado = 0)
+set estado = 'Finalizada' where (idReserva = @idReserva and estado = 'Activa')
 
 if @@ERROR<>0
 	return -4
@@ -574,70 +571,67 @@ else
 	return 1
 end
 go
--- Prueba Finalizar_Reserva 9
+-- Prueba Confirmar_uso_reserva 10
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA CONSULTAR RESERVA
-create procedure Consultar_Reserva
-@idCliente int, 
-@idHabitacion int, 
+-- SE CREA PROCEDIMIENTO PARA REALIZAR RESERVA
+create procedure Realizar_Reserva
+@nomusu varchar(10), 
+@habitacion int,
+@hotel varchar(50),
 @fechaini datetime, 
 @fechafin datetime
 as
 begin
-if not exists(select * from Clientes where idCliente = @idCliente)
+if not exists(select * from Clientes where nomusu = @nomusu)
 	return -1
-if not exists(select * from Habitaciones where idHabitacion = @idHabitacion)
+if not exists(select * from Habitaciones where (numero = @habitacion and hotel = @hotel))
 	return -2
-if (@fechaini < convert(date,GETDATE()))
+if not exists(select * from Hoteles where nombre = @hotel)
 	return -3
-if (@fechaini >= @fechafin)
-	return -4
-if	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechafin<=fechafin and @fechafin>=fechaini)) or
-	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechafin and @fechaini>=fechaini)) or
-	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechaini and @fechafin>=fechafin))
-	return -5
-else
-	return 1
-end
-go
--- Prueba Consultar_Reserva 
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA CONFIRMAR RESERVA
-create procedure Confirmar_Reserva
-@idCliente int, 
-@idHabitacion int, 
-@fechaini datetime, 
-@fechafin datetime,
-@estado int
-as
-begin
-if not exists(select * from Clientes where idCliente = @idCliente)
-	return -1
-if not exists(select * from Habitaciones where idHabitacion = @idHabitacion)
-	return -2
 if (@fechaini < convert(date,GETDATE()))
-	return -3
-if (@fechaini >= @fechafin)
 	return -4
-if	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechafin<=fechafin and @fechafin>=fechaini)) or
-	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechafin and @fechaini>=fechaini)) or
-	exists (select * from Reservas where (idHabitacion=@idHabitacion and @fechaini<=fechaini and @fechafin>=fechafin))
+if (@fechaini >= @fechafin)
 	return -5
+if	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechafin<=fechafin and @fechafin>=fechaini)) or
+	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechafin and @fechaini>=fechaini)) or
+	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechaini and @fechafin>=fechafin))
+	return -6
 else
 	begin
-	insert into Reservas values(@idCliente, @idHabitacion, @fechaini, @fechafin, @estado)
+	insert into Reservas values(@nomusu, @habitacion, @hotel, @fechaini, @fechafin, 'Activa')
 	if @@ERROR<>0
 		begin
-			return -6
+			return -7
 		end
 	end
 end
 go
--- Prueba Confirmar_Reserva 1, 1, '02/01/2018', '02/12/2018', 0
+-- Prueba Realizar_Reserva 'usu1', 301, 'Hotel 1', '02/01/2018', '02/12/2018'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CANCELAR USO DE RESERVA
+create procedure Cancelar_Reserva
+@idReserva int
+as
+begin
+if not exists(select * from Reservas where idReserva = @idReserva)
+	return -1
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 'Finalizada'))
+	return -2
+
+update Reservas
+set estado = 'Cancelada' where (idReserva = @idReserva and estado = 'Activa')
+
+if @@ERROR<>0
+	return -3
+else
+	return 1
+end
+go
+-- Prueba Cancelar_Reserva 10
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
@@ -645,14 +639,27 @@ go
 -- ***********************************************************************************************
 
 -- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS
+create procedure Reservas_Activas
+as
+begin
+
+select * from Reservas where (estado = 'Activa')
+end
+go
+-- Prueba Reservas_Activas
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
 create procedure Reservas_por_Habitacion
-@idHabitacion int
+@habitacion int, 
+@hotel varchar(50)
 as
 
-select * from Reservas where (idHabitacion = @idHabitacion)
+select * from Reservas where (habitacion = @habitacion and hotel = @hotel)
 go
--- Prueba Reservas_por_Habitacion 4
+-- Prueba Reservas_por_Habitacion 101, 'Hotel 1'
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
@@ -665,21 +672,16 @@ create procedure Crear_Cliente
 @nomusu varchar(10), 
 @pass varchar(20), 
 @nombre varchar(50), 
-@tipo int, 
 @tarjeta varchar(16), 
-@calle varchar (30), 
-@numpuerta varchar(6), 
-@ciudad varchar(30)
+@direccion varchar (50)
 as
 begin
 if exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
 
 begin transaction
-insert into Usuarios values (@nomusu, @pass, @nombre, @tipo)
-declare @idCliente int
-select @idCliente = Usuarios.idUsuario from Usuarios where Usuarios.nomusu = @nomusu
-insert into Clientes values (@idCliente, @tarjeta, @calle, @numpuerta, @ciudad)
+insert into Usuarios values (@nomusu, @pass, @nombre)
+insert into Clientes values (@nomusu, @tarjeta, @direccion)
 
 if @@ERROR<>0
 	begin
@@ -693,6 +695,5 @@ else
 	end
 end
 go
--- Prueba Crear_Cliente 'usu 8', 'usu 8', 'Usuario 8', 1, '1254856985478569', 'Calle 8', '8888', 'La Paz'
+-- Prueba Crear_Cliente 'usu 8', 'usu 8', 'Usuario 8', '1254856985478569', 'Calle 8 8888'
 -- -----------------------------------------------------------------------------------------------
-*/
