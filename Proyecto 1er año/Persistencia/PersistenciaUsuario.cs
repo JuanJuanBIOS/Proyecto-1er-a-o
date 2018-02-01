@@ -22,6 +22,10 @@ namespace Persistencia
             _Comando.Parameters.AddWithValue("@nomusu", pUsu);
             _Comando.Parameters.AddWithValue("@pass", pPass);
 
+            SqlParameter _Salida = new SqlParameter("@tipo", SqlDbType.Int);
+            _Salida.Direction = ParameterDirection.Output;
+            _Comando.Parameters.Add(_Salida);
+
             EntidadesCompartidas.Usuario unUsu = null;
             
             try
@@ -37,10 +41,14 @@ namespace Persistencia
                     string _pass = (string)_Reader["pass"];
                     string _nombre = (string)_Reader["nombre"];
 
-                    if ((string)_Reader["tarjeta"] != "")
+                    int _Tipo = (int)_Comando.Parameters["@tipo"].Value;
+
+                    if (_Tipo == 1)
                     {
                         string _tarjeta = (string)_Reader["tarjeta"];
                         string _direccion = (string)_Reader["direccion"];
+
+                        _Reader.Close();
 
                         SqlCommand _ComandoTel = new SqlCommand("Buscar_Telefonos", _Conexion);
                         _ComandoTel.CommandType = CommandType.StoredProcedure;
@@ -49,22 +57,23 @@ namespace Persistencia
 
                         ArrayList _telefonos = new ArrayList();
 
-                        while (_ReaderTel.HasRows)
-                        {
-                            _ReaderTel.Read();
+                        while (_ReaderTel.Read())
+                        { 
                             _telefonos.Add(_ReaderTel["telefono"]);
                         }
 
                         unUsu = new EntidadesCompartidas.Cliente(_nomusu, _pass, _nombre, _tarjeta, _direccion, _telefonos);
+
+                        _ReaderTel.Close();
                     }
-                    else
+                    else if (_Tipo == 2)
                     {
                         EntidadesCompartidas.Enums.Cargo _cargo = (EntidadesCompartidas.Enums.Cargo)_Reader["cargo"];
                         unUsu = new EntidadesCompartidas.Administrador(_nomusu, _pass, _nombre, _cargo);
+
+                        _Reader.Close();
                     }
                 }
-
-                _Reader.Close();
             }
             catch (Exception ex)
             {

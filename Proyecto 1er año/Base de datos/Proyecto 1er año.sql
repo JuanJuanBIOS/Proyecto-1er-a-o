@@ -1,11 +1,9 @@
 use master
 go
 
-alter database Hoteles set single_user with rollback immediate
-go
-
 if exists(select * from sysdatabases where name = 'Hoteles')
 begin
+	alter database Hoteles set single_user with rollback immediate
 	drop database Hoteles
 end
 go
@@ -205,22 +203,26 @@ go
 -- SE CREA PROCEDIMIENTO PARA LOGIN
 create procedure Login_Usuario
 @nomusu varchar(10),
-@pass varchar(20)
+@pass varchar(20),
+@tipo int output
 as
 begin
 if exists(select * from Clientes where nomusu = @nomusu)
 begin
+	set @tipo = 1
 	select * from Usuarios inner join Clientes on Usuarios.nomusu = Clientes.nomusu 
 	where (Usuarios.nomusu = @nomusu and pass = @pass)
 end
 
 if exists(select * from Administradores where nomusu = @nomusu)
 begin
+	set @tipo = 2
 	select * from Usuarios inner join Administradores on Usuarios.nomusu = Administradores.nomusu 
-	where (Usuarios.nomusu = @nomusu and pass = @pass) 
+	where (Usuarios.nomusu = @nomusu and pass = @pass)
 end
 end
 go
+-- Prueba Login_Usuario 'usu1', 'usu1', 0
 
 -- ***********************************************************************************************
 -- HOTELES

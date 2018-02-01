@@ -31,15 +31,15 @@ namespace Proyecto_1er_año
                     Session["Usuario"] = unUsu;
                     if (unUsu is EntidadesCompartidas.Administrador)
                     {
-                        Response.Redirect("BienvenidaAdministrador.aspx");
+                        Response.Redirect("BienvenidaAdministrador.aspx", false);
                     }
                     else if (unUsu is EntidadesCompartidas.Cliente)
                     {
-                        Response.Redirect("RealizarReserva.aspx");
+                        Response.Redirect("RealizarReserva.aspx", false);
                     }
                     else
                     {
-                        Response.Redirect("Login.aspx");
+                        Response.Redirect("Login.aspx", false);
                     }
                 }
                 else
