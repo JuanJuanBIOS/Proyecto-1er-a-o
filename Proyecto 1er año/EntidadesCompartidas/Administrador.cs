@@ -8,10 +8,10 @@ namespace EntidadesCompartidas
     public class Administrador : Usuario
     {
         //Atributos
-        private int _cargo;
+        private Enums.Cargo _cargo;
 
         //Propiedades
-        public int Cargo
+        public Enums.Cargo Cargo
         {
             get
             {
@@ -31,8 +31,8 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Administrador(int pidUsuario, string pNomusu, string pPass, string pNombre, int pTipo, int pCargo)
-            :base(pidUsuario, pNomusu, pPass, pNombre, pTipo)
+        public Administrador(string pNomusu, string pPass, string pNombre, Enums.Cargo pCargo)
+            :base(pNomusu, pPass, pNombre)
         {
             Cargo = pCargo;
         }

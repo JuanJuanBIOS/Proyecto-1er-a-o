@@ -8,32 +8,11 @@ namespace EntidadesCompartidas
     public class Usuario
     {
         //Atributos
-        private int _idusuario;
         private string _nomusu;
         private string _pass;
         private string _nombre;
-        private int _tipo;
 
         //Propiedades
-        public int idUsuario
-        {
-            get
-            {
-                return _idusuario;
-            }
-            set
-            {
-                if (value >= 0)
-                {
-                    _idusuario = value;
-                }
-                else
-                {
-                    throw new Exception("El idUsuario ingresado no es válido");
-                }
-            }
-        }
-
         public string Nomusu
         {
             get
@@ -90,35 +69,14 @@ namespace EntidadesCompartidas
                 }
             }
         }
-
-        public int Tipo
-        {
-            get
-            {
-                return _tipo;
-            }
-            set
-            {
-                if (value >= 0)
-                {
-                    _tipo = value;
-                }
-                else
-                {
-                    throw new Exception("El tipo  de usuario ingresado no es válido");
-                }
-            }
-        }
-        
+                
 
        //Constructor
-        public Usuario(int pidUsuario, string pNomusu, string pPass, string pNombre, int pTipo)
+        public Usuario(string pNomusu, string pPass, string pNombre)
         {
-            idUsuario = pidUsuario;
             Nomusu = pNomusu;
             Pass = pPass;
             Nombre = pNombre;
-            Tipo = pTipo;
         }
     }
 }

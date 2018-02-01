@@ -11,9 +11,10 @@ namespace EntidadesCompartidas
         private int _idreserva;
         private Cliente _cliente;
         private Habitacion _habitacion;
+        private Hotel _hotel;
         private DateTime _fechaini;
         private DateTime _fechafin;
-        private int _estado;
+        private Enums.Estado _estado;
 
         //Propiedades
         public int idReserva
@@ -44,6 +45,18 @@ namespace EntidadesCompartidas
             set
             {
                 _cliente = value;
+            }
+        }
+
+        public Hotel Hotel
+        {
+            get
+            {
+                return _hotel;
+            }
+            set
+            {
+                _hotel = value;
             }
         }
 
@@ -83,7 +96,7 @@ namespace EntidadesCompartidas
             }
         }
 
-        public int Estado
+        public Enums.Estado Estado
         {
             get
             {
@@ -104,10 +117,11 @@ namespace EntidadesCompartidas
 
 
        //Constructor
-        public Reserva(int pidReserva, Cliente pCliente, Habitacion pHabitacion, DateTime pFechaini, DateTime pFechafin, int pEstado)
+        public Reserva(int pidReserva, Cliente pCliente, Hotel pHotel, Habitacion pHabitacion, DateTime pFechaini, DateTime pFechafin, Enums.Estado pEstado)
         {
             idReserva = pidReserva;
             Cliente = pCliente;
+            Hotel = pHotel;
             Habitacion = pHabitacion;
             Fechaini = pFechaini;
             Fechafin = pFechafin;

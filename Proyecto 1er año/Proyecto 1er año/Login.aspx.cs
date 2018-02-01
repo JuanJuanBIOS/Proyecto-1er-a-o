@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 
+
 namespace Proyecto_1er_año
 {
     public partial class Login : System.Web.UI.Page
@@ -28,11 +29,11 @@ namespace Proyecto_1er_año
                 if (unUsu != null)
                 {
                     Session["Usuario"] = unUsu;
-                    if (unUsu.Tipo == (int)EntidadesCompartidas.Enums.Tipo_Usuario.Administrador)
+                    if (unUsu is EntidadesCompartidas.Administrador)
                     {
                         Response.Redirect("BienvenidaAdministrador.aspx");
                     }
-                    else if (unUsu.Tipo == (int)EntidadesCompartidas.Enums.Tipo_Usuario.Cliente)
+                    else if (unUsu is EntidadesCompartidas.Cliente)
                     {
                         Response.Redirect("RealizarReserva.aspx");
                     }

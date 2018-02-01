@@ -25,16 +25,16 @@ go
 
 -- Se crea la tabla de Hoteles
 create table Hoteles(
-nombre varchar(50)not null primary key,
-calle varchar(30),
-numpuerta varchar(6),
-ciudad varchar(30),
-telefono varchar(15),
-fax varchar(15),
-playa bit,
-piscina bit,
-estrellas char
--- FALTA LA FOTO
+nombre varchar(50) not null primary key,
+calle varchar(30) not null,
+numpuerta varchar(6) not null,
+ciudad varchar(30) not null,
+telefono varchar(15) not null,
+fax varchar(15) not null,
+playa bit not null,
+piscina bit not null,
+estrellas char not null,
+foto varchar(100) not null
 )
 go
 
@@ -61,7 +61,7 @@ go
 -- Se crea la tabla de Clientes
 create table Clientes(
 nomusu varchar(10) not null primary key,
-tarjeta varchar(16) not null,
+tarjeta varchar(16) not null unique,
 direccion varchar(50) not null,
 constraint FK_Clientes foreign key (nomusu) references Usuarios(nomusu)
 )
@@ -101,15 +101,15 @@ go
 
 -- Se agregan datos a la tabla Hoteles
 INSERT INTO Hoteles VALUES
-('Hotel 1','Calle 1','1111','Montevideo','59811111111','59811111110',0,1,'3'),
-('Hotel 2','Calle 2','2222','Buenos Aires','5422222222','5422222220',0,0,'4'),
-('Hotel 3','Calle 3','3333','Rio de Janeiro','5533333333','5533333330',1,0,'4'),
-('Hotel 4','Calle 4','4444','Madrid','3444444444','3444444440',0,0,'5'),
-('Hotel 5','Calle 5','5555','Barcelona','3455555555','3455555550',1,1,'4'),
-('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,1,'5'),
-('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,1,'3'),
-('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,0,'2'),
-('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,1,'1')
+('Hotel 1','Calle 1','1111','Montevideo','59811111111','59811111110',0,1,'3',''),
+('Hotel 2','Calle 2','2222','Buenos Aires','5422222222','5422222220',0,0,'4',''),
+('Hotel 3','Calle 3','3333','Rio de Janeiro','5533333333','5533333330',1,0,'4',''),
+('Hotel 4','Calle 4','4444','Madrid','3444444444','3444444440',0,0,'5',''),
+('Hotel 5','Calle 5','5555','Barcelona','3455555555','3455555550',1,1,'4',''),
+('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,1,'5',''),
+('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,1,'3',''),
+('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,0,'2',''),
+('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,1,'1','')
 go
 
 -- Se agregan datos a la tabla Habitaciones
@@ -200,7 +200,7 @@ go
 -- ***********************************************************************************************
 -- USUARIOS
 -- ***********************************************************************************************
-/*
+
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LOGIN
 create procedure Login_Usuario
@@ -208,14 +208,20 @@ create procedure Login_Usuario
 @pass varchar(20)
 as
 begin
-select * from ((select * from Usuarios left join Clientes on Usuarios.idUsuario = Clientes.idCliente)
-	as TablaAux left join Administradores on TablaAux.idUsuario = Administradores.idAdministrador)
-	where (TablaAux.nomusu = @nomusu and TablaAux.pass = @pass)
+if exists(select * from Clientes where nomusu = @nomusu)
+begin
+	select * from Usuarios inner join Clientes on Usuarios.nomusu = Clientes.nomusu 
+	where (Usuarios.nomusu = @nomusu and pass = @pass)
+end
+
+if exists(select * from Administradores where nomusu = @nomusu)
+begin
+	select * from Usuarios inner join Administradores on Usuarios.nomusu = Administradores.nomusu 
+	where (Usuarios.nomusu = @nomusu and pass = @pass) 
+end
 end
 go
--- Prueba Login_Usuario 'usu1', 'usu1' 
--- Prueba Login_Usuario 'usu2', 'usu2'
-*/
+
 -- ***********************************************************************************************
 -- HOTELES
 -- ***********************************************************************************************
@@ -246,13 +252,14 @@ create procedure Crear_Hotel
 @fax varchar(15), 
 @playa bit,
 @piscina bit, 
-@estrellas char
+@estrellas char,
+@foto varchar(100)
 as
 begin
 if exists (select * from Hoteles where nombre = @nombre)
 	return -1
 
-insert into Hoteles values (@nombre, @calle, @numpuerta, @ciudad, @telefono, @fax, @playa, @piscina, @estrellas)
+insert into Hoteles values (@nombre, @calle, @numpuerta, @ciudad, @telefono, @fax, @playa, @piscina, @estrellas, @foto)
 
 if @@ERROR<>0
 		return -2
@@ -274,7 +281,8 @@ create procedure Modificar_Hotel
 @fax varchar(15), 
 @playa bit,
 @piscina bit, 
-@estrellas char
+@estrellas char,
+@foto varchar(100)
 as
 begin
 if not exists (select * from Hoteles where nombre = @nombre)
@@ -282,7 +290,7 @@ if not exists (select * from Hoteles where nombre = @nombre)
 
 update Hoteles
 set calle = @calle, numpuerta = @numpuerta, ciudad = @ciudad, telefono = @telefono, 
-	fax = @fax, playa = @playa, piscina = @piscina, estrellas = @estrellas 
+	fax = @fax, playa = @playa, piscina = @piscina, estrellas = @estrellas , foto = @foto
 where nombre = @nombre
 
 if @@ERROR<>0
@@ -433,10 +441,8 @@ create procedure Buscar_Administrador
 @nomusu varchar(10)
 as
 begin
-if exists (select * from Clientes where nomusu = @nomusu)
-	return -1
 if not exists(select * from Administradores where nomusu = @nomusu)
-	return -2
+	return -1
 else
 	select * from Usuarios, Administradores where (Usuarios.nomusu = @nomusu
 		 and Usuarios.nomusu = Administradores.nomusu)
@@ -664,40 +670,9 @@ go
 -- Prueba Reservas_por_Habitacion 101, 'Hotel 1'
 -- -----------------------------------------------------------------------------------------------
 
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS POR USUARIO
-create procedure Reservas_Activas_por_Usuario
-@nomusu varchar(10)
-as
-
-select * from Reservas where (nomusu = @nomusu and estado = 'Activa')
-go
--- Prueba Reservas_Activas_por_Usuario 'usu1'
--- -----------------------------------------------------------------------------------------------
-
-
 -- ***********************************************************************************************
 -- CLIENTES
 -- ***********************************************************************************************
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA BUSCAR CLIENTE
-create procedure Buscar_CLIENTE
-@nomusu varchar(10)
-as
-begin
-if exists (select * from Administradores where nomusu = @nomusu)
-	return -1
-if not exists(select * from Clientes where nomusu = @nomusu)
-	return -2
-else
-	select * from Usuarios, Clientes where (Usuarios.nomusu = @nomusu
-		 and Usuarios.nomusu = Clientes.nomusu)
-end
-go
--- Prueba Buscar_Cliente 'usu1'
--- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CREAR CLIENTE
@@ -729,134 +704,4 @@ else
 end
 go
 -- Prueba Crear_Cliente 'usu 8', 'usu 8', 'Usuario 8', '1254856985478569', 'Calle 8 8888'
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA MODIFICAR CLIENTE
-create procedure Modificar_Cliente
-@nomusu varchar(10), 
-@pass varchar(20), 
-@nombre varchar(50), 
-@tarjeta varchar(16), 
-@direccion varchar (50)
-as
-begin
-if not exists(select * from Usuarios where nomusu = @nomusu)
-	return -1
-else if not exists(select * from Clientes where nomusu = @nomusu)
-	return -2
-else if exists(select * from Administradores where nomusu = @nomusu)
-	return -3
-	
-begin transaction
-update Usuarios
-set pass = @pass, nombre = @nombre
-where (nomusu = @nomusu)
-
-update Clientes
-set tarjeta = @tarjeta, direccion = @direccion
-where (nomusu = @nomusu)
-
-if @@ERROR<>0
-	begin
-		rollback transaction
-		return -4
-	end
-else
-	begin
-		commit transaction
-		return 1
-	end
-end
-go
--- Prueba Modificar_Cliente 'usu5', 'usu5', 'Usuario 56', '65487532145869898', 'Street 4 4444' 
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA ELIMINAR CLIENTE
-create procedure Eliminar_Cliente
-@nomusu varchar(10)
-as
-begin
-if not exists(select * from Usuarios where nomusu = @nomusu)
-	return -1
-else if not exists(select * from Clientes where nomusu = @nomusu)
-	return -2
-else if exists(select * from Administradores where nomusu = @nomusu)
-	return -3
-
-begin transaction
-	delete from Telefonos where (nomusu = @nomusu)
-	delete from Reservas where (nomusu = @nomusu)
-	delete from Clientes where (nomusu = @nomusu)
-	delete from Usuarios where (nomusu = @nomusu)
-
-if @@ERROR<>0
-	begin
-		rollback transaction
-		return -4
-	end
-else
-	begin
-		commit transaction
-		return 1
-	end
-end
-go
--- Prueba Eliminar_Cliente 'usu5'
--- -----------------------------------------------------------------------------------------------
-
--- ***********************************************************************************************
--- TELEFONOS
--- ***********************************************************************************************
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA CREAR TELEFONO
-create procedure Crear_Telefono
-@nomusu varchar(10), 
-@telefono varchar(15)
-as
-begin
-if exists(select * from Telefonos where (nomusu = @nomusu and telefono = @telefono))
-	return -1
-
-else
-insert into Telefonos values (@nomusu, @telefono)
-end
-
-go
--- Prueba Crear_Telefono 'usu1', '0993185643532'
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA BUSCAR TELEFONO
-create procedure Buscar_Telefonos
-@nomusu varchar(10)
-
-as
-begin
-if not exists(select * from Telefonos where nomusu = @nomusu)
-	return -1
-else
-	select * from Telefonos where nomusu = @nomusu
-end
-
-go
--- Prueba Buscar_Telefonos 'usu1'
--- -----------------------------------------------------------------------------------------------
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA ELIMINAR TELEFONO
-create procedure Eliminar_Telefono
-@nomusu varchar(10), 
-@telefono varchar(15)
-as
-begin
-if not exists(select * from Telefonos where (nomusu = @nomusu and telefono = @telefono))
-	return -1
-
-else
-delete from Telefonos where (nomusu = @nomusu and telefono = @telefono)
-end
-
-go
--- Prueba Eliminar_Telefono 'usu1', '099318562'
 -- -----------------------------------------------------------------------------------------------

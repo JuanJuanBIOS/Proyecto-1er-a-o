@@ -8,7 +8,6 @@ namespace EntidadesCompartidas
     public class Habitacion
     {
         //Atributos
-        private int _idhabitacion;
         private int _numero;
         private Hotel _hotel;
         private string _piso;
@@ -17,25 +16,7 @@ namespace EntidadesCompartidas
         private double _costodiario;
 
         //Propiedades
-        public int idHabitacion
-        {
-            get
-            {
-                return _idhabitacion;
-            }
-            set
-            {
-                if (value >= 0)
-                {
-                    _idhabitacion = value;
-                }
-                else
-                {
-                    throw new Exception("El idHabitación ingresado no es válido");
-                }
-            }
-        }
-
+   
         public int Numero
         {
             get
@@ -144,9 +125,8 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Habitacion(int pidHabitacion, int pNumero, Hotel pHotel, string pPiso, string pDescripcion, string pHuespedes, float pCostodiario)
+        public Habitacion(int pNumero, Hotel pHotel, string pPiso, string pDescripcion, string pHuespedes, float pCostodiario)
         {
-            idHabitacion = pidHabitacion;
             Numero = pNumero;
             Hotel = pHotel;
             Piso = pPiso;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,8 @@ namespace EntidadesCompartidas
     {
         //Atributos
         private string _tarjeta;
-        private string _calle;
-        private string _numpuerta;
-        private string _ciudad;
-        private string _telefono1;
-        private string _telefono2;
+        private string _direccion;
+        private ArrayList _telefonos = new ArrayList();
 
         //Propiedades
         public string Tarjeta
@@ -35,111 +33,57 @@ namespace EntidadesCompartidas
             }
         }
 
-        public string Calle
+        public string Direccion
         {
             get
             {
-                return _calle;
+                return _direccion;
             }
             set
             {
                 if (value.Length > 0)
                 {
-                    _calle = value;
+                    _direccion = value;
                 }
                 else
                 {
-                    throw new Exception("El nombre de la calle ingresado no es válido");
+                    throw new Exception("La dirección ingresada no es válida");
                 }
             }
         }
 
-        public string Numpuerta
+        public ArrayList Telefonos
         {
             get
             {
-                return _numpuerta;
+                return _telefonos;
             }
             set
             {
-                if (Convert.ToInt16(value) >= 0 && value.Length <= 6)
+                foreach (string telefono in Telefonos)
                 {
-                    _numpuerta = value;
+                    if (Convert.ToInt64(telefono) > 0 && telefono.Length > 7 && telefono.Length <= 15)
+                    {
+                        _telefonos.Add(telefono);
+                    }
+                    else
+                    {
+                        throw new Exception("El número de teléfono ingresado no es válido");
+                    }
                 }
-                else
-                {
-                    throw new Exception("El número de puerta ingresado no es válido");
-                }
+
+                _telefonos = value;
             }
         }
 
-        public string Ciudad
-        {
-            get
-            {
-                return _ciudad;
-            }
-            set
-            {
-                if (value.Length > 0)
-                {
-                    _ciudad = value;
-                }
-                else
-                {
-                    throw new Exception("La ciudad ingresada no es válida");
-                }
-            }
-        }
-
-        public string Telefono1
-        {
-            get
-            {
-                return _telefono1;
-            }
-            set
-            {
-                if (Convert.ToInt64(value) > 0 && value.Length > 7 && value.Length <= 15)
-                {
-                    _telefono1 = value;
-                }
-                else
-                {
-                    throw new Exception("El número de teléfono ingresado no es válido");
-                }
-            }
-        }
-
-        public string Telefono2
-        {
-            get
-            {
-                return _telefono2;
-            }
-            set
-            {
-                if (Convert.ToInt64(value) > 0 && value.Length > 7 && value.Length <= 15)
-                {
-                    _telefono2 = value;
-                }
-                else
-                {
-                    throw new Exception("El número de teléfono ingresado no es válido");
-                }
-            }
-        }
 
        //Constructor
-        public Cliente(int pidUsuario, string pNomusu, string pPass, string pNombre, int pTipo, string pTarjeta, string pCalle, string pNumpuerta, string pCiudad, string pTelefono1, string pTelefono2)
-            :base(pidUsuario, pNomusu, pPass, pNombre, pTipo)
+        public Cliente(string pNomusu, string pPass, string pNombre, string pTarjeta, string pDireccion, ArrayList pTelefonos)
+            :base(pNomusu, pPass, pNombre)
         {
             Tarjeta = pTarjeta;
-            Calle = pCalle;
-            Numpuerta = pNumpuerta;
-            Ciudad = pCiudad;
-            Telefono1 = pTelefono1;
-            Telefono2 = pTelefono2;
+            Direccion = pDireccion;
+            Telefonos = pTelefonos;
         }
     }
 }
