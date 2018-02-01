@@ -22,10 +22,6 @@ namespace Persistencia
             _Comando.Parameters.AddWithValue("@nomusu", pUsu);
             _Comando.Parameters.AddWithValue("@pass", pPass);
 
-            SqlParameter _Salida = new SqlParameter("@tipo", SqlDbType.Int);
-            _Salida.Direction = ParameterDirection.Output;
-            _Comando.Parameters.Add(_Salida);
-
             EntidadesCompartidas.Usuario unUsu = null;
             
             try
@@ -37,13 +33,14 @@ namespace Persistencia
                 if (_Reader.HasRows)
                 {
                     _Reader.Read();
+                    
                     string _nomusu = (string)_Reader["nomusu"];
                     string _pass = (string)_Reader["pass"];
                     string _nombre = (string)_Reader["nombre"];
 
-                    int _Tipo = (int)_Comando.Parameters["@tipo"].Value;
+                    int _tipo = (int)_Reader["tipo"];
 
-                    if (_Tipo == 1)
+                    if (_tipo == 1)
                     {
                         string _tarjeta = (string)_Reader["tarjeta"];
                         string _direccion = (string)_Reader["direccion"];
@@ -66,9 +63,9 @@ namespace Persistencia
 
                         _ReaderTel.Close();
                     }
-                    else if (_Tipo == 2)
+                    else if (_tipo == 2)
                     {
-                        EntidadesCompartidas.Enums.Cargo _cargo = (EntidadesCompartidas.Enums.Cargo)_Reader["cargo"];
+                        string _cargo = (string)_Reader["cargo"];
                         unUsu = new EntidadesCompartidas.Administrador(_nomusu, _pass, _nombre, _cargo);
 
                         _Reader.Close();

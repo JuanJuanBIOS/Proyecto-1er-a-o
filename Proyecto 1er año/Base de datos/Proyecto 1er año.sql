@@ -203,26 +203,23 @@ go
 -- SE CREA PROCEDIMIENTO PARA LOGIN
 create procedure Login_Usuario
 @nomusu varchar(10),
-@pass varchar(20),
-@tipo int output
+@pass varchar(20)
 as
 begin
 if exists(select * from Clientes where nomusu = @nomusu)
 begin
-	set @tipo = 1
-	select * from Usuarios inner join Clientes on Usuarios.nomusu = Clientes.nomusu 
+	select *, 1 as tipo from Usuarios inner join Clientes on Usuarios.nomusu = Clientes.nomusu
 	where (Usuarios.nomusu = @nomusu and pass = @pass)
 end
 
 if exists(select * from Administradores where nomusu = @nomusu)
 begin
-	set @tipo = 2
-	select * from Usuarios inner join Administradores on Usuarios.nomusu = Administradores.nomusu 
+	select *, 2 as tipo  from Usuarios inner join Administradores on Usuarios.nomusu = Administradores.nomusu 
 	where (Usuarios.nomusu = @nomusu and pass = @pass)
 end
 end
 go
--- Prueba Login_Usuario 'usu1', 'usu1', 0
+-- Prueba Login_Usuario 'usu2', 'usu2'
 
 -- ***********************************************************************************************
 -- HOTELES
