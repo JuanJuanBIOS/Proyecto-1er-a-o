@@ -290,7 +290,7 @@ if not exists (select * from Hoteles where nombre = @nombre)
 
 update Hoteles
 set calle = @calle, numpuerta = @numpuerta, ciudad = @ciudad, telefono = @telefono, 
-	fax = @fax, playa = @playa, piscina = @piscina, estrellas = @estrellas , foto = @foto
+	fax = @fax, playa = @playa, piscina = @piscina, estrellas = @estrellas, foto=@foto 
 where nombre = @nombre
 
 if @@ERROR<>0
@@ -441,8 +441,10 @@ create procedure Buscar_Administrador
 @nomusu varchar(10)
 as
 begin
-if not exists(select * from Administradores where nomusu = @nomusu)
+if exists (select * from Clientes where nomusu = @nomusu)
 	return -1
+if not exists(select * from Administradores where nomusu = @nomusu)
+	return -2
 else
 	select * from Usuarios, Administradores where (Usuarios.nomusu = @nomusu
 		 and Usuarios.nomusu = Administradores.nomusu)
@@ -670,9 +672,40 @@ go
 -- Prueba Reservas_por_Habitacion 101, 'Hotel 1'
 -- -----------------------------------------------------------------------------------------------
 
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS POR USUARIO
+create procedure Reservas_Activas_por_Usuario
+@nomusu varchar(10)
+as
+
+select * from Reservas where (nomusu = @nomusu and estado = 'Activa')
+go
+-- Prueba Reservas_Activas_por_Usuario 'usu1'
+-- -----------------------------------------------------------------------------------------------
+
+
 -- ***********************************************************************************************
 -- CLIENTES
 -- ***********************************************************************************************
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR CLIENTE
+create procedure Buscar_CLIENTE
+@nomusu varchar(10)
+as
+begin
+if exists (select * from Administradores where nomusu = @nomusu)
+	return -1
+if not exists(select * from Clientes where nomusu = @nomusu)
+	return -2
+else
+	select * from Usuarios, Clientes where (Usuarios.nomusu = @nomusu
+		 and Usuarios.nomusu = Clientes.nomusu)
+end
+go
+-- Prueba Buscar_Cliente 'usu1'
+-- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CREAR CLIENTE
@@ -704,4 +737,134 @@ else
 end
 go
 -- Prueba Crear_Cliente 'usu 8', 'usu 8', 'Usuario 8', '1254856985478569', 'Calle 8 8888'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA MODIFICAR CLIENTE
+create procedure Modificar_Cliente
+@nomusu varchar(10), 
+@pass varchar(20), 
+@nombre varchar(50), 
+@tarjeta varchar(16), 
+@direccion varchar (50)
+as
+begin
+if not exists(select * from Usuarios where nomusu = @nomusu)
+	return -1
+else if not exists(select * from Clientes where nomusu = @nomusu)
+	return -2
+else if exists(select * from Administradores where nomusu = @nomusu)
+	return -3
+	
+begin transaction
+update Usuarios
+set pass = @pass, nombre = @nombre
+where (nomusu = @nomusu)
+
+update Clientes
+set tarjeta = @tarjeta, direccion = @direccion
+where (nomusu = @nomusu)
+
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -4
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Modificar_Cliente 'usu5', 'usu5', 'Usuario 56', '65487532145869898', 'Street 4 4444' 
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA ELIMINAR CLIENTE
+create procedure Eliminar_Cliente
+@nomusu varchar(10)
+as
+begin
+if not exists(select * from Usuarios where nomusu = @nomusu)
+	return -1
+else if not exists(select * from Clientes where nomusu = @nomusu)
+	return -2
+else if exists(select * from Administradores where nomusu = @nomusu)
+	return -3
+
+begin transaction
+	delete from Telefonos where (nomusu = @nomusu)
+	delete from Reservas where (nomusu = @nomusu)
+	delete from Clientes where (nomusu = @nomusu)
+	delete from Usuarios where (nomusu = @nomusu)
+
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -4
+	end
+else
+	begin
+		commit transaction
+		return 1
+	end
+end
+go
+-- Prueba Eliminar_Cliente 'usu5'
+-- -----------------------------------------------------------------------------------------------
+
+-- ***********************************************************************************************
+-- TELEFONOS
+-- ***********************************************************************************************
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CREAR TELEFONO
+create procedure Crear_Telefono
+@nomusu varchar(10), 
+@telefono varchar(15)
+as
+begin
+if exists(select * from Telefonos where (nomusu = @nomusu and telefono = @telefono))
+	return -1
+
+else
+insert into Telefonos values (@nomusu, @telefono)
+end
+
+go
+-- Prueba Crear_Telefono 'usu1', '0993185643532'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR TELEFONO
+create procedure Buscar_Telefonos
+@nomusu varchar(10)
+
+as
+begin
+if not exists(select * from Telefonos where nomusu = @nomusu)
+	return -1
+else
+	select * from Telefonos where nomusu = @nomusu
+end
+
+go
+-- Prueba Buscar_Telefonos 'usu1'
+-- -----------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA ELIMINAR TELEFONO
+create procedure Eliminar_Telefono
+@nomusu varchar(10), 
+@telefono varchar(15)
+as
+begin
+if not exists(select * from Telefonos where (nomusu = @nomusu and telefono = @telefono))
+	return -1
+
+else
+delete from Telefonos where (nomusu = @nomusu and telefono = @telefono)
+end
+
+go
+-- Prueba Eliminar_Telefono 'usu1', '099318562'
 -- -----------------------------------------------------------------------------------------------
