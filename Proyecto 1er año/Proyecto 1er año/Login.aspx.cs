@@ -35,7 +35,7 @@ namespace Proyecto_1er_año
                     }
                     else if (unUsu is EntidadesCompartidas.Cliente)
                     {
-                        Response.Redirect("RealizarReserva.aspx", false);
+                        Response.Redirect("BienvenidaCliente.aspx", false);
                     }
                     else
                     {

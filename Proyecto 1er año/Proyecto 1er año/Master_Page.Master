@@ -1,0 +1,74 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master_Page.master.cs"
+    Inherits="Proyecto_1er_año.Master_Page" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+        .style1
+        {
+            width: 100%;
+        }
+        .style2
+        {
+            width: 229px;
+            height: 101px;
+        }
+        .style3
+        {
+            height: 101px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <table class="style1">
+        <tr>
+            <td colspan="2" align="center" bgcolor="#009900" valign="middle">
+                <h1>TÍTULO</h1>
+                </td>
+        </tr>
+        <tr>
+            <td bgcolor="#00CC00" class="style2">
+                        <h2 align="center">Menú</h2>
+                    <ul>
+                        <li>
+                            <asp:HyperLink ID="ABMHoteles" runat="server" NavigateUrl="~/ABMHoteles.aspx">Mantenimiento de Hoteles</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="ABMHabitaciones" runat="server">Mantenimiento de Habitaciones</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="ABMAdministradores" runat="server">Mantenimiento de Administradores</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="ConfirmarReserva" runat="server">Confirmar uso de Reserva</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="ListadoHabRes" runat="server">Listado de Habitaciones y Reservas</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="RealizarReserva" runat="server">Realizar Reserva</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="ReservasActivas" runat="server">Reservas Activas</asp:HyperLink>
+                        </li>
+                    </ul>
+            </td>
+            <td bgcolor="#99CC00" class="style3">
+                <asp:ContentPlaceHolder ID="PaginaPrincipal" runat="server">
+                </asp:ContentPlaceHolder>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" bgcolor="#009900" height="50" valign="middle" align="center">
+                <h4>Pie de página</h4>
+                </td>
+        </tr>
+    </table>
+    <div>
+    </div>
+    </form>
+</body>
+</html>

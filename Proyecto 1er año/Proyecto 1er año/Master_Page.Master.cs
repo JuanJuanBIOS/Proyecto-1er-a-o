@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Proyecto_1er_año
 {
-    public partial class RealizarReserva : System.Web.UI.Page
+    public partial class Master_Page : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

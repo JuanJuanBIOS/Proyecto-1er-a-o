@@ -11,7 +11,7 @@ namespace Proyecto_1er_año
 {
 
 
-    public partial class WebForm3
+    public partial class WebForm1
     {
     }
 }

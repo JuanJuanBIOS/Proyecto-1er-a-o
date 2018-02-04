@@ -1,16 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BienvenidaAdministrador.aspx.cs" Inherits="Proyecto_1er_año.BienvenidaAdministrador" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true"
+    CodeBehind="BienvenidaAdministrador.aspx.cs" Inherits="Proyecto_1er_año.WebForm2" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
-        BIENVENIDA ADMINISTRADOR</div>
-    </form>
-</body>
-</html>
+<asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
+    Bienvenida Administrador
+</asp:Content>
