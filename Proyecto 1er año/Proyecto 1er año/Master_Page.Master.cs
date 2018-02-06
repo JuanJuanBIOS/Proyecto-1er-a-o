@@ -11,7 +11,30 @@ namespace Proyecto_1er_año
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            EntidadesCompartidas.Usuario usuLogueado = (EntidadesCompartidas.Usuario)Session["Usuario"];
 
+            ABMHoteles.Visible = false;
+            ABMHabitaciones.Visible = false;
+            ABMAdministradores.Visible = false;
+            ConfirmarReserva.Visible = false;
+            ListadoHabRes.Visible = false;
+            RealizarReserva.Visible = false;
+            ReservasActivas.Visible = false;
+
+            if (usuLogueado is EntidadesCompartidas.Cliente)
+            {
+                RealizarReserva.Visible = true;
+                ReservasActivas.Visible = true;
+            }
+
+            if (usuLogueado is EntidadesCompartidas.Administrador)
+            {
+                ABMHoteles.Visible = true;
+                ABMHabitaciones.Visible = true;
+                ABMAdministradores.Visible = true;
+                ConfirmarReserva.Visible = true;
+                ListadoHabRes.Visible = true;
+            }
         }
     }
 }

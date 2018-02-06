@@ -12,12 +12,16 @@
         }
         .style2
         {
-            width: 229px;
+            width: 188px;
             height: 101px;
         }
         .style3
         {
             height: 101px;
+        }
+        .style4
+        {
+            height: 40px;
         }
     </style>
 </head>
@@ -25,36 +29,34 @@
     <form id="form1" runat="server">
     <table class="style1">
         <tr>
-            <td colspan="2" align="center" bgcolor="#009900" valign="middle">
+            <td colspan="2" align="center" bgcolor="#009900" valign="middle" class="style4">
                 <h1>TÍTULO</h1>
                 </td>
         </tr>
         <tr>
             <td bgcolor="#00CC00" class="style2">
                         <h2 align="center">Menú</h2>
-                    <ul>
-                        <li>
+                        <p align="center">
                             <asp:HyperLink ID="ABMHoteles" runat="server" NavigateUrl="~/ABMHoteles.aspx">Mantenimiento de Hoteles</asp:HyperLink>
-                        </li>
-                        <li>
+                        </p>
+                        <p align="center">
                             <asp:HyperLink ID="ABMHabitaciones" runat="server">Mantenimiento de Habitaciones</asp:HyperLink>
-                        </li>
-                        <li>
+                        </p>
+                        <p align="center">
                             <asp:HyperLink ID="ABMAdministradores" runat="server">Mantenimiento de Administradores</asp:HyperLink>
-                        </li>
-                        <li>
+                        </p>
+                        <p align="center">
                             <asp:HyperLink ID="ConfirmarReserva" runat="server">Confirmar uso de Reserva</asp:HyperLink>
-                        </li>
-                        <li>
+                        </p>
+                        <p align="center">
                             <asp:HyperLink ID="ListadoHabRes" runat="server">Listado de Habitaciones y Reservas</asp:HyperLink>
-                        </li>
-                        <li>
+                        </p>
+                        <p align="center">
                             <asp:HyperLink ID="RealizarReserva" runat="server">Realizar Reserva</asp:HyperLink>
-                        </li>
-                        <li>
+                        </p>
+                        <p align="center">
                             <asp:HyperLink ID="ReservasActivas" runat="server">Reservas Activas</asp:HyperLink>
-                        </li>
-                    </ul>
+                        </p>
             </td>
             <td bgcolor="#99CC00" class="style3">
                 <asp:ContentPlaceHolder ID="PaginaPrincipal" runat="server">
