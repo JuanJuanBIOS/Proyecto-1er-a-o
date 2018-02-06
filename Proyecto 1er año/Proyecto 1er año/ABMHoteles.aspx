@@ -2,8 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
     <p>
-<<<<<<< HEAD
-=======
         Mantenimiento de Hoteles</p>
     <p>
         Ingrese nombre de Hotel<asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
@@ -53,6 +51,5 @@
         </tr>
     </table>
     <p>
->>>>>>> b1b082cafcae23d4c9f8858c4e947aabf883f59d
         &nbsp;</p>
 </asp:Content>
