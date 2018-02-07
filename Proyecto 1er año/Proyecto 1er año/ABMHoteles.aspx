@@ -1,53 +1,89 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="ABMHoteles.aspx.cs" Inherits="Proyecto_1er_año.WebForm4" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
+    <h2>
+        Mantenimiento de Hoteles</h2>
     <p>
-        Mantenimiento de Hoteles</p>
+        Ingrese nombre de Hotel:&nbsp; <asp:TextBox ID="TBNombre" 
+            runat="server" MaxLength="50" Width="861px"></asp:TextBox>
+    &nbsp;&nbsp;
+        <asp:Button ID="BtnBuscar" runat="server" onclick="BtnBuscar_Click" 
+            Text="Buscar" />
+    </p>
     <p>
-        Ingrese nombre de Hotel<asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+        <asp:Label ID="LblError" runat="server" ForeColor="Red"></asp:Label>
     </p>
     <table class="style1">
         <tr>
-            <td style="width: 198px">
-                Nombre:</td>
-            <td style="width: 691px">
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td style="width: 198px">
+            <td style="width: 370px">
                 Calle:</td>
-            <td style="width: 691px">
-                &nbsp;</td>
+            <td style="width: 691px" colspan="5">
+                <asp:TextBox ID="TBCalle" runat="server"></asp:TextBox>
+            </td>
         </tr>
         <tr>
-            <td style="width: 198px">
+            <td style="width: 370px">
                 Número de puerta:</td>
-            <td style="width: 691px">
-                &nbsp;</td>
+            <td style="width: 691px" colspan="5">
+                <asp:TextBox ID="TBNumPuerta" runat="server"></asp:TextBox>
+            </td>
         </tr>
         <tr>
-            <td style="width: 198px">
+            <td style="width: 370px">
                 Ciudad:</td>
-            <td style="width: 691px">
-                &nbsp;</td>
+            <td style="width: 691px" colspan="5">
+                <asp:TextBox ID="TBCiudad" runat="server"></asp:TextBox>
+            </td>
         </tr>
         <tr>
-            <td style="width: 198px">
+            <td style="width: 370px">
                 Telefono:</td>
-            <td style="width: 691px">
-                &nbsp;</td>
+            <td style="width: 691px" colspan="5">
+                <asp:TextBox ID="TBTelefono" runat="server"></asp:TextBox>
+            </td>
         </tr>
         <tr>
-            <td style="width: 198px">
-                Fax:</td>
-            <td style="width: 691px">
-                &nbsp;</td>
+            <td style="width: 370px">
+                Playa:</td>
+            <td style="width: 691px" colspan="5">
+                <asp:CheckBox ID="CBPlaya" runat="server" />
+            </td>
         </tr>
         <tr>
-            <td style="width: 198px">
-                &nbsp;</td>
-            <td style="width: 691px">
-                &nbsp;</td>
+            <td style="width: 370px">
+                Piscina:</td>
+            <td style="width: 691px" colspan="5">
+                <asp:CheckBox ID="CBPiscina" runat="server" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 370px">
+                Foto:</td>
+            <td style="width: 691px" colspan="5">
+                <asp:Image ID="ImagenHotel" runat="server" AlternateText="Imagen no disponible" 
+                    Height="198px" Width="288px" />
+                <br />
+                <br />
+                <asp:FileUpload ID="FileUpload" runat="server" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 370px; height: 30px;">
+                <asp:Button ID="BtnCrear" runat="server" Text="Crear" Width="47px" />
+            </td>
+            <td style="width: 427px; height: 30px; margin-left: 120px;">
+                <asp:Button ID="BtnModificar" runat="server" Text="Modificar" />
+            </td>
+            <td style="width: 691px; height: 30px;">
+                <asp:Button ID="BtnConfirmar" runat="server" Text="Confirmar Modificacion" />
+            </td>
+            <td style="width: 1035px; height: 30px; margin-left: 120px;">
+                <asp:Button ID="BtnEliminar" runat="server" Text="Eliminar" />
+            </td>
+            <td style="width: 1018px; height: 30px;">
+                </td>
+            <td style="width: 691px; height: 30px;">
+                </td>
         </tr>
     </table>
     <p>
