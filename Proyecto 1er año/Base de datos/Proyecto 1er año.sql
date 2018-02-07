@@ -340,8 +340,10 @@ create procedure Buscar_Habitacion
 @hotel varchar(50)
 as
 begin
-if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+if not exists(select * from Hoteles where nombre = @hotel)
 	return -1
+else if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
+	return -2
 else
 	select * from Habitaciones where (numero = @numero and hotel  = @hotel)
 end
