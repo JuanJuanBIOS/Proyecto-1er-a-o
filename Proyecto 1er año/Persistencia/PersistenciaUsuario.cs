@@ -27,7 +27,6 @@ namespace Persistencia
             try
             {
                 _Conexion.Open();
-
                 SqlDataReader _Reader = _Comando.ExecuteReader();
 
                 if (_Reader.HasRows)
