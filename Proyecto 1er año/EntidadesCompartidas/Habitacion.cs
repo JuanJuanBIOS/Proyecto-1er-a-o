@@ -125,7 +125,7 @@ namespace EntidadesCompartidas
         }
 
        //Constructor
-        public Habitacion(int pNumero, Hotel pHotel, string pPiso, string pDescripcion, string pHuespedes, double pCostodiario)
+        public Habitacion(int pNumero, Hotel pHotel, string pPiso, string pDescripcion, string pHuespedes, float pCostodiario)
         {
             Numero = pNumero;
             Hotel = pHotel;
