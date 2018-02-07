@@ -8,8 +8,7 @@
     <style type="text/css">
         .style1
         {
-            width: 111%;
-            margin-right: 0px;
+            width: 100%;
         }
         .style2
         {
@@ -19,7 +18,6 @@
         .style3
         {
             height: 101px;
-            width: 990px;
         }
         .style4
         {
@@ -42,8 +40,7 @@
                             <asp:HyperLink ID="ABMHoteles" runat="server" NavigateUrl="~/ABMHoteles.aspx">Mantenimiento de Hoteles</asp:HyperLink>
                         </p>
                         <p align="center">
-                            <asp:HyperLink ID="ABMHabitaciones" runat="server" 
-                                NavigateUrl="~/AMBHabitaciones.aspx">Mantenimiento de Habitaciones</asp:HyperLink>
+                            <asp:HyperLink ID="ABMHabitaciones" runat="server">Mantenimiento de Habitaciones</asp:HyperLink>
                         </p>
                         <p align="center">
                             <asp:HyperLink ID="ABMAdministradores" runat="server">Mantenimiento de Administradores</asp:HyperLink>
@@ -61,7 +58,7 @@
                             <asp:HyperLink ID="ReservasActivas" runat="server">Reservas Activas</asp:HyperLink>
                         </p>
             </td>
-            <td bgcolor="#99CC00" class="style3" valign="top">
+            <td bgcolor="#99CC00" class="style3">
                 <asp:ContentPlaceHolder ID="PaginaPrincipal" runat="server">
                 </asp:ContentPlaceHolder>
             </td>
