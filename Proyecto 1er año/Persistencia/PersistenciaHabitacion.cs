@@ -12,7 +12,7 @@ namespace Persistencia
 {
     public class PersistenciaHabitacion
     {
-        public static PersistenciaHabitacion Buscar(string pHotel, int pHabitacion)
+        public static Habitacion Buscar(string pHotel, int pHabitacion)
         {
             Hotel Hot = null;
             try
@@ -31,10 +31,11 @@ namespace Persistencia
 
             _Comando.Parameters.AddWithValue("@hotel", Hot.Nombre);
             _Comando.Parameters.AddWithValue("@numero", pHabitacion);
+            _Comando.Parameters.AddWithValue("@Retorno", 0);
 
-            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            /*SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
-            _Comando.Parameters.Add(_Retorno);
+            _Comando.Parameters.Add(_Retorno);*/
 
             Habitacion Hab = null;
 
@@ -43,13 +44,13 @@ namespace Persistencia
                 _Conexion.Open();
                 SqlDataReader _Reader = _Comando.ExecuteReader();
 
-                int _Error = (int)_Reader["@Retorno"];
+                int _Retorno = (int)_Reader["@Retorno"];
 
-                if (_Error == -1)
+                if (_Retorno == -1)
                 {
                     throw new Exception("El hotel ingresado no existe en la base de datos");
                 }
-                else if (_Error == -2)
+                else if (_Retorno == -2)
                 {
                     throw new Exception("La habitación ingresada no existe en la base de datos");
                 }
@@ -75,6 +76,8 @@ namespace Persistencia
             {
                 _Conexion.Close();
             }
+
+            return Hab;
         }
     }
 }

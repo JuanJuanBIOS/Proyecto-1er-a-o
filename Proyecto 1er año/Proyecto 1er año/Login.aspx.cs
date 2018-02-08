@@ -18,6 +18,7 @@ namespace Proyecto_1er_año
         {
             //Si se pasa por esta página se hace un deslogueo
             Session["Usuario"] = null;
+            TBNombre.Focus();
         }
 
         protected void BtnLogin_Click(object sender, EventArgs e)

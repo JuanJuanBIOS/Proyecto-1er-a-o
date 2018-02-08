@@ -336,19 +336,20 @@ go
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR HABITACION
 create procedure Buscar_Habitacion
+@hotel varchar(50),
 @numero int, 
-@hotel varchar(50)
+@Retorno int
 as
 begin
 if not exists(select * from Hoteles where nombre = @hotel)
-	return -1
+	select @Retorno = -1
 else if not exists(select * from Habitaciones where (numero = @numero and hotel  = @hotel))
-	return -2
+	select @Retorno = -2
 else
 	select * from Habitaciones where (numero = @numero and hotel  = @hotel)
 end
 go
--- Prueba Buscar_Habitacion 301, 'Hotel 2'
+-- Prueba Buscar_Habitacion 'Hotel 1', 101, 0
 
 -- -----------------------------------------------------------------------------------------------
 

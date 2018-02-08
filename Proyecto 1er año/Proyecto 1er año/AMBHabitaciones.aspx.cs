@@ -15,6 +15,7 @@ namespace Proyecto_1er_año
         {
             if (!IsPostBack)
                 this.LimpioFormulario();
+            TBNombre.Focus();
         }
 
         private void LimpioFormulario()
