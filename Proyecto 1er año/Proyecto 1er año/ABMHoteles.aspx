@@ -78,7 +78,8 @@
                     Height="198px" Width="288px" />
                 <br />
                 <br />
-                <asp:FileUpload ID="FileUpload" runat="server" />
+                <asp:FileUpload ID="FileUpload" runat="server" 
+                    ondatabinding="FileUpload_DataBinding" />
             </td>
         </tr>
         <tr>

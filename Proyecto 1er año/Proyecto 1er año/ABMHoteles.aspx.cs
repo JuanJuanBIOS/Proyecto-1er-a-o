@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
+using System.IO;
 
 
 namespace Proyecto_1er_año
@@ -50,7 +51,6 @@ namespace Proyecto_1er_año
             TBTelefono.Enabled = false;
             TBFax.Enabled = false;
             TBEstrellas.Enabled = false;
-            ImagenHotel.Visible = false;
             CBPiscina.Enabled = false;
             CBPlaya.Enabled = false;
             FileUpload.Enabled = false;
@@ -131,6 +131,7 @@ namespace Proyecto_1er_año
                     TBEstrellas.Text = Hot.Estrellas;
                     CBPlaya.Checked = Hot.Playa;
                     CBPiscina.Checked = Hot.Piscina;
+                    ImagenHotel.ImageUrl = Hot.Foto;
 
                     ActivoBotonesBM();
 
@@ -157,9 +158,10 @@ namespace Proyecto_1er_año
                 bool _Playa = CBPlaya.Checked;
                 bool _Piscina = CBPiscina.Checked;
                 string _Estrellas = Convert.ToString(TBEstrellas.Text);
+                string _Foto = ImagenHotel.ImageUrl;
 
 
-                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas);
+                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas, _Foto);
 
                 LogicaHotel.Crear(unHotel);
                 LblError.ForeColor = System.Drawing.Color.Blue;
@@ -192,8 +194,38 @@ namespace Proyecto_1er_año
                 bool _Playa = CBPlaya.Checked;
                 bool _Piscina = CBPiscina.Checked;
                 string _Estrellas = Convert.ToString(TBEstrellas.Text);
+                string _Foto = "";
+                
+                if (FileUpload.HasFile)
+                {
+                    try
+                    {
+                        if (FileUpload.PostedFile.ContentType == "image/jpeg")
+                        {
+                            if (FileUpload.PostedFile.ContentLength < 1024000)
+                            {
+                                FileUpload.PostedFile.SaveAs(Server.MapPath("~/Imagenes/") + FileUpload.FileName);
+                                Session["imagen"] = "~/Imagenes/" + FileUpload.FileName;
+                                LblError.Text = "Imagen cargada!";
+                                //muestro imagen
+                                ImagenHotel.ImageUrl = Session["imagen"].ToString();
+                            }
+                            else
+                                LblError.Text = "El archivo debe tener menos de 100kb!";
+                        }
+                        else
+                            LblError.Text = "Solo archivos JPEG son aceptados!";
+                    }
+                    catch (Exception ex)
+                    {
+                        LblError.Text = "El archivo no pudo ser cargado. El siquiente error ocurrio: " + ex.Message;
+                    }
+                }
 
-                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas);
+                _Foto = ImagenHotel.ImageUrl;
+
+
+                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas, _Foto);
 
                 LogicaHotel.Modificar(unHotel);
                 LblError.ForeColor = System.Drawing.Color.Blue;
@@ -223,8 +255,9 @@ namespace Proyecto_1er_año
                 bool _Playa = CBPlaya.Checked;
                 bool _Piscina = CBPiscina.Checked;
                 string _Estrellas = Convert.ToString(TBEstrellas.Text);
+                string _Foto = ImagenHotel.ImageUrl;
 
-                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas);
+                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas, _Foto);
 
                 BtnBuscar_Click(unHotel, e);
                 LogicaHotel.Eliminar(unHotel);
@@ -238,7 +271,24 @@ namespace Proyecto_1er_año
                 LblError.ForeColor = System.Drawing.Color.Red;
                 LblError.Text = ex.Message;
             }
-        } 
+
+        }
+
+        protected void FileUpload_DataBinding(object sender, EventArgs e)
+        {
+            FileUpload.PostedFile.SaveAs(Server.MapPath("~/Imagenes/") + FileUpload.FileName);
+            Session["imagen"] = "~/Imagenes/" + FileUpload.FileName;
+            LblError.Text = "Imagen cargada!";
+            //muestro imagen
+            ImagenHotel.ImageUrl = Session["imagen"].ToString();
+        }
+
+
+
+
+
+
+
 
     }
 }

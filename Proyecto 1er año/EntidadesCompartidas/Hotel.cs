@@ -17,6 +17,7 @@ namespace EntidadesCompartidas
         private bool _playa;
         private bool _piscina;
         private string _estrellas;
+        private string _foto;
 
         //Propiedades
         public string Nombre
@@ -176,10 +177,31 @@ namespace EntidadesCompartidas
             }
         }
 
+        public string Foto
+        {
+            get
+            {
+                return _foto;
+            }
+            set
+            {
+                if (value.Length >= 0)
+                {
+                    _foto = value;
+                }
+
+                else
+                {
+                    throw new Exception("La ruta de la imagen no es correcta");
+                }
+            }
+        }
+
+
         
 
        //Constructor
-        public Hotel(string pNombre, string pCalle, string pNumpuerta, string pCiudad, string pTelefono, string pFax, bool pPlaya, bool pPiscina, string pEstrellas)
+        public Hotel(string pNombre, string pCalle, string pNumpuerta, string pCiudad, string pTelefono, string pFax, bool pPlaya, bool pPiscina, string pEstrellas, string pFoto)
         {
             Nombre = pNombre;
             Calle = pCalle;
@@ -190,6 +212,7 @@ namespace EntidadesCompartidas
             Playa = pPlaya;
             Piscina = pPiscina;
             Estrellas = pEstrellas;
+            Foto = pFoto;
         }
     }
 }

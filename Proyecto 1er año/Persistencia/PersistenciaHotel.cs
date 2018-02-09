@@ -43,8 +43,9 @@ namespace Persistencia
                     bool _playa = (bool)_Reader["playa"];
                     bool _piscina = (bool)_Reader["piscina"];
                     string _estrellas = (string)_Reader["estrellas"];
+                    string _foto = (string)_Reader["foto"];
 
-                    unHot = new Hotel(_nombre, _calle, _numpuerta, _ciudad, _telefono, _fax, _playa, _piscina, _estrellas);
+                    unHot = new Hotel(_nombre, _calle, _numpuerta, _ciudad, _telefono, _fax, _playa, _piscina, _estrellas, _foto);
 
                     _Reader.Close();
                 }
@@ -77,7 +78,7 @@ namespace Persistencia
             _Comando.Parameters.AddWithValue("@playa", unH.Playa);
             _Comando.Parameters.AddWithValue("@piscina", unH.Piscina);
             _Comando.Parameters.AddWithValue("@estrellas", unH.Estrellas);
-            _Comando.Parameters.AddWithValue("@foto", "aaaaaaaaaaaa");
+            _Comando.Parameters.AddWithValue("@foto", unH.Foto);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
@@ -125,7 +126,7 @@ namespace Persistencia
             _Comando.Parameters.AddWithValue("@playa", unH.Playa);
             _Comando.Parameters.AddWithValue("@piscina", unH.Piscina);
             _Comando.Parameters.AddWithValue("@estrellas", unH.Estrellas);
-            _Comando.Parameters.AddWithValue("@foto", "aaaaaaaaaaaa");
+            _Comando.Parameters.AddWithValue("@foto", unH.Foto);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
