@@ -15,31 +15,45 @@
     </p>
     <table class="style1">
         <tr>
-            <td style="width: 370px">
+            <td style="width: 370px; height: 26px;">
                 Calle:</td>
-            <td style="width: 691px" colspan="5">
-                <asp:TextBox ID="TBCalle" runat="server"></asp:TextBox>
+            <td style="width: 691px; height: 26px;" colspan="5">
+                <asp:TextBox ID="TBCalle" runat="server" MaxLength="30"></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td style="width: 370px">
                 Número de puerta:</td>
             <td style="width: 691px" colspan="5">
-                <asp:TextBox ID="TBNumPuerta" runat="server"></asp:TextBox>
+                <asp:TextBox ID="TBNumPuerta" runat="server" MaxLength="6"></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td style="width: 370px">
                 Ciudad:</td>
             <td style="width: 691px" colspan="5">
-                <asp:TextBox ID="TBCiudad" runat="server"></asp:TextBox>
+                <asp:TextBox ID="TBCiudad" runat="server" MaxLength="30"></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td style="width: 370px">
                 Telefono:</td>
             <td style="width: 691px" colspan="5">
-                <asp:TextBox ID="TBTelefono" runat="server"></asp:TextBox>
+                <asp:TextBox ID="TBTelefono" runat="server" MaxLength="15"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 370px">
+                Fax:</td>
+            <td style="width: 691px" colspan="5">
+                <asp:TextBox ID="TBFax" runat="server" MaxLength="15"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 370px">
+                Estrellas:</td>
+            <td style="width: 691px" colspan="5">
+                <asp:TextBox ID="TBEstrellas" runat="server" MaxLength="1"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -69,16 +83,20 @@
         </tr>
         <tr>
             <td style="width: 370px; height: 30px;">
-                <asp:Button ID="BtnCrear" runat="server" Text="Crear" Width="47px" />
+                <asp:Button ID="BtnCrear" runat="server" Text="Crear" Width="47px" 
+                    onclick="BtnCrear_Click" />
             </td>
             <td style="width: 427px; height: 30px; margin-left: 120px;">
-                <asp:Button ID="BtnModificar" runat="server" Text="Modificar" />
+                <asp:Button ID="BtnModificar" runat="server" Text="Modificar" 
+                    onclick="BtnModificar_Click" />
             </td>
             <td style="width: 691px; height: 30px;">
-                <asp:Button ID="BtnConfirmar" runat="server" Text="Confirmar Modificacion" />
+                <asp:Button ID="BtnConfirmar" runat="server" Text="Confirmar Modificacion" 
+                    onclick="BtnConfirmar_Click" />
             </td>
             <td style="width: 1035px; height: 30px; margin-left: 120px;">
-                <asp:Button ID="BtnEliminar" runat="server" Text="Eliminar" />
+                <asp:Button ID="BtnEliminar" runat="server" Text="Eliminar" 
+                    onclick="BtnEliminar_Click" />
             </td>
             <td style="width: 1018px; height: 30px;">
                 </td>

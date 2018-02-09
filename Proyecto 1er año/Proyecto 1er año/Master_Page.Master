@@ -8,7 +8,7 @@
     <style type="text/css">
         .style1
         {
-            width: 111%;
+            width: 100%;
             margin-right: 0px;
         }
         .style2
@@ -19,17 +19,29 @@
         .style3
         {
             height: 101px;
-            width: 990px;
+            width: 1170px;
         }
         .style4
         {
             height: 40px;
+        }
+        .style5
+        {
+            height: 6px;
         }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
     <table class="style1">
+        <tr>
+            <td colspan="2" align="right" bgcolor="#009900" valign="middle" class="style5">
+                <asp:Label ID="LblUser" runat="server"></asp:Label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:HyperLink ID="Salir" runat="server" NavigateUrl="~/Login.aspx">Salir</asp:HyperLink>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+        </tr>
         <tr>
             <td colspan="2" align="center" bgcolor="#009900" valign="middle" class="style4">
                 <h1>TÍTULO</h1>

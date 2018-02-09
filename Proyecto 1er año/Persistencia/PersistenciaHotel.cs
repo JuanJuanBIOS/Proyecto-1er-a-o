@@ -59,8 +59,142 @@ namespace Persistencia
             }
 
             return unHot;
-
         }
 
+        public static void Crear(Hotel unH)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
+            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlCommand _Comando = new SqlCommand("Crear_Hotel", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@nombre", unH.Nombre);
+            _Comando.Parameters.AddWithValue("@calle", unH.Calle);
+            _Comando.Parameters.AddWithValue("@numpuerta", unH.Numpuerta);
+            _Comando.Parameters.AddWithValue("@ciudad", unH.Ciudad);
+            _Comando.Parameters.AddWithValue("@telefono", unH.Telefono);
+            _Comando.Parameters.AddWithValue("@fax", unH.Fax);
+            _Comando.Parameters.AddWithValue("@playa", unH.Playa);
+            _Comando.Parameters.AddWithValue("@piscina", unH.Piscina);
+            _Comando.Parameters.AddWithValue("@estrellas", unH.Estrellas);
+            _Comando.Parameters.AddWithValue("@foto", "aaaaaaaaaaaa");
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("Ya existe el Hotel con el nombre ingresado");
+                }
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+        }
+
+        public static void Modificar(Hotel unH)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
+            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlCommand _Comando = new SqlCommand("Modificar_Hotel", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@nombre", unH.Nombre);
+            _Comando.Parameters.AddWithValue("@calle", unH.Calle);
+            _Comando.Parameters.AddWithValue("@numpuerta", unH.Numpuerta);
+            _Comando.Parameters.AddWithValue("@ciudad", unH.Ciudad);
+            _Comando.Parameters.AddWithValue("@telefono", unH.Telefono);
+            _Comando.Parameters.AddWithValue("@fax", unH.Fax);
+            _Comando.Parameters.AddWithValue("@playa", unH.Playa);
+            _Comando.Parameters.AddWithValue("@piscina", unH.Piscina);
+            _Comando.Parameters.AddWithValue("@estrellas", unH.Estrellas);
+            _Comando.Parameters.AddWithValue("@foto", "aaaaaaaaaaaa");
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("El Hotel no existe en la base de datos");
+                }
+                
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+        }
+
+        public static void Eliminar(Hotel unH)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
+            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlCommand _Comando = new SqlCommand("Eliminar_Hotel", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@nombre", unH.Nombre);
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("El Hotel no existe en la base de datos");
+                }
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+        }
     }
 }

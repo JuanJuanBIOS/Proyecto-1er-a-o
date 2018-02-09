@@ -17,5 +17,10 @@ namespace Logica
 
             return H;
         }
+
+        public static void Crear(Hotel Hot, Habitacion Hab)
+        {
+            PersistenciaHabitacion.Crear(Hot, Hab);
+        }
     }
 }

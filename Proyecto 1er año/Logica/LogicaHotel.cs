@@ -16,5 +16,19 @@ namespace Logica
             return hot;
         }
 
+        public static void Crear(Hotel Hot)
+        {
+            PersistenciaHotel.Crear(Hot);
+        }
+
+        public static void Modificar(Hotel Hot)
+        {
+            PersistenciaHotel.Modificar(Hot);
+        }
+
+        public static void Eliminar(Hotel Hot)
+        {
+            PersistenciaHotel.Eliminar(Hot);
+        }
     }
 }

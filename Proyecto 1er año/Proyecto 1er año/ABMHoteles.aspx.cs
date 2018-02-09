@@ -16,6 +16,8 @@ namespace Proyecto_1er_año
         {
             if (!IsPostBack)
                 this.LimpioFormulario();
+            TBNombre.Focus();
+            
         }
 
         private void LimpioFormulario()
@@ -31,6 +33,10 @@ namespace Proyecto_1er_año
             TBCiudad.Text = "";
             TBNumPuerta.Text = "";
             TBTelefono.Text = "";
+            TBFax.Text = "";
+            TBEstrellas.Text = "";
+            CBPlaya.Checked = false;
+            CBPiscina.Checked = false;
 
             BloqueoCampos();
 
@@ -42,6 +48,8 @@ namespace Proyecto_1er_año
             TBCiudad.Enabled = false;
             TBNumPuerta.Enabled = false;
             TBTelefono.Enabled = false;
+            TBFax.Enabled = false;
+            TBEstrellas.Enabled = false;
             ImagenHotel.Visible = false;
             CBPiscina.Enabled = false;
             CBPlaya.Enabled = false;
@@ -54,6 +62,8 @@ namespace Proyecto_1er_año
             TBCiudad.Enabled = true;
             TBNumPuerta.Enabled = true;
             TBTelefono.Enabled = true;
+            TBFax.Enabled = true;
+            TBEstrellas.Enabled = true;
             ImagenHotel.Visible = true;
             CBPiscina.Enabled = true;
             CBPlaya.Enabled = true;
@@ -117,6 +127,10 @@ namespace Proyecto_1er_año
                     TBCiudad.Text = Hot.Ciudad;
                     TBNumPuerta.Text = Hot.Numpuerta;
                     TBTelefono.Text = Hot.Telefono;
+                    TBFax.Text = Hot.Fax;
+                    TBEstrellas.Text = Hot.Estrellas;
+                    CBPlaya.Checked = Hot.Playa;
+                    CBPiscina.Checked = Hot.Piscina;
 
                     ActivoBotonesBM();
 
@@ -128,6 +142,102 @@ namespace Proyecto_1er_año
                 LblError.Text = ex.Message;
             }
 
+        }
+
+        protected void BtnCrear_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string _Nombre = Convert.ToString(TBNombre.Text);
+                string _Calle = Convert.ToString(TBCalle.Text);
+                string _Numpuerta = Convert.ToString(TBNumPuerta.Text);
+                string _Ciudad = Convert.ToString(TBCiudad.Text);
+                string _Telefono = Convert.ToString(TBTelefono.Text);
+                string _Fax = Convert.ToString(TBFax.Text);
+                bool _Playa = CBPlaya.Checked;
+                bool _Piscina = CBPiscina.Checked;
+                string _Estrellas = Convert.ToString(TBEstrellas.Text);
+
+
+                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas);
+
+                LogicaHotel.Crear(unHotel);
+                LblError.ForeColor = System.Drawing.Color.Blue;
+                LblError.Text = "El Hotel ha sido ingresado a la base de datos correctamente.";
+                BloqueoCampos();
+            }
+
+            catch (Exception ex)
+            {
+                LblError.ForeColor = System.Drawing.Color.Red;
+                LblError.Text = ex.Message;
+            }
+        }
+
+        protected void BtnModificar_Click(object sender, EventArgs e)
+        {
+            ActivoCamposM();
+        }
+
+        protected void BtnConfirmar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string _Nombre = Convert.ToString(TBNombre.Text);
+                string _Calle = Convert.ToString(TBCalle.Text);
+                string _Numpuerta = Convert.ToString(TBNumPuerta.Text);
+                string _Ciudad = Convert.ToString(TBCiudad.Text);
+                string _Telefono = Convert.ToString(TBTelefono.Text);
+                string _Fax = Convert.ToString(TBFax.Text);
+                bool _Playa = CBPlaya.Checked;
+                bool _Piscina = CBPiscina.Checked;
+                string _Estrellas = Convert.ToString(TBEstrellas.Text);
+
+                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas);
+
+                LogicaHotel.Modificar(unHotel);
+                LblError.ForeColor = System.Drawing.Color.Blue;
+                LblError.Text = "El Hotel ha sido modificado correctamente.";
+                BloqueoCampos();
+                TBNombre.Enabled = true;
+                BtnConfirmar.Enabled = false;
+            }
+
+            catch (Exception ex)
+            {
+                LblError.ForeColor = System.Drawing.Color.Red;
+                LblError.Text = ex.Message;
+            }
+        }
+
+        protected void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string _Nombre = Convert.ToString(TBNombre.Text);
+                string _Calle = Convert.ToString(TBCalle.Text);
+                string _Numpuerta = Convert.ToString(TBNumPuerta.Text);
+                string _Ciudad = Convert.ToString(TBCiudad.Text);
+                string _Telefono = Convert.ToString(TBTelefono.Text);
+                string _Fax = Convert.ToString(TBFax.Text);
+                bool _Playa = CBPlaya.Checked;
+                bool _Piscina = CBPiscina.Checked;
+                string _Estrellas = Convert.ToString(TBEstrellas.Text);
+
+                Hotel unHotel = new Hotel(_Nombre, _Calle, _Numpuerta, _Ciudad, _Telefono, _Fax, _Playa, _Piscina, _Estrellas);
+
+                BtnBuscar_Click(unHotel, e);
+                LogicaHotel.Eliminar(unHotel);
+                LimpioFormulario();
+                LblError.ForeColor = System.Drawing.Color.Blue;
+                LblError.Text = "El Hotel ha sido eliminado correctamente.";
+            }
+
+            catch (Exception ex)
+            {
+                LblError.ForeColor = System.Drawing.Color.Red;
+                LblError.Text = ex.Message;
+            }
         } 
 
     }

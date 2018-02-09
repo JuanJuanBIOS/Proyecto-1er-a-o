@@ -65,7 +65,7 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (Convert.ToInt16(value) >= 0 &&  value.Length <= 6)
+                if (Convert.ToInt32(value) >= 0 &&  value.Length <= 6)
                 {
                     _numpuerta = value;
                 }

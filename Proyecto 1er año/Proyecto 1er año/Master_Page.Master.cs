@@ -13,6 +13,8 @@ namespace Proyecto_1er_año
         {
             EntidadesCompartidas.Usuario usuLogueado = (EntidadesCompartidas.Usuario)Session["Usuario"];
 
+            LblUser.Text = usuLogueado.Nombre;
+
             ABMHoteles.Visible = false;
             ABMHabitaciones.Visible = false;
             ABMAdministradores.Visible = false;

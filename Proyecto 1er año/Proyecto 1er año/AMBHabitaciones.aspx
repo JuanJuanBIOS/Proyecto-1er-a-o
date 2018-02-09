@@ -62,10 +62,11 @@
         </tr>
         <tr>
             <td align="center" style="width: 177px" >
-                <asp:Button ID="BtnCrear" runat="server" Text="Crear" />
+                <asp:Button ID="BtnCrear" runat="server" Text="Crear" 
+                    onclick="BtnCrear_Click" />
             </td>
             <td align="center" >
-                <asp:Button ID="BtnModificar" runat="server" Text="Modificar" />
+                <asp:Button ID="BtnModificar" runat="server" Text="Modificar"/>
             </td>
             <td align="center" >
                 <asp:Button ID="BtnConfirmarModificacion" runat="server" 

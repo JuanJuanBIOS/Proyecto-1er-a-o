@@ -76,6 +76,24 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.TextBox TBTelefono;
         
         /// <summary>
+        /// TBFax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TBFax;
+        
+        /// <summary>
+        /// TBEstrellas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TBEstrellas;
+        
+        /// <summary>
         /// CBPlaya control.
         /// </summary>
         /// <remarks>
