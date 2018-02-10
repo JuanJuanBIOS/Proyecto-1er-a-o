@@ -11,12 +11,14 @@ namespace EntidadesCompartidas
         private int _idreserva;
         private Cliente _cliente;
         private Habitacion _habitacion;
+        //no va el hotel
         private Hotel _hotel;
         private DateTime _fechaini;
         private DateTime _fechafin;
         private Enums.Estado _estado;
 
         //Propiedades
+        //el id no se valida
         public int idReserva
         {
             get
@@ -44,10 +46,12 @@ namespace EntidadesCompartidas
             }
             set
             {
+                //verificar no nulo
                 _cliente = value;
             }
         }
 
+        //el hotel no va
         public Hotel Hotel
         {
             get
@@ -68,6 +72,7 @@ namespace EntidadesCompartidas
             }
             set
             {
+                //validar no nula
                 _habitacion = value;
             }
         }
@@ -80,6 +85,7 @@ namespace EntidadesCompartidas
             }
             set
             {
+                //validar que la fecha no sea menor que hoy
                _fechaini = value;
             }
         }
@@ -106,6 +112,8 @@ namespace EntidadesCompartidas
             {
                 if (value >= 0)
                 {
+                    //controlar que sea uno de los 3 estados "cancelada" ...
+
                     _estado = value;
                 }
                 else

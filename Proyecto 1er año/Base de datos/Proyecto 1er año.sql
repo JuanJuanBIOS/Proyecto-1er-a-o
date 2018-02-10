@@ -66,6 +66,7 @@ constraint FK_Clientes foreign key (nomusu) references Usuarios(nomusu)
 go
 
 -- Se crea la tabla de Telefonos
+--Agregar Clave (nomusu, telefono)
 create table Telefonos(
 nomusu varchar(10) not null foreign key references Clientes(nomusu),
 telefono varchar(15)
@@ -74,6 +75,7 @@ go
 
 
 -- Se crea la tabla de Administradores
+--Agregar FK a cliente 
 create table Administradores(
 nomusu varchar(10) not null primary key,
 cargo varchar(20) not null
@@ -253,6 +255,7 @@ create procedure Crear_Hotel
 @piscina bit, 
 @estrellas char,
 @foto varchar(100)
+--Max 
 as
 begin
 if exists (select * from Hoteles where nombre = @nombre)
@@ -314,6 +317,7 @@ begin transaction
 	delete from Reservas where Reservas.hotel = @nombre
 	delete from Habitaciones where Habitaciones.hotel = @nombre
 	delete from Hoteles where Hoteles.nombre = @nombre
+	--aca se captura solo el ultimo error
 if @@ERROR<>0
 	begin
 		rollback transaction
@@ -495,6 +499,7 @@ create procedure Modificar_Administrador
 @cargo varchar(20)
 as
 begin
+--estan de mas el primero y el ultimo control
 if not exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
 else if not exists(select * from Administradores where nomusu = @nomusu)
@@ -600,6 +605,7 @@ if not exists(select * from Clientes where nomusu = @nomusu)
 	return -1
 if not exists(select * from Habitaciones where (numero = @habitacion and hotel = @hotel))
 	return -2
+	--la verificacion del hotel ya se da con la habitacion
 if not exists(select * from Hoteles where nombre = @hotel)
 	return -3
 if (@fechaini < convert(date,GETDATE()))
@@ -697,6 +703,7 @@ create procedure Buscar_CLIENTE
 @nomusu varchar(10)
 as
 begin
+--Ya esta controlado en el select que no sea administrador
 if exists (select * from Administradores where nomusu = @nomusu)
 	return -1
 if not exists(select * from Clientes where nomusu = @nomusu)
@@ -723,6 +730,7 @@ if exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
 
 begin transaction
+--Separar los errores
 insert into Usuarios values (@nomusu, @pass, @nombre)
 insert into Clientes values (@nomusu, @tarjeta, @direccion)
 
@@ -740,7 +748,7 @@ end
 go
 -- Prueba Crear_Cliente 'usu 8', 'usu 8', 'Usuario 8', '1254856985478569', 'Calle 8 8888'
 -- -----------------------------------------------------------------------------------------------
-
+/*
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA MODIFICAR CLIENTE
 create procedure Modificar_Cliente
@@ -751,6 +759,7 @@ create procedure Modificar_Cliente
 @direccion varchar (50)
 as
 begin
+--igual que arriba
 if not exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
 else if not exists(select * from Clientes where nomusu = @nomusu)
@@ -784,6 +793,7 @@ go
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA ELIMINAR CLIENTE
+
 create procedure Eliminar_Cliente
 @nomusu varchar(10)
 as
@@ -814,6 +824,7 @@ else
 end
 go
 -- Prueba Eliminar_Cliente 'usu5'
+*/
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
@@ -836,7 +847,7 @@ end
 go
 -- Prueba Crear_Telefono 'usu1', '0993185643532'
 -- -----------------------------------------------------------------------------------------------
-
+/*
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR TELEFONO
 create procedure Buscar_Telefonos
@@ -870,3 +881,4 @@ end
 go
 -- Prueba Eliminar_Telefono 'usu1', '099318562'
 -- -----------------------------------------------------------------------------------------------
+*/

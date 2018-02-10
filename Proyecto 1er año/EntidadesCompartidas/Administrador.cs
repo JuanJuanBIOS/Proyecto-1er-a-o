@@ -21,6 +21,7 @@ namespace EntidadesCompartidas
             {
                 if (value.Length > 0)
                 {
+                    //controlar entre 2 o 3 cargos
                     _cargo = value;
                 }
                 else

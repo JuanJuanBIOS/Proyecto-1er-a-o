@@ -44,6 +44,7 @@ namespace EntidadesCompartidas
             }
             set
             {
+                //verificar que la referencia no es nula
                 _hotel = value;
             }
         }
