@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PersistenciaAdministrador.cs" />
+    <Compile Include="PersistenciaCliente.cs" />
     <Compile Include="PersistenciaHabitacion.cs" />
     <Compile Include="PersistenciaHotel.cs" />
     <Compile Include="PersistenciaUsuario.cs" />

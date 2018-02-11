@@ -44,8 +44,14 @@ namespace EntidadesCompartidas
             }
             set
             {
-                //verificar que la referencia no es nula
-                _hotel = value;
+                if (value != null)
+                {
+                    _hotel = value;
+                }
+                else
+                {
+                    throw new Exception("El hotel ingresado no es válido");
+                }
             }
         }
 

@@ -19,9 +19,8 @@ namespace EntidadesCompartidas
             }
             set
             {
-                if (value.Length > 0)
+                if (value == "Gerente" || value == "Jefe" || value == "Administrativo")
                 {
-                    //controlar entre 2 o 3 cargos
                     _cargo = value;
                 }
                 else
