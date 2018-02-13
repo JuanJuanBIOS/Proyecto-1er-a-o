@@ -48,7 +48,6 @@
     <Compile Include="PersistenciaCliente.cs" />
     <Compile Include="PersistenciaHabitacion.cs" />
     <Compile Include="PersistenciaHotel.cs" />
-    <Compile Include="PersistenciaUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

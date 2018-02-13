@@ -113,7 +113,22 @@ namespace Proyecto_1er_año
                 }
                 else
                 {
-                    Habitacion Hab = LogicaHabitacion.Buscar(hotel, habitacion);
+                    Habitacion Hab = LogicaHabitacion.Buscar(Hot, habitacion);
+                    if (Hab == null)
+                    {
+                        LblError.ForeColor = System.Drawing.Color.Red;
+                        LblError.Text = "La Habitación ingresada no existe en la base de datos";
+                        this.ActivoBotonesA();
+                    }
+                    else
+                    {
+                        TBPiso.Text = Hab.Piso;
+                        TBDescripcion.Text = Hab.Descripcion;
+                        TBHuespedes.Text = Hab.Huespedes;
+                        TBCostodiario.Text = Convert.ToString(Hab.Costodiario);
+
+                        ActivoBotonesBM();
+                    }
                 }
             }
             catch (Exception ex)
@@ -136,12 +151,63 @@ namespace Proyecto_1er_año
 
                 Hotel unHotel = LogicaHotel.Buscar(_Nombre);
 
-                Habitacion unaHabitacion = new Habitacion(_Numero, unHotel, _Piso, _Descripcion, _Huespedes, _Costodiario);
+                if (unHotel == null)
+                {
+                    LblError.ForeColor = System.Drawing.Color.Blue;
+                    LblError.Text = "El Hotel ingresado no existe en la base de datos";
+                }
+                else
+                {
+                    Habitacion unaHabitacion = new Habitacion(_Numero, unHotel, _Piso, _Descripcion, _Huespedes, _Costodiario);
 
-                LogicaHabitacion.Crear(unHotel, unaHabitacion);
-                LblError.ForeColor = System.Drawing.Color.Blue;
-                LblError.Text = "La Habitación ha sido ingresado a la base de datos correctamente.";
-                BloqueoCampos();
+                    LogicaHabitacion.Crear(unaHabitacion);
+                    LblError.ForeColor = System.Drawing.Color.Blue;
+                    LblError.Text = "La Habitación ha sido ingresado a la base de datos correctamente.";
+                    BloqueoCampos();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                LblError.ForeColor = System.Drawing.Color.Red;
+                LblError.Text = ex.Message;
+            }
+        }
+
+        protected void BtnModificar_Click(object sender, EventArgs e)
+        {
+            ActivoCamposM();
+        }
+
+        protected void BtnConfirmarModificacion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int _Numero = Convert.ToInt32(TBNumero.Text);
+                string _Piso = Convert.ToString(TBPiso.Text);
+                string _Descripcion = Convert.ToString(TBDescripcion.Text);
+                string _Huespedes = Convert.ToString(TBHuespedes.Text);
+                double _Costodiario = Convert.ToDouble(TBCostodiario.Text);
+
+                Hotel unHotel = LogicaHotel.Buscar(TBNombre.Text);
+
+                if (unHotel == null)
+                {
+                    LblError.ForeColor = System.Drawing.Color.Blue;
+                    LblError.Text = "El Hotel ingresado no existe en la base de datos";
+                }
+                else
+                {
+                    Habitacion unaHabitacion = new Habitacion(_Numero, unHotel, _Piso, _Descripcion, _Huespedes, _Costodiario);
+
+                    LogicaHabitacion.Modificar(unaHabitacion);
+                    LblError.ForeColor = System.Drawing.Color.Blue;
+                    LblError.Text = "La Habitación ha sido modificada correctamente.";
+                    BloqueoCampos();
+                    TBNombre.Enabled = true;
+                    TBNumero.Enabled = true;
+                    BtnConfirmarModificacion.Enabled = false;
+                }
             }
 
             catch (Exception ex)

@@ -66,11 +66,12 @@
                     onclick="BtnCrear_Click" />
             </td>
             <td align="center" >
-                <asp:Button ID="BtnModificar" runat="server" Text="Modificar"/>
+                <asp:Button ID="BtnModificar" runat="server" Text="Modificar" 
+                    onclick="BtnModificar_Click"/>
             </td>
             <td align="center" >
                 <asp:Button ID="BtnConfirmarModificacion" runat="server" 
-                    Text="Confirmar Modificación" />
+                    Text="Confirmar Modificación" onclick="BtnConfirmarModificacion_Click" />
             </td>
             <td align="center" >
                 <asp:Button ID="BtnEliminar" runat="server" Text="Eliminar" />

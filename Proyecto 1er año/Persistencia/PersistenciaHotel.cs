@@ -26,7 +26,6 @@ namespace Persistencia
             try
             {
                 _Conexion.Open();
-
                 SqlDataReader _Reader = _Comando.ExecuteReader();
 
                 if (_Reader.HasRows)
@@ -185,7 +184,15 @@ namespace Persistencia
                 }
                 else if (_Afectados == -2)
                 {
-                    throw new Exception("Error en la base de datos");
+                    throw new Exception("Error al eliminar las reservas asociadas al hotel de la base de datos");
+                }
+                else if (_Afectados == -3)
+                {
+                    throw new Exception("Error al eliminar las habitaciones asociadas al hotel de la base de datos");
+                }
+                else if (_Afectados == -4)
+                {
+                    throw new Exception("Error al eliminar el hotel de la base de datos");
                 }
             }
             catch (Exception ex)

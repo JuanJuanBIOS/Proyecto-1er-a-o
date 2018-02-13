@@ -12,61 +12,39 @@ namespace Persistencia
 {
     public class PersistenciaHabitacion
     {
-        public static Habitacion Buscar(string pHotel, int pHabitacion)
+        public static Habitacion Buscar(Hotel pHotel, int pHabitacion)
         {
-            Hotel Hot = null;
-            try
-            {
-                Hot = PersistenciaHotel.Buscar(pHotel);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
             string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
             SqlConnection _Conexion = new SqlConnection(CS);
             SqlCommand _Comando = new SqlCommand("Buscar_Habitacion", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
-            _Comando.Parameters.AddWithValue("@hotel", Hot.Nombre);
+            _Comando.Parameters.AddWithValue("@hotel", pHotel.Nombre);
             _Comando.Parameters.AddWithValue("@numero", pHabitacion);
-            _Comando.Parameters.AddWithValue("@Retorno", 0);
 
-            /*SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
-            _Retorno.Direction = ParameterDirection.ReturnValue;
-            _Comando.Parameters.Add(_Retorno);*/
-
-            Habitacion Hab = null;
+            Habitacion unHab = null;
 
             try
             {
                 _Conexion.Open();
                 SqlDataReader _Reader = _Comando.ExecuteReader();
 
-                int _Retorno = (int)_Reader["@Retorno"];
-
-                if (_Retorno == -1)
-                {
-                    throw new Exception("El hotel ingresado no existe en la base de datos");
-                }
-                else if (_Retorno == -2)
-                {
-                    throw new Exception("La habitación ingresada no existe en la base de datos");
-                }
-                else
+                if (_Reader.HasRows)
                 {
                     _Reader.Read();
 
-                    string _Hotel = (string)_Reader["hotel"];
-                    int _Habitacion = (int)_Reader["numero"];
-                    string _Piso = (string)_Reader["piso"];
-                    string _Descripcion = (string)_Reader["descripcion"];
-                    string _Huespedes = (string)_Reader["huespedes"];
-                    double _CostoDiario = (double)_Reader["costodiario"];
+                    //Leo propiedades
+                    int _numero = (int)_Reader["numero"];
+                    string _piso = (string)_Reader["piso"];
+                    string _descripcion = (string)_Reader["descripcion"];
+                    string _huespedes = (string)_Reader["huespedes"];
+                    double _costodiario = (double)_Reader["costodiario"];
 
-                    Hab = new Habitacion(_Habitacion, Hot, _Piso, _Descripcion, _Huespedes, _CostoDiario);
+                    unHab = new Habitacion(_numero, pHotel, _piso, _descripcion, _huespedes, _costodiario);
+
+                    _Reader.Close();
                 }
+                
             }
             catch (Exception ex)
             {
@@ -77,29 +55,22 @@ namespace Persistencia
                 _Conexion.Close();
             }
 
-            return Hab;
+            return unHab;
         }
 
-        public static void Crear(Hotel unH, Habitacion unaH)
+        public static void Crear(Habitacion unaH)
         {
-
-
-
             string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
             SqlConnection _Conexion = new SqlConnection(CS);
             SqlCommand _Comando = new SqlCommand("Crear_Habitacion", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
-            _Comando.Parameters.AddWithValue("@nombre", unH.Nombre);
-            _Comando.Parameters.AddWithValue("@calle", unH.Calle);
-            _Comando.Parameters.AddWithValue("@numpuerta", unH.Numpuerta);
-            _Comando.Parameters.AddWithValue("@ciudad", unH.Ciudad);
-            _Comando.Parameters.AddWithValue("@telefono", unH.Telefono);
-            _Comando.Parameters.AddWithValue("@fax", unH.Fax);
-            _Comando.Parameters.AddWithValue("@playa", unH.Playa);
-            _Comando.Parameters.AddWithValue("@piscina", unH.Piscina);
-            _Comando.Parameters.AddWithValue("@estrellas", unH.Estrellas);
-            _Comando.Parameters.AddWithValue("@foto", "aaaaaaaaaaaa");
+            _Comando.Parameters.AddWithValue("@numero", unaH.Numero);
+            _Comando.Parameters.AddWithValue("@hotel", unaH.Hotel.Nombre);
+            _Comando.Parameters.AddWithValue("@piso", unaH.Piso);
+            _Comando.Parameters.AddWithValue("@descripcion", unaH.Descripcion);
+            _Comando.Parameters.AddWithValue("@huespedes", unaH.Huespedes);
+            _Comando.Parameters.AddWithValue("@costodiario", unaH.Costodiario);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
@@ -114,8 +85,53 @@ namespace Persistencia
 
                 if (_Afectados == -1)
                 {
-                    throw new Exception("Ya existe el Hotel con el nombre ingresado");
+                    throw new Exception("Ya existe la Habitación ingresada");
                 }
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+        }
+
+        public static void Modificar(Habitacion unaH)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
+            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlCommand _Comando = new SqlCommand("Modificar_Habitacion", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@numero", unaH.Numero);
+            _Comando.Parameters.AddWithValue("@hotel", unaH.Hotel.Nombre);
+            _Comando.Parameters.AddWithValue("@piso", unaH.Piso);
+            _Comando.Parameters.AddWithValue("@descripcion", unaH.Descripcion);
+            _Comando.Parameters.AddWithValue("@huespedes", unaH.Huespedes);
+            _Comando.Parameters.AddWithValue("@costodiario", unaH.Costodiario);
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("La Habitación no existe en la base de datos");
+                }
+
                 else if (_Afectados == -2)
                 {
                     throw new Exception("Error en la base de datos");

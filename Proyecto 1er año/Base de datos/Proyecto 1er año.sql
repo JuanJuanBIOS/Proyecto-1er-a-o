@@ -198,32 +198,6 @@ go
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
--- USUARIOS
--- ***********************************************************************************************
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA LOGIN
-create procedure Login_Usuario
-@nomusu varchar(10),
-@pass varchar(20)
-as
-begin
-if exists(select * from Clientes where nomusu = @nomusu)
-begin
-	select *, 1 as tipo from Usuarios inner join Clientes on Usuarios.nomusu = Clientes.nomusu
-	where (Usuarios.nomusu = @nomusu and pass = @pass)
-end
-
-if exists(select * from Administradores where nomusu = @nomusu)
-begin
-	select *, 2 as tipo  from Usuarios inner join Administradores on Usuarios.nomusu = Administradores.nomusu 
-	where (Usuarios.nomusu = @nomusu and pass = @pass)
-end
-end
-go
--- Prueba Login_Usuario 'usu2', 'usu2'
-
--- ***********************************************************************************************
 -- HOTELES
 -- ***********************************************************************************************
 
@@ -450,6 +424,20 @@ go
 -- ***********************************************************************************************
 -- ADMINISTRADORES
 -- ***********************************************************************************************
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LOGIN DE ADMINISTRADORES
+create procedure Login_Administrador
+@nomusu varchar(10),
+@pass varchar(20)
+as
+begin
+	select * from Usuarios inner join Administradores on Usuarios.nomusu = Administradores.nomusu 
+	where (Usuarios.nomusu = @nomusu and pass = @pass)
+end
+go
+-- Prueba Login_Administrador 'usu2', 'usu2'
+-- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR ADMINISTRADOR
@@ -683,7 +671,6 @@ go
 -- Prueba Reservas_por_Habitacion 101, 'Hotel 1'
 -- -----------------------------------------------------------------------------------------------
 
-
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS POR USUARIO
 create procedure Reservas_Activas_por_Usuario
@@ -697,6 +684,20 @@ go
 -- ***********************************************************************************************
 -- CLIENTES
 -- ***********************************************************************************************
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LOGIN DE CLIENTES
+create procedure Login_Cliente
+@nomusu varchar(10),
+@pass varchar(20)
+as
+begin
+	select * from Usuarios inner join Clientes on Usuarios.nomusu = Clientes.nomusu 
+	where (Usuarios.nomusu = @nomusu and pass = @pass)
+end
+go
+-- Prueba Login_Cliente 'usu1', 'usu1'
+-- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA BUSCAR CLIENTE
@@ -769,3 +770,20 @@ end
 
 go
 -- Prueba Crear_Telefono 'usu1', '0993185643532'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR TELEFONO
+create procedure Buscar_Telefonos
+@nomusu varchar(10)
+
+as
+begin
+if not exists(select * from Telefonos where nomusu = @nomusu)
+	return -1
+else
+	select * from Telefonos where nomusu = @nomusu
+end
+
+go
+-- Prueba Buscar_Telefonos 'usu1'

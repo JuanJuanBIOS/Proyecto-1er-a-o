@@ -9,18 +9,23 @@ namespace Logica
 {
     public class LogicaHabitacion
     {
-        public static Habitacion Buscar(string Hotel, int Habitacion)
+        public static Habitacion Buscar(Hotel pHotel, int Habitacion)
         {
             Habitacion H = null;
 
-            H = PersistenciaHabitacion.Buscar(Hotel, Habitacion);
+            H = PersistenciaHabitacion.Buscar(pHotel, Habitacion);
 
             return H;
         }
 
-        public static void Crear(Hotel Hot, Habitacion Hab)
+        public static void Crear(Habitacion Hab)
         {
-            PersistenciaHabitacion.Crear(Hot, Hab);
+            PersistenciaHabitacion.Crear(Hab);
+        }
+
+        public static void Modificar(Habitacion Hab)
+        {
+            PersistenciaHabitacion.Modificar(Hab);
         }
     }
 }

@@ -13,8 +13,14 @@ namespace Logica
         {
             Usuario U = null;
 
-            U = 
-            return (Persistencia.PersistenciaUsuario.Login(pUsu, pPass));
+            U = PersistenciaCliente.Login(pUsu, pPass);
+
+            if (U == null)
+            {
+               U = PersistenciaAdministrador.Login(pUsu, pPass);
+            }
+
+            return U;
         }
     }
 }
