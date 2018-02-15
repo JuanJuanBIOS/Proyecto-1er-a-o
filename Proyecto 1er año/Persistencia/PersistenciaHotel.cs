@@ -14,8 +14,7 @@ namespace Persistencia
         //creo metodo para buscar
         public static Hotel Buscar(string nombre)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Buscar_Hotel", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
@@ -63,8 +62,7 @@ namespace Persistencia
 
         public static void Crear(Hotel unH)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Crear_Hotel", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
@@ -111,8 +109,7 @@ namespace Persistencia
 
         public static void Modificar(Hotel unH)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Modificar_Hotel", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
@@ -160,8 +157,7 @@ namespace Persistencia
 
         public static void Eliminar(Hotel unH)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Eliminar_Hotel", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 

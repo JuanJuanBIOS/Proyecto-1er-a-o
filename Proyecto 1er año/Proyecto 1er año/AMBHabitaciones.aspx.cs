@@ -217,6 +217,45 @@ namespace Proyecto_1er_año
             }
         }
 
+        protected void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int _Numero = Convert.ToInt32(TBNumero.Text);
+                string _Piso = Convert.ToString(TBPiso.Text);
+                string _Descripcion = Convert.ToString(TBDescripcion.Text);
+                string _Huespedes = Convert.ToString(TBHuespedes.Text);
+                double _Costodiario = Convert.ToDouble(TBCostodiario.Text);
+
+                Hotel unHotel = LogicaHotel.Buscar(TBNombre.Text);
+
+                if (unHotel == null)
+                {
+                    LblError.ForeColor = System.Drawing.Color.Blue;
+                    LblError.Text = "El Hotel ingresado no existe en la base de datos";
+                }
+                else
+                {
+                    Habitacion unaHabitacion = new Habitacion(_Numero, unHotel, _Piso, _Descripcion, _Huespedes, _Costodiario);
+
+                    LogicaHabitacion.Eliminar(unaHabitacion);
+                    LblError.ForeColor = System.Drawing.Color.Blue;
+                    LblError.Text = "La Habitación ha sido eliminada correctamente.";
+                    BloqueoCampos();
+                    TBNombre.Enabled = true;
+                    TBNumero.Enabled = true;
+                    BtnModificar.Enabled = false;
+                    BtnEliminar.Enabled = false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                LblError.ForeColor = System.Drawing.Color.Red;
+                LblError.Text = ex.Message;
+            }
+        }
+
         
 
     }

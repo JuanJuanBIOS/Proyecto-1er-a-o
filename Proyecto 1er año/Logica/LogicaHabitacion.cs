@@ -27,5 +27,10 @@ namespace Logica
         {
             PersistenciaHabitacion.Modificar(Hab);
         }
+
+        public static void Eliminar(Habitacion Hab)
+        {
+            PersistenciaHabitacion.Eliminar(Hab);
+        }
     }
 }

@@ -74,7 +74,8 @@
                     Text="Confirmar Modificación" onclick="BtnConfirmarModificacion_Click" />
             </td>
             <td align="center" >
-                <asp:Button ID="BtnEliminar" runat="server" Text="Eliminar" />
+                <asp:Button ID="BtnEliminar" runat="server" Text="Eliminar" 
+                    onclick="BtnEliminar_Click" />
             </td>
             <td align="center" style="width: 543px" >
                 &nbsp;</td>

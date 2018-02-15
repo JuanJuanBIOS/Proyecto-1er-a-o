@@ -16,8 +16,7 @@ namespace Persistencia
     {
         public static Cliente Login(string pUsu, string pPass)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Login_Cliente", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 

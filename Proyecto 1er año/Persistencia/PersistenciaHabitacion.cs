@@ -14,8 +14,7 @@ namespace Persistencia
     {
         public static Habitacion Buscar(Hotel pHotel, int pHabitacion)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Buscar_Habitacion", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
@@ -60,8 +59,7 @@ namespace Persistencia
 
         public static void Crear(Habitacion unaH)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Crear_Habitacion", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
@@ -104,8 +102,7 @@ namespace Persistencia
 
         public static void Modificar(Habitacion unaH)
         {
-            string CS = ConfigurationManager.ConnectionStrings["DBHoteles"].ConnectionString;
-            SqlConnection _Conexion = new SqlConnection(CS);
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
             SqlCommand _Comando = new SqlCommand("Modificar_Habitacion", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
@@ -135,6 +132,50 @@ namespace Persistencia
                 else if (_Afectados == -2)
                 {
                     throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+        }
+
+        public static void Eliminar(Habitacion unaH)
+        {
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Eliminar_Habitacion", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@numero", unaH.Numero);
+            _Comando.Parameters.AddWithValue("@hotel", unaH.Hotel.Nombre);
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("La Habitación no existe en la base de datos");
+                }
+
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("Error al eliminar las reservas asociadas a la habitación");
+                }
+                else if (_Afectados == -3)
+                {
+                    throw new Exception("Error al eliminar la habitación");
                 }
             }
             catch (Exception ex)
