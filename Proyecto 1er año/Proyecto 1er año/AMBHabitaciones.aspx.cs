@@ -162,7 +162,7 @@ namespace Proyecto_1er_año
 
                     LogicaHabitacion.Crear(unaHabitacion);
                     LblError.ForeColor = System.Drawing.Color.Blue;
-                    LblError.Text = "La Habitación ha sido ingresado a la base de datos correctamente.";
+                    LblError.Text = "La Habitación ha sido ingresada a la base de datos correctamente.";
                     BloqueoCampos();
                 }
             }
@@ -255,8 +255,5 @@ namespace Proyecto_1er_año
                 LblError.Text = ex.Message;
             }
         }
-
-        
-
     }
 }

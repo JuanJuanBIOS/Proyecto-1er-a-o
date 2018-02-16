@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using EntidadesCompartidas;
 
 namespace Proyecto_1er_año
 {
@@ -11,7 +12,7 @@ namespace Proyecto_1er_año
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            EntidadesCompartidas.Usuario usuLogueado = (EntidadesCompartidas.Usuario)Session["Usuario"];
+            Usuario usuLogueado = (Usuario)Session["Usuario"];
 
             LblUser.Text = usuLogueado.Nombre;
 
@@ -23,13 +24,13 @@ namespace Proyecto_1er_año
             RealizarReserva.Visible = false;
             ReservasActivas.Visible = false;
 
-            if (usuLogueado is EntidadesCompartidas.Cliente)
+            if (usuLogueado is Cliente)
             {
                 RealizarReserva.Visible = true;
                 ReservasActivas.Visible = true;
             }
 
-            if (usuLogueado is EntidadesCompartidas.Administrador)
+            if (usuLogueado is Administrador)
             {
                 ABMHoteles.Visible = true;
                 ABMHabitaciones.Visible = true;

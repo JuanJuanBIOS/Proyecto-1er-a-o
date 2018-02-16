@@ -8,6 +8,8 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
+using EntidadesCompartidas;
+using Logica;
 
 
 namespace Proyecto_1er_año
@@ -26,15 +28,15 @@ namespace Proyecto_1er_año
             try
             {
                 //Verifico el usuario y contraseña
-                EntidadesCompartidas.Usuario unUsu = Logica.LogicaUsuario.Login(TBNombre.Text, TBContrasenia.Text);
+                Usuario unUsu = LogicaUsuario.Login(TBNombre.Text, TBContrasenia.Text);
                 if (unUsu != null)
                 {
                     Session["Usuario"] = unUsu;
-                    if (unUsu is EntidadesCompartidas.Administrador)
+                    if (unUsu is Administrador)
                     {
                         Response.Redirect("BienvenidaAdministrador.aspx", false);
                     }
-                    else if (unUsu is EntidadesCompartidas.Cliente)
+                    else if (unUsu is Cliente)
                     {
                         Response.Redirect("BienvenidaCliente.aspx", false);
                     }

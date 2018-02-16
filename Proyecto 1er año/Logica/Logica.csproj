@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogicaAdministrador.cs" />
     <Compile Include="LogicaHabitacion.cs" />
     <Compile Include="LogicaHotel.cs" />
     <Compile Include="LogicaUsuario.cs" />

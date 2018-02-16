@@ -506,7 +506,12 @@ begin transaction
 update Usuarios
 set pass = @pass, nombre = @nombre
 where (nomusu = @nomusu)
-
+if @@ERROR<>0
+	begin
+		rollback transaction
+		return -2
+	end
+	
 update Administradores
 set cargo = @cargo
 where (nomusu = @nomusu)
@@ -514,7 +519,7 @@ where (nomusu = @nomusu)
 if @@ERROR<>0
 	begin
 		rollback transaction
-		return -2
+		return -3
 	end
 else
 	begin
