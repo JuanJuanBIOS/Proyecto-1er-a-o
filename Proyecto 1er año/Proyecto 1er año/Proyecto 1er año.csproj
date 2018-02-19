@@ -80,6 +80,7 @@
     <Content Include="ABMHoteles.aspx" />
     <Content Include="AMBHabitaciones.aspx" />
     <Content Include="ABMAdministrador.aspx" />
+    <Content Include="ConfirmarReserva.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.aspx.cs">
@@ -176,6 +177,13 @@
     </Compile>
     <Compile Include="ABMAdministrador.aspx.designer.cs">
       <DependentUpon>ABMAdministrador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfirmarReserva.aspx.cs">
+      <DependentUpon>ConfirmarReserva.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfirmarReserva.aspx.designer.cs">
+      <DependentUpon>ConfirmarReserva.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

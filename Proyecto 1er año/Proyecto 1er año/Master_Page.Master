@@ -62,7 +62,8 @@
                                 NavigateUrl="~/ABMAdministrador.aspx">Mantenimiento de Administradores</asp:HyperLink>
                         </p>
                         <p align="center">
-                            <asp:HyperLink ID="ConfirmarReserva" runat="server">Confirmar uso de Reserva</asp:HyperLink>
+                            <asp:HyperLink ID="ConfirmarReserva" runat="server" 
+                                NavigateUrl="~/ConfirmarReserva.aspx">Confirmar uso de Reserva</asp:HyperLink>
                         </p>
                         <p align="center">
                             <asp:HyperLink ID="ListadoHabRes" runat="server">Listado de Habitaciones y Reservas</asp:HyperLink>
