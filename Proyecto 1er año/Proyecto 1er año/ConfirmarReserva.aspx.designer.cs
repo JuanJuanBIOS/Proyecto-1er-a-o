@@ -22,12 +22,12 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.GridView GVReservasActivas;
         
         /// <summary>
-        /// BtnConfirmarReserva control.
+        /// LblError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnConfirmarReserva;
+        protected global::System.Web.UI.WebControls.Label LblError;
     }
 }

@@ -17,12 +17,6 @@
                     GridLines="Vertical" >
                     <AlternatingRowStyle BackColor="#CCCCCC" />
                     <Columns>
-                        <asp:TemplateField HeaderText="Seleccionar">
-                            <ItemTemplate>
-                                <asp:RadioButton ID="RBSeleccionar" runat="server" GroupName="GrupoReservas" />
-                            </ItemTemplate>
-                            <ItemStyle HorizontalAlign="Center" Width="100px" />
-                        </asp:TemplateField>
                         <asp:BoundField DataField="idReserva" HeaderText="ID de Reserva" >
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" Width="125px" />
@@ -47,6 +41,13 @@
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" Width="100px" />
                         </asp:BoundField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LBSeleccionar" Text="Confirmar" runat="server" 
+                                    CommandArgument='<%# Eval("idReserva") %>' onclick="LBSeleccionar_Click" />
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="100px" />
+                        </asp:TemplateField>
                     </Columns>
                     <FooterStyle BackColor="#CCCCCC" />
                     <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
@@ -64,9 +65,9 @@
                 &nbsp;</td>
         </tr>
         <tr>
-            <td>
-                <asp:Button ID="BtnConfirmarReserva" runat="server" 
-                    Text="Confirmar uso de Reserva" />
+            <td valign="middle">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Label ID="LblError" runat="server" ForeColor="Red"></asp:Label>
             </td>
         </tr>
     </table>

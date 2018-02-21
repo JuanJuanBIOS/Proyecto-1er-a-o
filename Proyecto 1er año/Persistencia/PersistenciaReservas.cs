@@ -52,5 +52,91 @@ namespace Persistencia
 
             return Activas;
         }
+
+        public static Reserva BuscarReserva(int unidRes)
+        {
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Buscar_Reserva", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@idReserva", unidRes);
+
+            Reserva unaRes = null;
+
+            try
+            {
+                _Conexion.Open();
+                SqlDataReader _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    _Reader.Read();
+
+                    Cliente C = PersistenciaCliente.Buscar(_Reader["nomusu"].ToString());
+                    Hotel Hot = PersistenciaHotel.Buscar(_Reader["hotel"].ToString());
+                    Habitacion Hab = PersistenciaHabitacion.Buscar(Hot, Convert.ToInt32(_Reader["habitacion"]));
+                    
+                    unaRes = new Reserva(Convert.ToInt32(_Reader["idReserva"]), C, Hab, Convert.ToDateTime(_Reader["fechaini"]), Convert.ToDateTime(_Reader["fechafin"]), _Reader["estado"].ToString());
+
+                    _Reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return unaRes;
+        }
+
+        public static void ConfirmarReserva(Reserva unaR)
+        {
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Confirmar_uso_reserva", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@idReserva", unaR.idReserva);
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("La reserva no se encuentra en la base de datos");
+                }
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("La reserva seleccionada figura como 'cancelada' en la base de datos");
+                }
+                else if (_Afectados == -3)
+                {
+                    throw new Exception("La reserva seleccionada figura como 'finalizada' en la base de datos");
+                }
+                else if (_Afectados == -4)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+        }
     }
 }

@@ -17,5 +17,16 @@ namespace Logica
 
             return ReservasActivas;
         }
+
+        public static Reserva BuscarReserva(int idRes)
+        {
+            Reserva unaRes = PersistenciaReservas.BuscarReserva(idRes);
+            return unaRes;
+        }
+
+        public static void ConfirmarReserva(Reserva Res)
+        {
+            PersistenciaReservas.ConfirmarReserva(Res);
+        }
     }
 }

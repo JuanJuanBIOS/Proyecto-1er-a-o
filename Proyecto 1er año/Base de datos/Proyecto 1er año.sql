@@ -568,6 +568,21 @@ go
 -- ***********************************************************************************************
 
 -- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA BUSCAR RESERVA
+create procedure Buscar_Reserva
+@idReserva int
+as
+begin
+if not exists(select * from Reservas where idReserva = @idReserva)
+	return -1
+else
+	select * from Reservas where (idReserva = @idReserva)
+end
+go
+-- Prueba Buscar_Reserva 10
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA CONFIRMAR USO DE RESERVA
 create procedure Confirmar_uso_reserva
 @idReserva int
