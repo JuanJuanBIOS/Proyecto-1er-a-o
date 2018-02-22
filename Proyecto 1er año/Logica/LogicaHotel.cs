@@ -30,5 +30,11 @@ namespace Logica
         {
             PersistenciaHotel.Eliminar(Hot);
         }
+
+        public static List<string> ListaHoteles()
+        {
+            List<string> listahoteles= PersistenciaHotel.ListaHoteles();
+            return listahoteles;
+        }
     }
 }

@@ -200,5 +200,41 @@ namespace Persistencia
                 _Conexion.Close();
             }
         }
+
+        public static List<string> ListaHoteles()
+        {
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Lista_Hoteles", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            List<string> ListaHot = new List<string>();
+
+            try
+            {
+                _Conexion.Open();
+                SqlDataReader _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    while (_Reader.Read())
+                    {
+                        string H = _Reader["nombre"].ToString();
+                        ListaHot.Add(H);
+                    }
+                }
+
+                _Reader.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return ListaHot;
+        }
     }
 }

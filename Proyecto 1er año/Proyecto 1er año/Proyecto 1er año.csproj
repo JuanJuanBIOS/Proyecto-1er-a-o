@@ -81,6 +81,7 @@
     <Content Include="AMBHabitaciones.aspx" />
     <Content Include="ABMAdministrador.aspx" />
     <Content Include="ConfirmarReserva.aspx" />
+    <Content Include="ListadodeHabyRes.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.aspx.cs">
@@ -184,6 +185,13 @@
     </Compile>
     <Compile Include="ConfirmarReserva.aspx.designer.cs">
       <DependentUpon>ConfirmarReserva.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListadodeHabyRes.aspx.cs">
+      <DependentUpon>ListadodeHabyRes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListadodeHabyRes.aspx.designer.cs">
+      <DependentUpon>ListadodeHabyRes.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
