@@ -12,31 +12,34 @@ namespace Proyecto_1er_año
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Usuario usuLogueado = (Usuario)Session["Usuario"];
-
-            LblUser.Text = usuLogueado.Nombre;
-
-            ABMHoteles.Visible = false;
-            ABMHabitaciones.Visible = false;
-            ABMAdministradores.Visible = false;
-            ConfirmarReserva.Visible = false;
-            ListadoHabRes.Visible = false;
-            RealizarReserva.Visible = false;
-            ReservasActivas.Visible = false;
-
-            if (usuLogueado is Cliente)
+            if (!IsPostBack)
             {
-                RealizarReserva.Visible = true;
-                ReservasActivas.Visible = true;
-            }
+                Usuario usuLogueado = (Usuario)Session["Usuario"];
 
-            if (usuLogueado is Administrador)
-            {
-                ABMHoteles.Visible = true;
-                ABMHabitaciones.Visible = true;
-                ABMAdministradores.Visible = true;
-                ConfirmarReserva.Visible = true;
-                ListadoHabRes.Visible = true;
+                LblUser.Text = usuLogueado.Nombre;
+
+                ABMHoteles.Visible = false;
+                ABMHabitaciones.Visible = false;
+                ABMAdministradores.Visible = false;
+                ConfirmarReserva.Visible = false;
+                ListadoHabRes.Visible = false;
+                RealizarReserva.Visible = false;
+                ReservasActivas.Visible = false;
+
+                if (usuLogueado is Cliente)
+                {
+                    RealizarReserva.Visible = true;
+                    ReservasActivas.Visible = true;
+                }
+
+                if (usuLogueado is Administrador)
+                {
+                    ABMHoteles.Visible = true;
+                    ABMHabitaciones.Visible = true;
+                    ABMAdministradores.Visible = true;
+                    ConfirmarReserva.Visible = true;
+                    ListadoHabRes.Visible = true;
+                }
             }
         }
     }

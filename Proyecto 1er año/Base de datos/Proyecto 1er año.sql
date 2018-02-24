@@ -432,6 +432,21 @@ go
 -- Prueba Eliminar_Habitacion 401, 'Hotel 2'
 -- -----------------------------------------------------------------------------------------------
 
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR HABITACIONES
+create procedure Listar_Habitaciones
+@hotel varchar(50)
+as
+begin
+if not exists(select * from Hoteles where nombre = @hotel)
+	return -1
+else
+	select * from Habitaciones where (hotel  = @hotel)
+end
+go
+-- Prueba Listar_Habitaciones 'Hotel 1'
+-- -----------------------------------------------------------------------------------------------
+
 -- ***********************************************************************************************
 -- ADMINISTRADORES
 -- ***********************************************************************************************
@@ -674,6 +689,19 @@ else
 end
 go
 -- Prueba Cancelar_Reserva 10
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
+create procedure Reservas_Habitacion
+@hotel varchar(50),
+@habitacion int
+as
+begin
+	select * from Reservas where (hotel = @hotel and habitacion = @habitacion)
+end
+go
+-- Prueba Reservas_Habitacion 'Hotel 1', 101
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************

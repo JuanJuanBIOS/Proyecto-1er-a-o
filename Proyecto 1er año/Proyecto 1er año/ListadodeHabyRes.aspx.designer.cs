@@ -31,6 +31,15 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.Label LbHabitaciones;
         
         /// <summary>
+        /// GVHabitaciones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GVHabitaciones;
+        
+        /// <summary>
         /// LbReservas control.
         /// </summary>
         /// <remarks>
@@ -40,21 +49,30 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.Label LbReservas;
         
         /// <summary>
-        /// GridView1 control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// GridView2 control.
+        /// GVReservas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView2;
+        protected global::System.Web.UI.WebControls.GridView GVReservas;
+        
+        /// <summary>
+        /// LblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblError;
     }
 }

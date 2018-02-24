@@ -32,5 +32,14 @@ namespace Logica
         {
             PersistenciaHabitacion.Eliminar(Hab);
         }
+
+        public static List<Habitacion> ListarHabitaciones(Hotel Hot)
+        {
+            List<Habitacion> Habitaciones = new List<Habitacion>();
+
+            Habitaciones.AddRange(PersistenciaHabitacion.ListarHabitaciones(Hot));
+
+            return Habitaciones;
+        }
     }
 }

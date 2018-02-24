@@ -187,5 +187,53 @@ namespace Persistencia
                 _Conexion.Close();
             }
         }
+
+        public static List<Habitacion> ListarHabitaciones(Hotel pHotel)
+        {
+            List<Habitacion> Habitaciones = new List<Habitacion>();
+            SqlDataReader _Reader;
+
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Listar_Habitaciones", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@hotel", pHotel.Nombre);
+
+            Habitacion unHab = null;
+
+            try
+            {
+                _Conexion.Open();
+                _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    while (_Reader.Read())
+                    {
+                        int Num = Convert.ToInt32(_Reader["numero"]);
+                        string Piso = _Reader["piso"].ToString();
+                        string Desc = _Reader["descripcion"].ToString();
+                        string Hues = _Reader["huespedes"].ToString();
+                        double Costo = Convert.ToDouble(_Reader["costodiario"]);
+
+                        Habitacion H = new Habitacion(Num, pHotel, Piso, Desc, Hues, Costo);
+                        Habitaciones.Add(H);
+                    }
+                }
+
+                _Reader.Close();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return Habitaciones;
+        }
     }
 }

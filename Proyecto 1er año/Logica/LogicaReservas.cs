@@ -28,5 +28,15 @@ namespace Logica
         {
             PersistenciaReservas.ConfirmarReserva(Res);
         }
+
+        public static List<Reserva> ReservasHabitacion(Habitacion Hab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+
+            ReservasHabitacion.AddRange(PersistenciaReservas.ReservasHabitacion(Hab));
+
+            return ReservasHabitacion;
+        }
+        
     }
 }
