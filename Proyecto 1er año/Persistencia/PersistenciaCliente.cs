@@ -126,5 +126,96 @@ namespace Persistencia
 
             return unCli;
         }
+
+        public static void Crear(Cliente unC)
+        {
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Crear_Cliente", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@nomusu", unC.Nomusu);
+            _Comando.Parameters.AddWithValue("@pass", unC.Pass);
+            _Comando.Parameters.AddWithValue("@nombre", unC.Nombre);
+            _Comando.Parameters.AddWithValue("@tarjeta", unC.Tarjeta);
+            _Comando.Parameters.AddWithValue("@direccion", unC.Direccion);
+
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+            _Comando.Parameters.Add(_Retorno);
+
+            try
+            {
+                _Conexion.Open();
+                _Comando.ExecuteNonQuery();
+
+                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("Ya existe el usuario  en la base de datos");
+                }
+                else if (_Afectados == -2)
+                {
+                    throw new Exception("Error al crear el cliente en la base de datos");
+                }
+                else if (_Afectados == -3)
+                {
+                    throw new Exception("La tarjeta de crédito ya es utilizada por otro usuario");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            /*
+            //Guardo telefonos
+            SqlConnection _ConexionTel = new SqlConnection(Conexion.STR);
+            SqlCommand _ComandoTel = new SqlCommand("Crear_Teléfono", _Conexion);
+            _ComandoTel.CommandType = CommandType.StoredProcedure;
+
+            //TENGO QUE RECORRER EL ARRAYLIST 
+
+            _ComandoTel.Parameters.AddWithValue("@nomusu", unC.Nomusu);
+            
+            _ComandoTel.Parameters.AddWithValue("@telefono", unC.Telefonos);
+            
+            SqlParameter _RetornoTel = new SqlParameter("@Retorno", SqlDbType.Int);
+            _RetornoTel.Direction = ParameterDirection.ReturnValue;
+            _ComandoTel.Parameters.Add(_Retorno);
+
+            try
+            {
+                _ConexionTel.Open();
+                _ComandoTel.ExecuteNonQuery();
+
+                int _Afectados = (int)_ComandoTel.Parameters["@Retorno"].Value;
+
+                if (_Afectados == -1)
+                {
+                    throw new Exception("Ya existe el usuario ingresado, intente con otro nombre de usuario");
+                }
+                else if (_Afectados == -3)
+                {
+                    throw new Exception("La tarjeta ya es utilizada en otro usuario");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _ConexionTel.Close();
+            }
+        }
+        */
+        }
+
     }
 }

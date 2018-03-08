@@ -70,7 +70,8 @@
                                 NavigateUrl="~/ListadodeHabyRes.aspx">Listado de Habitaciones y Reservas</asp:HyperLink>
                         </p>
                         <p align="center">
-                            <asp:HyperLink ID="RealizarReserva" runat="server">Realizar Reserva</asp:HyperLink>
+                            <asp:HyperLink ID="RealizarReserva" runat="server" 
+                                NavigateUrl="~/RealizarReserva.aspx">Realizar Reserva</asp:HyperLink>
                         </p>
                         <p align="center">
                             <asp:HyperLink ID="ReservasActivas" runat="server">Reservas Activas</asp:HyperLink>
