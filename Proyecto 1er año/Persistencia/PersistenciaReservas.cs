@@ -139,13 +139,142 @@ namespace Persistencia
             }
         }
 
-        public static List<Reserva> ReservasHabitacion(Habitacion unaHab)
+        public static List<Reserva> ReservasHabitacionTodas(Habitacion unaHab)
         {
             List<Reserva> ReservasHabitacion = new List<Reserva>();
             SqlDataReader _Reader;
 
             SqlConnection _Conexion = new SqlConnection(Conexion.STR);
-            SqlCommand _Comando = new SqlCommand("Reservas_Habitacion", _Conexion);
+            SqlCommand _Comando = new SqlCommand("Reservas_Habitacion_Todas", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@hotel", unaHab.Hotel.Nombre);
+            _Comando.Parameters.AddWithValue("@habitacion", unaHab.Numero);
+
+            try
+            {
+                _Conexion.Open();
+                _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    while (_Reader.Read())
+                    {
+                        Cliente C = PersistenciaCliente.Buscar(_Reader["nomusu"].ToString());
+                        Reserva R = new Reserva(Convert.ToInt32(_Reader["idReserva"]), C, unaHab, Convert.ToDateTime(_Reader["fechaini"]), Convert.ToDateTime(_Reader["fechafin"]), _Reader["estado"].ToString());
+                        ReservasHabitacion.Add(R);
+                    }
+                }
+
+                _Reader.Close();
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return ReservasHabitacion;
+        }
+
+        public static List<Reserva> ReservasHabitacionActivas(Habitacion unaHab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+            SqlDataReader _Reader;
+
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Reservas_Habitacion_Activas", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@hotel", unaHab.Hotel.Nombre);
+            _Comando.Parameters.AddWithValue("@habitacion", unaHab.Numero);
+
+            try
+            {
+                _Conexion.Open();
+                _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    while (_Reader.Read())
+                    {
+                        Cliente C = PersistenciaCliente.Buscar(_Reader["nomusu"].ToString());
+                        Reserva R = new Reserva(Convert.ToInt32(_Reader["idReserva"]), C, unaHab, Convert.ToDateTime(_Reader["fechaini"]), Convert.ToDateTime(_Reader["fechafin"]), _Reader["estado"].ToString());
+                        ReservasHabitacion.Add(R);
+                    }
+                }
+
+                _Reader.Close();
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return ReservasHabitacion;
+        }
+
+        public static List<Reserva> ReservasHabitacionFinalizadas(Habitacion unaHab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+            SqlDataReader _Reader;
+
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Reservas_Habitacion_Finalizadas", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@hotel", unaHab.Hotel.Nombre);
+            _Comando.Parameters.AddWithValue("@habitacion", unaHab.Numero);
+
+            try
+            {
+                _Conexion.Open();
+                _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    while (_Reader.Read())
+                    {
+                        Cliente C = PersistenciaCliente.Buscar(_Reader["nomusu"].ToString());
+                        Reserva R = new Reserva(Convert.ToInt32(_Reader["idReserva"]), C, unaHab, Convert.ToDateTime(_Reader["fechaini"]), Convert.ToDateTime(_Reader["fechafin"]), _Reader["estado"].ToString());
+                        ReservasHabitacion.Add(R);
+                    }
+                }
+
+                _Reader.Close();
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return ReservasHabitacion;
+        }
+
+        public static List<Reserva> ReservasHabitacionCanceladas(Habitacion unaHab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+            SqlDataReader _Reader;
+
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Reservas_Habitacion_Canceladas", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
 
             _Comando.Parameters.AddWithValue("@hotel", unaHab.Hotel.Nombre);

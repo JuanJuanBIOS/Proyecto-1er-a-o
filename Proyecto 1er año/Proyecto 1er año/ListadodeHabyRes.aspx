@@ -91,8 +91,20 @@
             <td colspan="3" style="height: 25px" class="style4">
                 <asp:Label ID="LbReservas" runat="server" Text="Reservas"></asp:Label>
             &nbsp;
-                <asp:Label ID="Label1" runat="server" ForeColor="Red" 
-                    Text="FALTA AGREGAR FILTRO SEGUN ESTADO DE LA RESERVA"></asp:Label>
+                </td>
+            </tr>
+        <tr>
+            <td colspan="3" valign="middle" >
+                <asp:Label ID="LbEstado" runat="server" 
+                    Text="Seleccione Estado de la reserva: "></asp:Label>
+                <asp:DropDownList ID="DdlEstado" runat="server" AutoPostBack="True" 
+                    onselectedindexchanged="DdlEstado_SelectedIndexChanged">
+                    <asp:ListItem></asp:ListItem>
+                    <asp:ListItem>Todas</asp:ListItem>
+                    <asp:ListItem>Activa</asp:ListItem>
+                    <asp:ListItem>Finalizada</asp:ListItem>
+                    <asp:ListItem>Cancelada</asp:ListItem>
+                </asp:DropDownList>
             </td>
             </tr>
         <tr>
@@ -100,7 +112,7 @@
                 <asp:GridView ID="GVReservas" runat="server"
                 AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
                     BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
-                    GridLines="Vertical" >
+                    GridLines="Vertical">
                     <AlternatingRowStyle BackColor="#CCCCCC" />
                     <Columns>
                         <asp:BoundField DataField="idReserva" HeaderText="ID de Reserva" >
@@ -124,6 +136,10 @@
                         <ItemStyle HorizontalAlign="Center" Width="100px" />
                         </asp:BoundField>
                         <asp:BoundField DataField="Fechafin" DataFormatString="{0:d}" HeaderText="Fecha Fin" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" Width="100px" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="Estado" DataFormatString="{0:d}" HeaderText="Estado" >
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" Width="100px" />
                         </asp:BoundField>

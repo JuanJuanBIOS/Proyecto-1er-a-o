@@ -692,16 +692,59 @@ go
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
-create procedure Reservas_Habitacion
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION TODAS
+create procedure Reservas_Habitacion_Todas
 @hotel varchar(50),
 @habitacion int
 as
 begin
 	select * from Reservas where (hotel = @hotel and habitacion = @habitacion)
+	order by fechaini asc
 end
 go
--- Prueba Reservas_Habitacion 'Hotel 1', 101
+-- Prueba Reservas_Habitacion_Todas 'Hotel 1', 101
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION ACTIVAS
+create procedure Reservas_Habitacion_Activas
+@hotel varchar(50),
+@habitacion int
+as
+begin
+	select * from Reservas where (hotel = @hotel and habitacion = @habitacion and estado = 'Activa')
+	order by fechaini asc
+end
+go
+-- Prueba Reservas_Habitacion_Activas 'Hotel 1', 101
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION FINALIZADAS
+create procedure Reservas_Habitacion_Finalizadas
+@hotel varchar(50),
+@habitacion int
+as
+begin
+	select * from Reservas where (hotel = @hotel and habitacion = @habitacion and estado = 'Finalizada')
+	order by fechaini asc
+end
+go
+-- Prueba Reservas_Habitacion_Finalizadas 'Hotel 1', 101
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION CANCELADAS
+create procedure Reservas_Habitacion_Canceladas
+@hotel varchar(50),
+@habitacion int
+as
+begin
+	select * from Reservas where (hotel = @hotel and habitacion = @habitacion and estado = 'Cancelada')
+	order by fechaini asc
+end
+go
+-- Prueba Reservas_Habitacion_Canceladas 'Hotel 1', 101
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
@@ -725,7 +768,7 @@ create procedure Reservas_por_Habitacion
 @habitacion int, 
 @hotel varchar(50)
 as
-	select * from Reservas where (habitacion = @habitacion and hotel = @hotel)
+	select * from Reservas where (habitacion = @habitacion and hotel = @hotel) 
 go
 -- Prueba Reservas_por_Habitacion 101, 'Hotel 1'
 -- -----------------------------------------------------------------------------------------------

@@ -29,11 +29,38 @@ namespace Logica
             PersistenciaReservas.ConfirmarReserva(Res);
         }
 
-        public static List<Reserva> ReservasHabitacion(Habitacion Hab)
+        public static List<Reserva> ReservasHabitacionTodas(Habitacion Hab)
         {
             List<Reserva> ReservasHabitacion = new List<Reserva>();
 
-            ReservasHabitacion.AddRange(PersistenciaReservas.ReservasHabitacion(Hab));
+            ReservasHabitacion.AddRange(PersistenciaReservas.ReservasHabitacionTodas(Hab));
+
+            return ReservasHabitacion;
+        }
+
+        public static List<Reserva> ReservasHabitacionActivas(Habitacion Hab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+
+            ReservasHabitacion.AddRange(PersistenciaReservas.ReservasHabitacionActivas(Hab));
+
+            return ReservasHabitacion;
+        }
+
+        public static List<Reserva> ReservasHabitacionFinalizadas(Habitacion Hab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+
+            ReservasHabitacion.AddRange(PersistenciaReservas.ReservasHabitacionFinalizadas(Hab));
+
+            return ReservasHabitacion;
+        }
+
+        public static List<Reserva> ReservasHabitacionCanceladas(Habitacion Hab)
+        {
+            List<Reserva> ReservasHabitacion = new List<Reserva>();
+
+            ReservasHabitacion.AddRange(PersistenciaReservas.ReservasHabitacionCanceladas(Hab));
 
             return ReservasHabitacion;
         }
