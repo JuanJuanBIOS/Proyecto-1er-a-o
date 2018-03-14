@@ -101,15 +101,15 @@ go
 
 -- Se agregan datos a la tabla Hoteles
 INSERT INTO Hoteles VALUES
-('Hotel 1','Calle 1','1111','Montevideo','59811111111','59811111110',0,1,'3',''),
-('Hotel 2','Calle 2','2222','Buenos Aires','5422222222','5422222220',0,0,'4',''),
-('Hotel 3','Calle 3','3333','Rio de Janeiro','5533333333','5533333330',1,0,'4',''),
-('Hotel 4','Calle 4','4444','Madrid','3444444444','3444444440',0,0,'5',''),
-('Hotel 5','Calle 5','5555','Barcelona','3455555555','3455555550',1,1,'4',''),
-('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,1,'5',''),
-('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,1,'3',''),
-('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,0,'2',''),
-('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,1,'1','')
+('Hotel 1','Calle 1','1111','Montevideo','59811111111','59811111110',0,1,'3','~/Imagenes/Hotel1.jpg'),
+('Hotel 2','Calle 2','2222','Buenos Aires','5422222222','5422222220',0,0,'4','~/Imagenes/Hotel2.jpg'),
+('Hotel 3','Calle 3','3333','Rio de Janeiro','5533333333','5533333330',1,0,'4','~/Imagenes/Hotel3.jpg'),
+('Hotel 4','Calle 4','4444','Madrid','3444444444','3444444440',0,0,'5','~/Imagenes/Hotel4.jpg'),
+('Hotel 5','Calle 5','5555','Barcelona','3455555555','3455555550',1,1,'4','~/Imagenes/Hotel5.jpg'),
+('Hotel 6','Calle 6','6666','New York','166666666','166666660',0,1,'5','~/Imagenes/Hotel6.jpg'),
+('Hotel 7','Calle 7','7777','Santiago de Chile','5677777777','5677777770',0,1,'3','~/Imagenes/Hotel7.jpg'),
+('Hotel 8','Calle 8','8888','Sydney','6188888888','6188888880',1,0,'2','~/Imagenes/Hotel8.jpg'),
+('Hotel 9','Calle 9','9999','Moscu','799999999','799999990',0,1,'1','~/Imagenes/Hotel9.jpg')
 go
 
 -- Se agregan datos a la tabla Habitaciones
@@ -320,10 +320,22 @@ go
 create procedure Lista_Hoteles
 as
 begin
-select nombre from Hoteles
+select nombre from Hoteles 
 end
 go
 -- Prueba Lista_Hoteles
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA LISTAR HOTELES POR CATEGORIA
+create procedure Listar_Hoteles_por_categoria
+@categoria int
+as
+begin
+select * from Hoteles where (estrellas = @categoria)
+end
+go
+-- Prueba Listar_Hoteles_por_categoria '3'
 -- -----------------------------------------------------------------------------------------------
 
 -- ***********************************************************************************************
@@ -747,10 +759,6 @@ go
 -- Prueba Reservas_Habitacion_Canceladas 'Hotel 1', 101
 -- -----------------------------------------------------------------------------------------------
 
--- ***********************************************************************************************
--- LISTADOS
--- ***********************************************************************************************
-
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS
 create procedure Reservas_Activas
@@ -762,16 +770,9 @@ go
 -- Prueba Reservas_Activas
 -- -----------------------------------------------------------------------------------------------
 
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION
-create procedure Reservas_por_Habitacion
-@habitacion int, 
-@hotel varchar(50)
-as
-	select * from Reservas where (habitacion = @habitacion and hotel = @hotel) 
-go
--- Prueba Reservas_por_Habitacion 101, 'Hotel 1'
--- -----------------------------------------------------------------------------------------------
+-- ***********************************************************************************************
+-- LISTADOS
+-- ***********************************************************************************************
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS POR USUARIO

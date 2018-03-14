@@ -36,5 +36,14 @@ namespace Logica
             List<string> listahoteles= PersistenciaHotel.ListaHoteles();
             return listahoteles;
         }
+
+        public static List<Hotel> HotelesporCategoria(int Categoria)
+        {
+            List<Hotel> Hoteles = new List<Hotel>();
+
+            Hoteles.AddRange(PersistenciaHotel.HotelesporCategoria(Categoria));
+
+            return Hoteles;
+        }
     }
 }

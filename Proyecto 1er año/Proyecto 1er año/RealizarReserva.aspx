@@ -1,79 +1,226 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="RealizarReserva.aspx.cs" Inherits="Proyecto_1er_año.RealizarReserva" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
-    <h2>
-    Realizar Reserva</h2>
-Seleccione una categoría de hotel:<asp:DropDownList ID="DDLEstrellas" 
-        runat="server" Width="36px">
-        <asp:ListItem>1</asp:ListItem>
-        <asp:ListItem Value="2"></asp:ListItem>
-        <asp:ListItem Value="3"></asp:ListItem>
-        <asp:ListItem Value="4"></asp:ListItem>
-        <asp:ListItem Value="5"></asp:ListItem>
-    </asp:DropDownList>
-&nbsp;&nbsp;
-<asp:Button ID="BtnBuscar" runat="server" Text="Buscar" />
-<br />
-<br />
-<asp:GridView ID="CVHoteles" runat="server" AutoGenerateColumns="False" 
-        BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" 
-        CellPadding="4" ForeColor="Black" GridLines="Horizontal" Width="372px">
-    <Columns>
-        <asp:BoundField HeaderText="Nombre" />
-        <asp:BoundField HeaderText="Fax" />
-        <asp:CheckBoxField HeaderText="Piscina" />
-        <asp:CheckBoxField HeaderText="Playa" />
-        <asp:BoundField HeaderText="Teléfono" />
-        <asp:BoundField HeaderText="Dirección" />
-    </Columns>
-    <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-    <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
-    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
-    <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-    <SortedAscendingCellStyle BackColor="#F7F7F7" />
-    <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
-    <SortedDescendingCellStyle BackColor="#E5E5E5" />
-    <SortedDescendingHeaderStyle BackColor="#242121" />
-</asp:GridView>
-<br />
-Habitaciones:<br />
-<asp:GridView ID="GVHabitaciones" runat="server" AutoGenerateColumns="False" 
-        BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" 
-        CellPadding="4" ForeColor="Black" GridLines="Horizontal">
-    <Columns>
-        <asp:BoundField HeaderText="Número" />
-        <asp:BoundField HeaderText="Piso" />
-        <asp:BoundField HeaderText="Huespedes" />
-        <asp:BoundField HeaderText="Descripción" />
-        <asp:BoundField HeaderText="Costo diario" />
-    </Columns>
-    <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-    <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
-    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
-    <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-    <SortedAscendingCellStyle BackColor="#F7F7F7" />
-    <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
-    <SortedDescendingCellStyle BackColor="#E5E5E5" />
-    <SortedDescendingHeaderStyle BackColor="#242121" />
-</asp:GridView>
-<br />
-Fechas:<br />
 <table style="width: 100%">
-    <tr>
-        <td style="width: 347px">
-            Desde:</td>
-        <td style="width: 413px">
-            Hasta:</td>
-    </tr>
-    <tr>
-        <td style="width: 347px">
-            <asp:Calendar ID="CalDesde" runat="server"></asp:Calendar>
-        </td>
-        <td style="width: 413px">
-            <asp:Calendar ID="CalHasta" runat="server"></asp:Calendar>
-        </td>
-    </tr>
-</table>
-<br />
-<br />
-<br />
+        <tr>
+            <td colspan="7" style="height: 24px">
+                Realizar reserva</td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 213px; height: 33px;">
+                <asp:Label ID="LbCategoria" runat="server" 
+                    Text="Seleccione la categoría del hotel: "></asp:Label>
+            </td>
+            <td style="width: 200px; height: 33px;">
+                <asp:DropDownList ID="DDLCategoria" runat="server" AutoPostBack="True" 
+                    Width="50px" onselectedindexchanged="DDLCategoria_SelectedIndexChanged">
+                    <asp:ListItem></asp:ListItem>
+                    <asp:ListItem>1</asp:ListItem>
+                    <asp:ListItem>2</asp:ListItem>
+                    <asp:ListItem>3</asp:ListItem>
+                    <asp:ListItem>4</asp:ListItem>
+                    <asp:ListItem>5</asp:ListItem>
+                </asp:DropDownList>
+            </td>
+            <td style="height: 33px;" colspan="5">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <asp:Label ID="LbHoteles" runat="server" Text="Hoteles"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <asp:GridView ID="GVHoteles" runat="server"
+                AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
+                    BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
+                    GridLines="Vertical" Width="953px" >
+                    <AlternatingRowStyle BackColor="#CCCCCC" />
+                    <Columns>
+                        <asp:BoundField DataField="nombre" HeaderText="Hotel" ControlStyle-Width="200">
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="calle" HeaderText="Calle" ControlStyle-Width="200">
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="numpuerta" HeaderText="Nº puerta" ControlStyle-Width="50">
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="ciudad" HeaderText="Ciudad" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="telefono" HeaderText="Teléfono" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="fax" HeaderText="Fax" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="playa" HeaderText="Playa" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="piscina" HeaderText="Piscina" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:ImageField DataImageUrlField="foto" HeaderText="Foto" ControlStyle-Width="200" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" /> 
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:ImageField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LBVerHabitaciones" Text="Ver Habitaciones" runat="server"/>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="150px" />
+                        </asp:TemplateField>
+                    </Columns>
+                    <FooterStyle BackColor="#CCCCCC" />
+                    <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+                    <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                    <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                    <SortedAscendingHeaderStyle BackColor="#808080" />
+                    <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                    <SortedDescendingHeaderStyle BackColor="#383838" />
+                </asp:GridView>
+            </td>
+            </tr>
+        <tr>
+            <td colspan="7" style="height: 25px" class="style4">
+                &nbsp;</td>
+            </tr>
+        <tr>
+            <td colspan="7" style="height: 25px" class="style4">
+                <asp:Label ID="LbHabitaciones" runat="server" Text="Habitaciones"></asp:Label>
+            &nbsp;
+                </td>
+            </tr>
+        <tr>
+            <td colspan="7" >
+                <asp:GridView ID="GVHabitaciones" runat="server"
+                AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
+                    BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
+                    GridLines="Vertical" >
+                    <AlternatingRowStyle BackColor="#CCCCCC" />
+                    <Columns>
+                        <asp:BoundField DataField="Habitación" HeaderText="Hotel" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="LBVerDetalles" Text="Ver Detalles" runat="server"/>
+                            </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" Width="100px" />
+                        </asp:TemplateField>
+                    </Columns>
+                    <FooterStyle BackColor="#CCCCCC" />
+                    <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+                    <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                    <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                    <SortedAscendingHeaderStyle BackColor="#808080" />
+                    <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                    <SortedDescendingHeaderStyle BackColor="#383838" />
+                </asp:GridView>
+            </td>
+            </tr>
+        <tr>
+            <td colspan="7">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="7">
+                <asp:Label ID="LbDetalles" runat="server" Text="Detalles de la habitación"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="7">
+                <asp:GridView ID="GVDetallesHabitacion" runat="server"
+                AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
+                    BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
+                    GridLines="Vertical" >
+                    <AlternatingRowStyle BackColor="#CCCCCC" />
+                    <Columns>
+                        <asp:BoundField DataField="numero" HeaderText="Nº Habitación" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="piso" HeaderText="Piso" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="descripcion" HeaderText="Descripción" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="huespedes" HeaderText="Huéspedes" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="costodiario" HeaderText="Costo Diario ($)" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                    </Columns>
+                    <FooterStyle BackColor="#CCCCCC" />
+                    <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+                    <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                    <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                    <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                    <SortedAscendingHeaderStyle BackColor="#808080" />
+                    <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                    <SortedDescendingHeaderStyle BackColor="#383838" />
+                </asp:GridView>
+            </td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="7">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="3">
+                <asp:Label ID="LbFechaIni" runat="server" Text="Fecha de Inicio"></asp:Label>
+                <br />
+                <asp:TextBox ID="TBFechaIni" runat="server"></asp:TextBox>
+            </td>
+            <td valign="middle">
+                <asp:Calendar ID="CalInicio" runat="server"></asp:Calendar>
+            </td>
+            <td valign="middle">
+                &nbsp;</td>
+            <td valign="middle">
+                <asp:Label ID="LbFechaFin" runat="server" Text="Fecha de Fin"></asp:Label>
+                <br />
+                <asp:TextBox ID="TBFechaFin" runat="server"></asp:TextBox>
+            </td>
+            <td valign="middle">
+                <asp:Calendar ID="CalFin" runat="server"></asp:Calendar>
+            </td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="7">
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td valign="middle" colspan="7">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Label ID="LblError" runat="server" ForeColor="Red"></asp:Label>
+            </td>
+        </tr>
+    </table>
 </asp:Content>

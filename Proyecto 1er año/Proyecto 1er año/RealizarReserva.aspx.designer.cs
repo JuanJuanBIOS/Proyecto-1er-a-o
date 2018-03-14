@@ -13,31 +13,49 @@ namespace Proyecto_1er_año {
     public partial class RealizarReserva {
         
         /// <summary>
-        /// DDLEstrellas control.
+        /// LbCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DDLEstrellas;
+        protected global::System.Web.UI.WebControls.Label LbCategoria;
         
         /// <summary>
-        /// BtnBuscar control.
+        /// DDLCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnBuscar;
+        protected global::System.Web.UI.WebControls.DropDownList DDLCategoria;
         
         /// <summary>
-        /// CVHoteles control.
+        /// LbHoteles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView CVHoteles;
+        protected global::System.Web.UI.WebControls.Label LbHoteles;
+        
+        /// <summary>
+        /// GVHoteles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GVHoteles;
+        
+        /// <summary>
+        /// LbHabitaciones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbHabitaciones;
         
         /// <summary>
         /// GVHabitaciones control.
@@ -49,21 +67,84 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.GridView GVHabitaciones;
         
         /// <summary>
-        /// CalDesde control.
+        /// LbDetalles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar CalDesde;
+        protected global::System.Web.UI.WebControls.Label LbDetalles;
         
         /// <summary>
-        /// CalHasta control.
+        /// GVDetallesHabitacion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar CalHasta;
+        protected global::System.Web.UI.WebControls.GridView GVDetallesHabitacion;
+        
+        /// <summary>
+        /// LbFechaIni control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbFechaIni;
+        
+        /// <summary>
+        /// TBFechaIni control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TBFechaIni;
+        
+        /// <summary>
+        /// CalInicio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar CalInicio;
+        
+        /// <summary>
+        /// LbFechaFin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbFechaFin;
+        
+        /// <summary>
+        /// TBFechaFin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TBFechaFin;
+        
+        /// <summary>
+        /// CalFin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar CalFin;
+        
+        /// <summary>
+        /// LblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblError;
     }
 }

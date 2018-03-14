@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
+
 namespace Proyecto_1er_año
 {
     public partial class WebForm8 : System.Web.UI.Page

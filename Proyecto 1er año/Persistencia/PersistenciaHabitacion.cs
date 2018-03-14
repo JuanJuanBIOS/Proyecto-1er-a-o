@@ -199,8 +199,6 @@ namespace Persistencia
 
             _Comando.Parameters.AddWithValue("@hotel", pHotel.Nombre);
 
-            Habitacion unHab = null;
-
             try
             {
                 _Conexion.Open();

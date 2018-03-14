@@ -236,5 +236,56 @@ namespace Persistencia
 
             return ListaHot;
         }
+
+        public static List<Hotel> HotelesporCategoria(int pCategoria)
+        {
+            List<Hotel> Hoteles = new List<Hotel>();
+            SqlDataReader _Reader;
+
+            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+            SqlCommand _Comando = new SqlCommand("Listar_Hoteles_por_categoria", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
+
+            _Comando.Parameters.AddWithValue("@categoria", pCategoria);
+
+            try
+            {
+                _Conexion.Open();
+                _Reader = _Comando.ExecuteReader();
+
+                if (_Reader.HasRows)
+                {
+                    while (_Reader.Read())
+                    {
+                        string _nombre = (string)_Reader["nombre"];
+                        string _calle = (string)_Reader["calle"];
+                        string _numpuerta = (string)_Reader["numpuerta"];
+                        string _ciudad = (string)_Reader["ciudad"];
+                        string _telefono = (string)_Reader["telefono"];
+                        string _fax = (string)_Reader["fax"];
+                        bool _playa = (bool)_Reader["playa"];
+                        bool _piscina = (bool)_Reader["piscina"];
+                        string _estrellas = (string)_Reader["estrellas"];
+                        string _foto = (string)_Reader["foto"];
+
+                        Hotel unHot = new Hotel(_nombre, _calle, _numpuerta, _ciudad, _telefono, _fax, _playa, _piscina, _estrellas, _foto);
+                        Hoteles.Add(unHot);
+                    }
+                }
+
+                _Reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _Conexion.Close();
+            }
+
+            return Hoteles;
+        }
     }
 }
