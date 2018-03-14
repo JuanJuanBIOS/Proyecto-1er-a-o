@@ -48,7 +48,7 @@
                 </td>
         </tr>
         <tr>
-            <td bgcolor="#00CC00" class="style2">
+            <td bgcolor="#00CC00" class="style2" valign="top">
                         <h2 align="center">Menú</h2>
                         <p align="center">
                             <asp:HyperLink ID="ABMHoteles" runat="server" NavigateUrl="~/ABMHoteles.aspx">Mantenimiento de Hoteles</asp:HyperLink>

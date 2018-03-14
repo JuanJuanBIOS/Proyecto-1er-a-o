@@ -2,19 +2,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
 <table style="width: 100%">
         <tr>
-            <td colspan="7" style="height: 24px">
+            <td colspan="2" style="height: 24px">
                 Realizar reserva</td>
         </tr>
         <tr>
-            <td colspan="7">
+            <td colspan="2">
                 &nbsp;</td>
         </tr>
         <tr>
-            <td style="width: 213px; height: 33px;">
+            <td style="width: 221px; height: 33px;">
                 <asp:Label ID="LbCategoria" runat="server" 
                     Text="Seleccione la categoría del hotel: "></asp:Label>
             </td>
-            <td style="width: 200px; height: 33px;">
+            <td style="height: 33px;">
                 <asp:DropDownList ID="DDLCategoria" runat="server" AutoPostBack="True" 
                     Width="50px" onselectedindexchanged="DDLCategoria_SelectedIndexChanged">
                     <asp:ListItem></asp:ListItem>
@@ -25,35 +25,33 @@
                     <asp:ListItem>5</asp:ListItem>
                 </asp:DropDownList>
             </td>
-            <td style="height: 33px;" colspan="5">
+        </tr>
+        <tr>
+            <td colspan="2">
                 &nbsp;</td>
         </tr>
         <tr>
-            <td colspan="7">
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="7">
+            <td colspan="2">
                 <asp:Label ID="LbHoteles" runat="server" Text="Hoteles"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td colspan="7">
+            <td colspan="2">
                 <asp:GridView ID="GVHoteles" runat="server"
                 AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
                     BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
-                    GridLines="Vertical" Width="953px" >
+                    GridLines="Vertical" Width="953px"  >
                     <AlternatingRowStyle BackColor="#CCCCCC" />
                     <Columns>
-                        <asp:BoundField DataField="nombre" HeaderText="Hotel" ControlStyle-Width="200">
+                        <asp:BoundField DataField="nombre" HeaderText="Hotel" >
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
-                        <asp:BoundField DataField="calle" HeaderText="Calle" ControlStyle-Width="200">
+                        <asp:BoundField DataField="calle" HeaderText="Calle" >
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
-                        <asp:BoundField DataField="numpuerta" HeaderText="Nº puerta" ControlStyle-Width="50">
+                        <asp:BoundField DataField="numpuerta" HeaderText="Nº puerta" >
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
@@ -83,7 +81,8 @@
                         </asp:ImageField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="LBVerHabitaciones" Text="Ver Habitaciones" runat="server"/>
+                                <asp:LinkButton ID="LBVerHabitaciones" Text="Ver Habitaciones" runat="server" 
+                                    CommandArgument='<%# Eval("nombre") %>' onclick="LBVerHabitaciones_Click"/>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" Width="150px" />
                         </asp:TemplateField>
@@ -100,30 +99,35 @@
             </td>
             </tr>
         <tr>
-            <td colspan="7" style="height: 25px" class="style4">
+            <td colspan="2" style="height: 25px" class="style4">
                 &nbsp;</td>
             </tr>
         <tr>
-            <td colspan="7" style="height: 25px" class="style4">
+            <td colspan="2" style="height: 25px" class="style4">
                 <asp:Label ID="LbHabitaciones" runat="server" Text="Habitaciones"></asp:Label>
             &nbsp;
                 </td>
             </tr>
         <tr>
-            <td colspan="7" >
+            <td colspan="2" >
                 <asp:GridView ID="GVHabitaciones" runat="server"
                 AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
                     BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
                     GridLines="Vertical" >
                     <AlternatingRowStyle BackColor="#CCCCCC" />
                     <Columns>
-                        <asp:BoundField DataField="Habitación" HeaderText="Hotel" >
+                        <asp:BoundField DataField="Hotel.Nombre" HeaderText="Hotel" >
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="numero" HeaderText="Habitacion" >
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="LBVerDetalles" Text="Ver Detalles" runat="server"/>
+                                <asp:LinkButton ID="LBVerDetalles" Text="Ver Detalles" runat="server" 
+                                    CommandArgument='<%# Eval("numero") %>' onclick="LBVerDetalles_Click"/>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" Width="100px" />
                         </asp:TemplateField>
@@ -140,16 +144,16 @@
             </td>
             </tr>
         <tr>
-            <td colspan="7">
+            <td colspan="2">
                 &nbsp;</td>
         </tr>
         <tr>
-            <td valign="middle" colspan="7">
+            <td valign="middle" colspan="2">
                 <asp:Label ID="LbDetalles" runat="server" Text="Detalles de la habitación"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td valign="middle" colspan="7">
+            <td valign="middle" colspan="2">
                 <asp:GridView ID="GVDetallesHabitacion" runat="server"
                 AutoGenerateColumns = "False" BackColor="White" BorderColor="#999999" 
                     BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" 
@@ -189,37 +193,50 @@
             </td>
         </tr>
         <tr>
-            <td valign="middle" colspan="7">
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td valign="middle" colspan="3">
-                <asp:Label ID="LbFechaIni" runat="server" Text="Fecha de Inicio"></asp:Label>
-                <br />
-                <asp:TextBox ID="TBFechaIni" runat="server"></asp:TextBox>
-            </td>
-            <td valign="middle">
-                <asp:Calendar ID="CalInicio" runat="server"></asp:Calendar>
-            </td>
-            <td valign="middle">
-                &nbsp;</td>
-            <td valign="middle">
-                <asp:Label ID="LbFechaFin" runat="server" Text="Fecha de Fin"></asp:Label>
-                <br />
-                <asp:TextBox ID="TBFechaFin" runat="server"></asp:TextBox>
-            </td>
-            <td valign="middle">
-                <asp:Calendar ID="CalFin" runat="server"></asp:Calendar>
-            </td>
-        </tr>
-        <tr>
-            <td valign="middle" colspan="7">
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td valign="middle" colspan="7">
+            <td valign="middle" colspan="2">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <table style="width: 100%">
+                    <tr>
+                        <td colspan="6">
+                            <asp:Label ID="LbReserva" runat="server" Text="Fechas de Reserva"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 144px">
+                <asp:Label ID="LbFechaIni" runat="server" Text="Fecha de Inicio"></asp:Label>
+                            <br />
+                <asp:TextBox ID="TBFechaIni" runat="server"></asp:TextBox>
+                        </td>
+                        <td style="width: 275px">
+                <asp:Calendar ID="CalInicio" runat="server"></asp:Calendar>
+                        </td>
+                        <td style="width: 211px">
+                            &nbsp;</td>
+                        <td style="width: 147px">
+                <asp:Label ID="LbFechaFin" runat="server" Text="Fecha de Fin"></asp:Label>
+                            <br />
+                <asp:TextBox ID="TBFechaFin" runat="server"></asp:TextBox>
+                        </td>
+                        <td style="width: 600px">
+                <asp:Calendar ID="CalFin" runat="server"></asp:Calendar>
+                        </td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
                 <asp:Label ID="LblError" runat="server" ForeColor="Red"></asp:Label>
+                        </td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
