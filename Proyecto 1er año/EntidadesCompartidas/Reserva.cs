@@ -14,6 +14,7 @@ namespace EntidadesCompartidas
         private DateTime _fechaini;
         private DateTime _fechafin;
         private string _estado;
+        private double _costo;
 
         //Propiedades
         public int idReserva
@@ -110,11 +111,39 @@ namespace EntidadesCompartidas
             }
         }
 
+        public double Costo
+        {
+            get
+            {
+                return _costo;
+            }
+            set
+            {
+                if (value != null && value > 0)
+                {
+                    _costo = value;
+                }
+                else
+                {
+                    throw new Exception("El costo debe ser mayor a 0");
+                }
+            }
+        }
 
-       //Constructor
         public Reserva(int pidReserva, Cliente pCliente, Habitacion pHabitacion, DateTime pFechaini, DateTime pFechafin, string pEstado)
         {
             idReserva = pidReserva;
+            Cliente = pCliente;
+            Habitacion = pHabitacion;
+            Fechaini = pFechaini;
+            Fechafin = pFechafin;
+            Estado = pEstado;
+        }
+        
+       
+        public Reserva(Cliente pCliente, Habitacion pHabitacion, DateTime pFechaini, DateTime pFechafin, string pEstado)
+        {
+            //idReserva = pidReserva;
             Cliente = pCliente;
             Habitacion = pHabitacion;
             Fechaini = pFechaini;

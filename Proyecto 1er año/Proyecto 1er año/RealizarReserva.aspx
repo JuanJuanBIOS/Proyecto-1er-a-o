@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="RealizarReserva.aspx.cs" Inherits="Proyecto_1er_año.RealizarReserva" %>
+﻿<%@ Page Title="" Language="C#"  MaintainScrollPositionOnPostback="true" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="RealizarReserva.aspx.cs" Inherits="Proyecto_1er_año.RealizarReserva" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
 <table style="width: 100%">
         <tr>
@@ -205,20 +205,20 @@
                         <td style="width: 144px">
                 <asp:Label ID="LbFechaIni" runat="server" Text="Fecha de Inicio"></asp:Label>
                             <br />
-                <asp:TextBox ID="TBFechaIni" runat="server"></asp:TextBox>
+                <asp:TextBox ID="TBFechaIni" runat="server" Enabled="False"></asp:TextBox>
                         </td>
                         <td style="width: 275px">
-                <asp:Calendar ID="CalInicio" runat="server"></asp:Calendar>
+                <asp:Calendar ID="CalInicio" runat="server" onselectionchanged="CalInicio_SelectionChanged"></asp:Calendar>
                         </td>
                         <td style="width: 211px">
                             &nbsp;</td>
                         <td style="width: 147px">
                 <asp:Label ID="LbFechaFin" runat="server" Text="Fecha de Fin"></asp:Label>
                             <br />
-                <asp:TextBox ID="TBFechaFin" runat="server"></asp:TextBox>
+                <asp:TextBox ID="TBFechaFin" runat="server" Enabled="False"></asp:TextBox>
                         </td>
                         <td style="width: 600px">
-                <asp:Calendar ID="CalFin" runat="server"></asp:Calendar>
+                <asp:Calendar ID="CalFin" runat="server" onselectionchanged="CalFin_SelectionChanged"></asp:Calendar>
                         </td>
                         <td>
                             &nbsp;</td>
@@ -229,15 +229,52 @@
                         <td>
                             &nbsp;</td>
                     </tr>
+
+
                     <tr>
                         <td colspan="5">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 399px">
                 <asp:Label ID="LblError" runat="server" ForeColor="Red"></asp:Label>
+                                    </td>
+                                    <td>
+                                        <asp:Button ID="BtnOk" runat="server" onclick="BtnOk_Click" Text="Ok" />
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                         <td>
                             &nbsp;</td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="5">
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+
+
+                </table>
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 245px">
+                            <asp:Button ID="BtnVerificar" runat="server" onclick="BtnVerificar_Click" 
+                                Text="Verificar Disponibilidad" />
+                        </td>
+                        <td style="width: 207px">
+                            <asp:Button ID="BtnConfirmar" runat="server" onclick="BtnConfirmar_Click" 
+                                Text="Confirmar Reserva" />
+                        </td>
+                        <td>
+                            <asp:Button ID="BtnCancelar" runat="server" Text="Cancelar Reserva" 
+                                onclick="BtnCancelar_Click" />
+                        </td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
-</asp:Content>
+    </asp:Content>

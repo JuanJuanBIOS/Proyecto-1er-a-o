@@ -64,6 +64,15 @@ namespace Logica
 
             return ReservasHabitacion;
         }
-        
+
+        public static void Consultar_Reserva(Reserva Res)
+        {
+            PersistenciaReservas.Consultar_Reserva(Res);
+        }
+
+        public static void Realizar_Reserva(Reserva Res)
+        {
+            PersistenciaReservas.Realizar_Reserva(Res);
+        }
     }
 }

@@ -646,64 +646,6 @@ go
 -- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA REALIZAR RESERVA
-create procedure Realizar_Reserva
-@nomusu varchar(10), 
-@habitacion int,
-@hotel varchar(50),
-@fechaini datetime, 
-@fechafin datetime
-as
-begin
-if not exists(select * from Clientes where nomusu = @nomusu)
-	return -1
-if not exists(select * from Habitaciones where (numero = @habitacion and hotel = @hotel))
-	return -2
-if (@fechaini < convert(date,GETDATE()))
-	return -3
-if (@fechaini >= @fechafin)
-	return -4
-if	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechafin<=fechafin and @fechafin>=fechaini)) or
-	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechafin and @fechaini>=fechaini)) or
-	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechaini and @fechafin>=fechafin))
-	return -5
-else
-	begin
-	insert into Reservas values(@nomusu, @habitacion, @hotel, @fechaini, @fechafin, 'Activa')
-	if @@ERROR<>0
-		begin
-			return -6
-		end
-	end
-end
-go
--- Prueba Realizar_Reserva 'usu1', 301, 'Hotel 1', '02/01/2018', '02/12/2018'
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA CANCELAR USO DE RESERVA
-create procedure Cancelar_Reserva
-@idReserva int
-as
-begin
-if not exists(select * from Reservas where idReserva = @idReserva)
-	return -1
-if exists(select * from Reservas where (idReserva = @idReserva and estado = 'Finalizada'))
-	return -2
-
-update Reservas
-set estado = 'Cancelada' where (idReserva = @idReserva and estado = 'Activa')
-
-if @@ERROR<>0
-	return -3
-else
-	return 1
-end
-go
--- Prueba Cancelar_Reserva 10
--- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS POR HABITACION TODAS
 create procedure Reservas_Habitacion_Todas
 @hotel varchar(50),
@@ -770,9 +712,97 @@ go
 -- Prueba Reservas_Activas
 -- -----------------------------------------------------------------------------------------------
 
--- ***********************************************************************************************
--- LISTADOS
--- ***********************************************************************************************
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CONSULTAR RESERVA
+create procedure Consultar_Reserva
+@habitacion int,
+@hotel varchar(50),
+@fechaini datetime, 
+@fechafin datetime
+as
+begin
+if not exists(select * from Hoteles where nombre=@hotel)
+	return -1
+	
+else if not exists(select * from Habitaciones where (numero = @habitacion and hotel = @hotel))
+	return -2
+	
+if (@fechaini < convert(date,GETDATE()))
+	return -3
+	
+if (@fechaini >= @fechafin)
+	return -4
+	
+if	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechafin<=fechafin and @fechafin>=fechaini)) or
+	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechafin and @fechaini>=fechaini)) or
+	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechaini and @fechafin>=fechafin))
+	return -5
+	
+else
+	return 1
+end
+go
+
+-- Prueba Consultar_Reserva 301, 'Hotel 1', '02/01/2018', '02/12/2018'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA REALIZAR RESERVA
+create procedure Realizar_Reserva
+@nomusu varchar(10), 
+@habitacion int,
+@hotel varchar(50),
+@fechaini datetime, 
+@fechafin datetime
+as
+begin
+if not exists(select * from Clientes where nomusu = @nomusu)
+	return -1
+if not exists(select * from Habitaciones where (numero = @habitacion and hotel = @hotel))
+	return -2
+if (@fechaini < convert(date,GETDATE()))
+	return -3
+if (@fechaini >= @fechafin)
+	return -4
+if	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechafin<=fechafin and @fechafin>=fechaini)) or
+	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechafin and @fechaini>=fechaini)) or
+	exists (select * from Reservas where (habitacion = @habitacion and hotel = @hotel and @fechaini<=fechaini and @fechafin>=fechafin))
+	return -5
+else
+	begin
+	insert into Reservas values(@nomusu, @habitacion, @hotel, @fechaini, @fechafin, 'Activa')
+	if @@ERROR<>0
+		begin
+			return -6
+		end
+	end
+end
+go
+-- Prueba Realizar_Reserva 'usu1', 301, 'Hotel 1', '02/01/2018', '02/12/2018'
+-- -----------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------------------------
+-- SE CREA PROCEDIMIENTO PARA CANCELAR USO DE RESERVA
+create procedure Cancelar_Reserva
+@idReserva int
+as
+begin
+if not exists(select * from Reservas where idReserva = @idReserva)
+	return -1
+if exists(select * from Reservas where (idReserva = @idReserva and estado = 'Finalizada'))
+	return -2
+
+update Reservas
+set estado = 'Cancelada' where (idReserva = @idReserva and estado = 'Activa')
+
+if @@ERROR<>0
+	return -3
+else
+	return 1
+end
+go
+-- Prueba Cancelar_Reserva 10
+-- -----------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------------------------
 -- SE CREA PROCEDIMIENTO PARA LISTAR RESERVAS ACTIVAS POR USUARIO

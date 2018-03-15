@@ -36,7 +36,7 @@ namespace Persistencia
                         Activas.Add(R);
                     }
                 }
-
+                 
                 _Reader.Close();
             }
 
@@ -75,7 +75,7 @@ namespace Persistencia
                     Cliente C = PersistenciaCliente.Buscar(_Reader["nomusu"].ToString());
                     Hotel Hot = PersistenciaHotel.Buscar(_Reader["hotel"].ToString());
                     Habitacion Hab = PersistenciaHabitacion.Buscar(Hot, Convert.ToInt32(_Reader["habitacion"]));
-                    
+
                     unaRes = new Reserva(Convert.ToInt32(_Reader["idReserva"]), C, Hab, Convert.ToDateTime(_Reader["fechaini"]), Convert.ToDateTime(_Reader["fechafin"]), _Reader["estado"].ToString());
 
                     _Reader.Close();
@@ -309,6 +309,121 @@ namespace Persistencia
             }
 
             return ReservasHabitacion;
+        }
+
+        public static void Consultar_Reserva(Reserva unaRes)
+        {
+            SqlConnection oConexion = new SqlConnection(Conexion.STR);
+            SqlCommand oComando = new SqlCommand("Consultar_Reserva ", oConexion);
+            oComando.CommandType = CommandType.StoredProcedure;
+
+            oComando.Parameters.AddWithValue("@habitacion", unaRes.Habitacion.Numero);
+            oComando.Parameters.AddWithValue("@hotel", unaRes.Habitacion.Hotel.Nombre);
+            oComando.Parameters.AddWithValue("@fechaini", unaRes.Fechaini.Date);
+            oComando.Parameters.AddWithValue("@fechafin", unaRes.Fechafin.Date);
+
+            SqlParameter oRetorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            oRetorno.Direction = ParameterDirection.ReturnValue;
+            oComando.Parameters.Add(oRetorno);
+
+            try
+            {
+                oConexion.Open();
+                oComando.ExecuteNonQuery();
+
+                int oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+
+                if (oAfectados == -1)
+                {
+                    throw new Exception("El hotel seleccionado no existe en la base de datos");
+                }
+                else if (oAfectados == -2)
+                {
+                    throw new Exception("La habitación seleccionada no existe en la base de datos");
+                }
+                else if (oAfectados == -3)
+                {
+                    throw new Exception("La fecha de inicio no puede ser anterior al día de hoy");
+                }
+                else if (oAfectados == -4)
+                {
+                    throw new Exception("La fecha de fin debe ser mayor a la fecha de inicio");
+                }
+                else if (oAfectados == -5)
+                {
+                    throw new Exception("La habitación se encuentra reservada en las fechas seleccionadas");
+                }
+                else if (oAfectados == -6)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                oConexion.Close();
+            }
+        }
+
+        public static void Realizar_Reserva(Reserva unaRes)
+        {
+            SqlConnection oConexion = new SqlConnection(Conexion.STR);
+            SqlCommand oComando = new SqlCommand("Realizar_Reserva ", oConexion);
+            oComando.CommandType = CommandType.StoredProcedure;
+
+            oComando.Parameters.AddWithValue("@nomusu", unaRes.Cliente.Nomusu);
+            oComando.Parameters.AddWithValue("@habitacion", unaRes.Habitacion.Numero);
+            oComando.Parameters.AddWithValue("@hotel", unaRes.Habitacion.Hotel.Nombre);
+            oComando.Parameters.AddWithValue("@fechaini", unaRes.Fechaini.Date);
+            oComando.Parameters.AddWithValue("@fechafin", unaRes.Fechafin.Date);
+
+            SqlParameter oRetorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            oRetorno.Direction = ParameterDirection.ReturnValue;
+            oComando.Parameters.Add(oRetorno);
+
+            try
+            {
+                oConexion.Open();
+                oComando.ExecuteNonQuery();
+
+                int oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+
+                if (oAfectados == -1)
+                {
+                    throw new Exception("El cliente ingresado no existe en la base de datos");
+                }
+                else if (oAfectados == -2)
+                {
+                    throw new Exception("La habitación ingresada no existe en la base de datos");
+                }
+                else if (oAfectados == -3)
+                {
+                    throw new Exception("La fecha de inicio no puede ser anterior al día de hoy");
+                }
+                else if (oAfectados == -4)
+                {
+                    throw new Exception("La fecha de fin debe ser mayor a la fecha de inicio");
+                }
+                else if (oAfectados == -5)
+                {
+                    throw new Exception("La habitación se encuentra reservada en esas fechas");
+                }
+                else if (oAfectados == -6)
+                {
+                    throw new Exception("Error en la base de datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                oConexion.Close();
+            }
         }
     }
 }
