@@ -128,28 +128,6 @@
                     </tr>
                     <tr>
                         <td class="style7">
-                            Contraseña: </td>
-                        <td class="style10">
-                <asp:TextBox ID="TBPassword" runat="server" Width="233px" TextMode="Password"></asp:TextBox>
-                        </td>
-                        <td class="style9">
-                            &nbsp;</td>
-                        <td>
-                            &nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="style7">
-                            Repita la contraseña:</td>
-                        <td class="style10">
-                <asp:TextBox ID="TBPassword2" runat="server" Width="233px" TextMode="Password"></asp:TextBox>
-                        </td>
-                        <td class="style9">
-                            &nbsp;</td>
-                        <td>
-                            &nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="style7">
                             Dirección: </td>
                         <td class="style10">
                 <asp:TextBox ID="TBDireccion" runat="server" Width="233px"></asp:TextBox>
@@ -181,9 +159,7 @@
                     Text="Agregar" onclick="BtnAgregar_Click" />
                         </td>
                         <td>
-                <asp:Button ID="BtnQuitar" runat="server" 
-                    Text="Quitar" onclick="BtnQuitar_Click" />
-                        </td>
+                            &nbsp;</td>
                     </tr>
                     <tr>
                         <td class="style7">
@@ -191,6 +167,30 @@
                         <td class="style10">
                 <asp:ListBox ID="LBTelefonos" runat="server" Height="112px" Width="178px">
                 </asp:ListBox>
+                        </td>
+                        <td class="style9">
+                <asp:Button ID="BtnQuitar" runat="server" 
+                    Text="Quitar" onclick="BtnQuitar_Click" />
+                        </td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="style7">
+                            Contraseña: </td>
+                        <td class="style10">
+                <asp:TextBox ID="TBPassword" runat="server" Width="233px" TextMode="Password"></asp:TextBox>
+                        </td>
+                        <td class="style9">
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="style7">
+                            Repita la contraseña:</td>
+                        <td class="style10">
+                <asp:TextBox ID="TBPassword2" runat="server" Width="233px" TextMode="Password"></asp:TextBox>
                         </td>
                         <td class="style9">
                             &nbsp;</td>

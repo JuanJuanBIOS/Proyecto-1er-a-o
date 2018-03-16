@@ -19,7 +19,7 @@ namespace Proyecto_1er_año
         protected void Page_Load(object sender, EventArgs e)
         {
             //Si se pasa por esta página se hace un deslogueo
-            Session["Usuario"] = null;
+            Session["Usuario"] = null;  
             TBNombre.Focus();
         }
 
@@ -60,7 +60,7 @@ namespace Proyecto_1er_año
         }
 
         protected void BtnRegistro_Click(object sender, EventArgs e)
-        {
+        {   
             Response.Redirect("RegistrodeCliente.aspx");
         }
     }

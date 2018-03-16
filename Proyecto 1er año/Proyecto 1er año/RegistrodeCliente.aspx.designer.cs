@@ -76,24 +76,6 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.TextBox TBNomUsu;
         
         /// <summary>
-        /// TBPassword control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TBPassword;
-        
-        /// <summary>
-        /// TBPassword2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TBPassword2;
-        
-        /// <summary>
         /// TBDireccion control.
         /// </summary>
         /// <remarks>
@@ -130,6 +112,15 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.Button BtnAgregar;
         
         /// <summary>
+        /// LBTelefonos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox LBTelefonos;
+        
+        /// <summary>
         /// BtnQuitar control.
         /// </summary>
         /// <remarks>
@@ -139,13 +130,22 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.Button BtnQuitar;
         
         /// <summary>
-        /// LBTelefonos control.
+        /// TBPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox LBTelefonos;
+        protected global::System.Web.UI.WebControls.TextBox TBPassword;
+        
+        /// <summary>
+        /// TBPassword2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TBPassword2;
         
         /// <summary>
         /// BtnRegistrar control.
