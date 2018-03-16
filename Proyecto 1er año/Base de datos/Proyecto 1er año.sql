@@ -906,19 +906,3 @@ end
 go
 -- Prueba Crear_Telefono 'usu1', '0993185643532'
 -- -----------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------------------------------------------------
--- SE CREA PROCEDIMIENTO PARA BUSCAR TELEFONO
-create procedure Buscar_Telefonos
-@nomusu varchar(10)
-
-as
-begin
-if not exists(select * from Telefonos where nomusu = @nomusu)
-	return -1
-else
-	select * from Telefonos where nomusu = @nomusu
-end
-
-go
--- Prueba Buscar_Telefonos 'usu1'

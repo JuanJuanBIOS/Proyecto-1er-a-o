@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Configuration;
+using System.Transactions;
 
 
 namespace Persistencia
@@ -129,52 +130,87 @@ namespace Persistencia
 
         public static void Crear(Cliente unC)
         {
-            SqlConnection _Conexion = new SqlConnection(Conexion.STR);
-            SqlCommand _Comando = new SqlCommand("Crear_Cliente", _Conexion);
-            _Comando.CommandType = CommandType.StoredProcedure;
-
-            _Comando.Parameters.AddWithValue("@nomusu", unC.Nomusu);
-            _Comando.Parameters.AddWithValue("@pass", unC.Pass);
-            _Comando.Parameters.AddWithValue("@nombre", unC.Nombre);
-            _Comando.Parameters.AddWithValue("@tarjeta", unC.Tarjeta);
-            _Comando.Parameters.AddWithValue("@direccion", unC.Direccion);
-
-
-            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
-            _Retorno.Direction = ParameterDirection.ReturnValue;
-            _Comando.Parameters.Add(_Retorno);
-
-            try
+            using (TransactionScope scope = new TransactionScope())
             {
-                _Conexion.Open();
-                _Comando.ExecuteNonQuery();
+                SqlConnection _Conexion = new SqlConnection(Conexion.STR);
+                SqlCommand _Comando = new SqlCommand("Crear_Cliente", _Conexion);
+                _Comando.CommandType = CommandType.StoredProcedure;
 
-                int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+                _Comando.Parameters.AddWithValue("@nomusu", unC.Nomusu);
+                _Comando.Parameters.AddWithValue("@pass", unC.Pass);
+                _Comando.Parameters.AddWithValue("@nombre", unC.Nombre);
+                _Comando.Parameters.AddWithValue("@tarjeta", unC.Tarjeta);
+                _Comando.Parameters.AddWithValue("@direccion", unC.Direccion);
 
-                if (_Afectados == -1)
+
+                SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+                _Retorno.Direction = ParameterDirection.ReturnValue;
+                _Comando.Parameters.Add(_Retorno);
+
+                try
                 {
-                    throw new Exception("El nombre de usuario ingresado ya existe en la base de datos");
+                    _Conexion.Open();
+                    _Comando.ExecuteNonQuery();
+
+                    int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                    if (_Afectados == -1)
+                    {
+                        throw new Exception("El nombre de usuario ingresado ya existe en la base de datos");
+                    }
+                    else if (_Afectados == -2)
+                    {
+                        throw new Exception("La tarjeta de crédito ingresada ya existe en la base de datos");
+                    }
+                    else if (_Afectados == -3)
+                    {
+                        throw new Exception("Error al crear el usuario en la bas ede datos");
+                    }
+                    else if (_Afectados == -4)
+                    {
+                        throw new Exception("Error al crear el cliente en la bas ede datos");
+                    }
                 }
-                else if (_Afectados == -2)
+                catch (Exception ex)
                 {
-                    throw new Exception("La tarjeta de crédito ingresada ya existe en la base de datos");
+                    throw ex;
                 }
-                else if (_Afectados == -3)
+                finally
                 {
-                    throw new Exception("Error al crear el usuario en la bas ede datos");
+                    _Conexion.Close();
                 }
-                else if (_Afectados == -4)
+
+                foreach (string Tel in unC.Telefonos)
                 {
-                    throw new Exception("Error al crear el cliente en la bas ede datos");
+                    SqlCommand _ComandoTel = new SqlCommand("Crear_Telefono", _Conexion);
+                    _ComandoTel.CommandType = CommandType.StoredProcedure;
+
+                    _ComandoTel.Parameters.AddWithValue("@nomusu", unC.Nomusu);
+                    _ComandoTel.Parameters.AddWithValue("@telefono", Tel);
+
+                    try
+                    {
+                        _Conexion.Open();
+                        _ComandoTel.ExecuteNonQuery();
+
+                        int _Afectados = (int)_Comando.Parameters["@Retorno"].Value;
+
+                        if (_Afectados == -1)
+                        {
+                            throw new Exception("El teléfono " + Tel + " ya existe para el cliente ingresado");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        _Conexion.Close();
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                _Conexion.Close();
+
+                scope.Complete();
             }
 
             /*

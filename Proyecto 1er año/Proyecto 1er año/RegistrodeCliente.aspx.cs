@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Collections;
 using EntidadesCompartidas;
 using Logica;
+using System.Data.SqlClient;
 
 namespace Proyecto_1er_año
 {
@@ -61,6 +62,12 @@ namespace Proyecto_1er_año
                 BtnOk.Visible = true;
             }
 
+            catch (SqlException ex)
+            {
+                LblError.Text = "";
+                LblError.Text = "Error en la base de datos. Contacte con el administrador.";
+            }
+
             catch (Exception ex)
             {
                 LblError.ForeColor = System.Drawing.Color.Red;
@@ -96,7 +103,5 @@ namespace Proyecto_1er_año
         {
             Response.Redirect("Login.aspx", false);
         }
-
-
     }
 }
