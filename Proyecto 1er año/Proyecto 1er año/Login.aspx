@@ -8,7 +8,7 @@
     <style type="text/css">
         .style1
         {
-            width: 29%;
+            width: 23%;
         }
         .style2
         {
@@ -19,18 +19,28 @@
         }
         .style5
         {
-            width: 125px;
         }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
+    <br />
+        <br />
+        <br />
     <div>
-    
-        <br />
-        <br />
         <br />
         <table align="center" class="style1">
+            <tr>
+                <td align="center" class="style5" colspan="2">
+                    <h3 align="center"><asp:Label ID="LblMens" runat="server" Text="Ingrese su Usuario y Contraseña"></asp:Label></h3>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" class="style5">
+                    &nbsp;</td>
+                <td class="style4">
+                    &nbsp;</td>
+            </tr>
             <tr>
                 <td align="center" class="style5">
                     Nombre de Usuario:

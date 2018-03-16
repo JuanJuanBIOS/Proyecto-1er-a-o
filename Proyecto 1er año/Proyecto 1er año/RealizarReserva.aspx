@@ -2,17 +2,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
 <table style="width: 100%">
         <tr>
-            <td colspan="2" style="height: 24px">
-                Realizar reserva</td>
+            <td colspan="2" style="height: 24px" align="center">
+                <h2><asp:Label ID="LbSubt" runat="server" Text="Realizar Reserva"></asp:Label></h2>
+            </td>
         </tr>
         <tr>
             <td colspan="2">
                 &nbsp;</td>
         </tr>
         <tr>
-            <td style="width: 221px; height: 33px;">
-                <asp:Label ID="LbCategoria" runat="server" 
-                    Text="Seleccione la categoría del hotel: "></asp:Label>
+            <td style="width: 272px; height: 33px;">
+                <h3><asp:Label ID="LbCategoria" runat="server" 
+                    Text="Seleccione la categoría del hotel: "></asp:Label></h3>
             </td>
             <td style="height: 33px;">
                 <asp:DropDownList ID="DDLCategoria" runat="server" AutoPostBack="True" 
@@ -32,7 +33,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <asp:Label ID="LbHoteles" runat="server" Text="Hoteles"></asp:Label>
+                <h3><asp:Label ID="LbHoteles" runat="server" Text="Hoteles"></asp:Label></h3>
             </td>
         </tr>
         <tr>
@@ -104,8 +105,7 @@
             </tr>
         <tr>
             <td colspan="2" style="height: 25px" class="style4">
-                <asp:Label ID="LbHabitaciones" runat="server" Text="Habitaciones"></asp:Label>
-            &nbsp;
+                <h3><asp:Label ID="LbHabitaciones" runat="server" Text="Habitaciones"></asp:Label></h3>
                 </td>
             </tr>
         <tr>
@@ -149,7 +149,7 @@
         </tr>
         <tr>
             <td valign="middle" colspan="2">
-                <asp:Label ID="LbDetalles" runat="server" Text="Detalles de la habitación"></asp:Label>
+                <h3><asp:Label ID="LbDetalles" runat="server" Text="Detalles de la habitación"></asp:Label></h3>
             </td>
         </tr>
         <tr>
@@ -198,7 +198,7 @@
                 <table style="width: 100%">
                     <tr>
                         <td colspan="6">
-                            <asp:Label ID="LbReserva" runat="server" Text="Fechas de Reserva"></asp:Label>
+                            <h3><asp:Label ID="LbReserva" runat="server" Text="Fechas de Reserva"></asp:Label></h3>
                         </td>
                     </tr>
                     <tr>

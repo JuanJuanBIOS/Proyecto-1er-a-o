@@ -61,7 +61,7 @@ namespace Proyecto_1er_año
 
         protected void BtnRegistro_Click(object sender, EventArgs e)
         {
-            Response.Redirect("RegistroCliente.aspx");
+            Response.Redirect("RegistrodeCliente.aspx");
         }
     }
 }

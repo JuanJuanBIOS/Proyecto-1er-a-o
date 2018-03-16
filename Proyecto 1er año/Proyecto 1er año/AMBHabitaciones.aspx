@@ -2,8 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
 
 
-    <p>
-    Mantenimiento de Habitaciones</p>
+    <h2 align="center">
+        <asp:Label ID="LbSubt" runat="server" Text="Mantenimiento de Habitaciones"></asp:Label>
+    </h2>
 <p>
     Nombre del Hotel:
     <asp:TextBox ID="TBNombre" runat="server" MaxLength="50" Width="383px"></asp:TextBox>

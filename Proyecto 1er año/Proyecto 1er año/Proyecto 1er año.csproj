@@ -61,7 +61,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="RealizarReserva.aspx" />
-    <Content Include="RegistroCliente.aspx" />
+    <Content Include="RegistrodeCliente.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -83,6 +83,7 @@
     <Content Include="ABMAdministrador.aspx" />
     <Content Include="ConfirmarReserva.aspx" />
     <Content Include="ListadodeHabyRes.aspx" />
+    <Content Include="ReservasActivas.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.aspx.cs">
@@ -194,12 +195,19 @@
     <Compile Include="ListadodeHabyRes.aspx.designer.cs">
       <DependentUpon>ListadodeHabyRes.aspx</DependentUpon>
     </Compile>
-    <Compile Include="RegistroCliente.aspx.cs">
-      <DependentUpon>RegistroCliente.aspx</DependentUpon>
+    <Compile Include="RegistrodeCliente.aspx.cs">
+      <DependentUpon>RegistrodeCliente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="RegistroCliente.aspx.designer.cs">
-      <DependentUpon>RegistroCliente.aspx</DependentUpon>
+    <Compile Include="RegistrodeCliente.aspx.designer.cs">
+      <DependentUpon>RegistrodeCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReservasActivas.aspx.cs">
+      <DependentUpon>ReservasActivas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReservasActivas.aspx.designer.cs">
+      <DependentUpon>ReservasActivas.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

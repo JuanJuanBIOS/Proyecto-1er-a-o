@@ -860,19 +860,21 @@ as
 begin
 if exists(select * from Usuarios where nomusu = @nomusu)
 	return -1
+else if exists(select * from Clientes where tarjeta = @tarjeta)
+	return -2
 
 begin transaction
 	insert into Usuarios values (@nomusu, @pass, @nombre)
 	if @@ERROR<>0
 		begin
 			rollback transaction
-			return -2
+			return -3
 		end
 	insert into Clientes values (@nomusu, @tarjeta, @direccion)
 	if @@ERROR<>0
 		begin
 			rollback transaction
-			return -3
+			return -4
 		end
 else
 	begin

@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="ABMHoteles.aspx.cs" Inherits="Proyecto_1er_año.WebForm4" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
-    <h2>
-        Mantenimiento de Hoteles</h2>
+    <h2 align="center">
+        <asp:Label ID="LbSubt" runat="server" Text="Mantenimiento de Hoteles"></asp:Label>
+    </h2>
     <p>
         Ingrese nombre de Hotel:&nbsp; <asp:TextBox ID="TBNombre" 
             runat="server" MaxLength="50" Width="861px"></asp:TextBox>

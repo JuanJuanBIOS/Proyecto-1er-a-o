@@ -13,35 +13,46 @@ namespace Proyecto_1er_año
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (Session["Usuario"] is Cliente)
             {
-                LimpioFormulario();
+                if (!IsPostBack)
+                {
+                    LimpioFormulario();
+                }
+            }
+            else if (Session["Usuario"] is Administrador)
+            {
+                Response.Redirect("BienvenidaCliente.aspx", false);
+            }
+            else
+            {
+                Response.Redirect("Login.aspx", false);
             }
         }
 
-        private void LimpioFormulario()
-        {
-            LbHoteles.Visible = false;
-            GVHoteles.Visible = false;
-            LbHabitaciones.Visible = false;
-            GVHabitaciones.Visible = false;
-            LbDetalles.Visible = false;
-            GVDetallesHabitacion.Visible = false;
-            LbReserva.Visible = false;
-            LbFechaIni.Visible = false;
-            TBFechaIni.Text = "";
-            TBFechaIni.Visible = false;
-            CalInicio.Visible = false;
-            LbFechaFin.Visible = false;
-            TBFechaFin.Text = "";
-            TBFechaFin.Visible = false;
-            CalFin.Visible = false;
-            LblError.Text = "";
-            BtnOk.Visible = false;
-            BtnVerificar.Visible = false;
-            BtnConfirmar.Visible = false;
-            BtnCancelar.Visible = false;
-        }
+            private void LimpioFormulario()
+            {
+                LbHoteles.Visible = false;
+                GVHoteles.Visible = false;
+                LbHabitaciones.Visible = false;
+                GVHabitaciones.Visible = false;
+                LbDetalles.Visible = false;
+                GVDetallesHabitacion.Visible = false;
+                LbReserva.Visible = false;
+                LbFechaIni.Visible = false;
+                TBFechaIni.Text = "";
+                TBFechaIni.Visible = false;
+                CalInicio.Visible = false;
+                LbFechaFin.Visible = false;
+                TBFechaFin.Text = "";
+                TBFechaFin.Visible = false;
+                CalFin.Visible = false;
+                LblError.Text = "";
+                BtnOk.Visible = false;
+                BtnVerificar.Visible = false;
+                BtnConfirmar.Visible = false;
+                BtnCancelar.Visible = false;
+            }
 
         protected void DDLCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {

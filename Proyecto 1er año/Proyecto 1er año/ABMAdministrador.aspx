@@ -1,7 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="ABMAdministrador.aspx.cs" Inherits="Proyecto_1er_año.WebForm6" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
-    <h2>
-        Mantenimiento de Hoteles</h2>
+    <h2 align="center">
+        <asp:Label ID="LbSubt" runat="server" 
+            Text="Mantenimiento de Administradores"></asp:Label>
+    </h2>
     <p>
         Ingrese nombre de Usuario:&nbsp; 
         <asp:TextBox ID="TBNomUsu" 

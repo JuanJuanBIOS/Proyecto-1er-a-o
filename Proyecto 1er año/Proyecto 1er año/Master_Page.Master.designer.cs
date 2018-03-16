@@ -40,6 +40,24 @@ namespace Proyecto_1er_año {
         protected global::System.Web.UI.WebControls.HyperLink Salir;
         
         /// <summary>
+        /// LbTitulo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbTitulo;
+        
+        /// <summary>
+        /// LbMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbMenu;
+        
+        /// <summary>
         /// ABMHoteles control.
         /// </summary>
         /// <remarks>

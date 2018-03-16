@@ -153,15 +153,19 @@ namespace Persistencia
 
                 if (_Afectados == -1)
                 {
-                    throw new Exception("Ya existe el usuario  en la base de datos");
+                    throw new Exception("El nombre de usuario ingresado ya existe en la base de datos");
                 }
                 else if (_Afectados == -2)
                 {
-                    throw new Exception("Error al crear el cliente en la base de datos");
+                    throw new Exception("La tarjeta de crédito ingresada ya existe en la base de datos");
                 }
                 else if (_Afectados == -3)
                 {
-                    throw new Exception("La tarjeta de crédito ya es utilizada por otro usuario");
+                    throw new Exception("Error al crear el usuario en la bas ede datos");
+                }
+                else if (_Afectados == -4)
+                {
+                    throw new Exception("Error al crear el cliente en la bas ede datos");
                 }
             }
             catch (Exception ex)

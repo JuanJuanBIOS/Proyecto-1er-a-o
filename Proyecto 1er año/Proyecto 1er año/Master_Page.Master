@@ -13,7 +13,7 @@
         }
         .style2
         {
-            width: 188px;
+            width: 214px;
             height: 101px;
         }
         .style3
@@ -43,13 +43,18 @@
                 </td>
         </tr>
         <tr>
-            <td colspan="2" align="center" bgcolor="#009900" valign="middle" class="style4">
-                <h1>TÍTULO</h1>
+            <td align="center" bgcolor="#009900" valign="middle" class="style4">
+               
+                </td>
+            <td align="center" bgcolor="#009900" valign="middle" class="style4">
+                <h1><asp:Label ID="LbTitulo" runat="server" Text="Hoteles J&amp;J"></asp:Label></h1>
                 </td>
         </tr>
         <tr>
             <td bgcolor="#00CC00" class="style2" valign="top">
-                        <h2 align="center">Menú</h2>
+                        <h2 align="center">
+                            <asp:Label ID="LbMenu" runat="server" Text="Menú Principal"></asp:Label>
+                        </h2>
                         <p align="center">
                             <asp:HyperLink ID="ABMHoteles" runat="server" NavigateUrl="~/ABMHoteles.aspx">Mantenimiento de Hoteles</asp:HyperLink>
                         </p>
@@ -74,7 +79,8 @@
                                 NavigateUrl="~/RealizarReserva.aspx">Realizar Reserva</asp:HyperLink>
                         </p>
                         <p align="center">
-                            <asp:HyperLink ID="ReservasActivas" runat="server">Reservas Activas</asp:HyperLink>
+                            <asp:HyperLink ID="ReservasActivas" runat="server" 
+                                NavigateUrl="~/ReservasActivas.aspx">Reservas Activas</asp:HyperLink>
                         </p>
             </td>
             <td bgcolor="#99CC00" class="style3" valign="top">
@@ -84,7 +90,7 @@
         </tr>
         <tr>
             <td colspan="2" bgcolor="#009900" height="50" valign="middle" align="center">
-                <h4>Pie de página</h4>
+                <h4>&nbsp;</h4>
                 </td>
         </tr>
     </table>

@@ -1,9 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="ListadodeHabyRes.aspx.cs" Inherits="Proyecto_1er_año.WebForm8" %>
+﻿<%@ Page Title="" Language="C#" MaintainScrollPositionOnPostback="true" MasterPageFile="~/Master_Page.Master" AutoEventWireup="true" CodeBehind="ListadodeHabyRes.aspx.cs" Inherits="Proyecto_1er_año.WebForm8" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
     <table style="width: 100%">
         <tr>
-            <td colspan="3">
-                Listado de Habitaciones y Reservas</td>
+            <td colspan="3" align="center">
+                <h2><asp:Label ID="LbSubt" runat="server" Text="Listado de Habitaciones y Reservas"></asp:Label></h2>
+            </td>
         </tr>
         <tr>
             <td style="width: 49px">
@@ -15,7 +16,7 @@
         </tr>
         <tr>
             <td style="width: 49px; height: 34px;">
-                Hotel:</td>
+                <h3>Hotel:</h3></td>
             <td colspan="2" style="height: 34px">
                 <asp:DropDownList ID="DDLHotel" runat="server" 
                     onselectedindexchanged="DDLHotel_SelectedIndexChanged" AutoPostBack="True" 
@@ -33,7 +34,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <asp:Label ID="LbHabitaciones" runat="server" Text="Habitaciones"></asp:Label>
+                <h3><asp:Label ID="LbHabitaciones" runat="server" Text="Habitaciones"></asp:Label></h3>
             </td>
         </tr>
         <tr>
@@ -88,14 +89,13 @@
                 &nbsp;</td>
             </tr>
         <tr>
-            <td colspan="3" style="height: 25px" class="style4">
-                <asp:Label ID="LbReservas" runat="server" Text="Reservas"></asp:Label>
-            &nbsp;
-                </td>
+            <td colspan="3">
+                <h3><asp:Label ID="LbReservas" runat="server" Text="Reservas"></asp:Label></h3>
+            </td>
             </tr>
         <tr>
             <td colspan="3" valign="middle" >
-                <asp:Label ID="LbEstado" runat="server" 
+                <h4><asp:Label ID="LbEstado" runat="server" 
                     Text="Seleccione Estado de la reserva: "></asp:Label>
                 <asp:DropDownList ID="DdlEstado" runat="server" AutoPostBack="True" 
                     onselectedindexchanged="DdlEstado_SelectedIndexChanged">
@@ -105,6 +105,7 @@
                     <asp:ListItem>Finalizada</asp:ListItem>
                     <asp:ListItem>Cancelada</asp:ListItem>
                 </asp:DropDownList>
+                </h4>
             </td>
             </tr>
         <tr>

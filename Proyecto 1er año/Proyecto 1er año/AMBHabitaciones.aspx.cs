@@ -13,9 +13,20 @@ namespace Proyecto_1er_año
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-                this.LimpioFormulario();
-            TBNombre.Focus();
+            if (Session["Usuario"] is Administrador)
+            {
+                if (!IsPostBack)
+                    this.LimpioFormulario();
+                TBNombre.Focus();
+            }
+            else if (Session["Usuario"] is Cliente)
+            {
+                Response.Redirect("BienvenidaCliente.aspx", false);
+            }
+            else
+            {
+                Response.Redirect("Login.aspx", false);
+            }
         }
 
         private void LimpioFormulario()
@@ -164,6 +175,7 @@ namespace Proyecto_1er_año
                     LblError.ForeColor = System.Drawing.Color.Blue;
                     LblError.Text = "La Habitación ha sido ingresada a la base de datos correctamente.";
                     BloqueoCampos();
+                    BtnCrear.Enabled = false;
                 }
             }
 

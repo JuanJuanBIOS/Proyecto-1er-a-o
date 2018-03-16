@@ -74,5 +74,19 @@ namespace Logica
         {
             PersistenciaReservas.Realizar_Reserva(Res);
         }
+
+        public static List<Reserva> ReservasActivasporUsuario(string nomUsu)
+        {
+            List<Reserva> ReservasActivasporUsuario = new List<Reserva>();
+
+            ReservasActivasporUsuario.AddRange(PersistenciaReservas.ReservasActivasporUsuario(nomUsu));
+
+            return ReservasActivasporUsuario;
+        }
+
+        public static void Cancelar_Reserva(Reserva Res)
+        {
+            PersistenciaReservas.Cancelar_Reserva(Res);
+        }
     }
 }

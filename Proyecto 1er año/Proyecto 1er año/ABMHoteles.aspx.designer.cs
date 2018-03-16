@@ -13,6 +13,15 @@ namespace Proyecto_1er_año {
     public partial class WebForm4 {
         
         /// <summary>
+        /// LbSubt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbSubt;
+        
+        /// <summary>
         /// TBNombre control.
         /// </summary>
         /// <remarks>

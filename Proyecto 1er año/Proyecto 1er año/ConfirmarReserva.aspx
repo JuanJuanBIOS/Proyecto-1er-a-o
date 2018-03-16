@@ -2,8 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PaginaPrincipal" runat="server">
     <table style="width: 100%">
         <tr>
-            <td>
-                Confirmar uso de reserva</td>
+            <td align="center">
+                <h2><asp:Label ID="LbSubt" runat="server" Text="Confirmar uso de Reserva"></asp:Label></h2>
+            </td>
         </tr>
         <tr>
             <td>

@@ -13,21 +13,32 @@ namespace Proyecto_1er_año
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (Session["Usuario"] is Administrador)
             {
-                Session["_habitacion"] = null;
-                LbHabitaciones.Visible = false;
-                LbReservas.Visible = false;
-                LbEstado.Visible = false;
-                DdlEstado.Visible = false;
-                List<string> _hoteles = new List<string>();
-                _hoteles.Add("");
-                foreach (string _hotel in LogicaHotel.ListaHoteles())
+                if (!IsPostBack)
                 {
-                    _hoteles.Add(_hotel);
+                    Session["_habitacion"] = null;
+                    LbHabitaciones.Visible = false;
+                    LbReservas.Visible = false;
+                    LbEstado.Visible = false;
+                    DdlEstado.Visible = false;
+                    List<string> _hoteles = new List<string>();
+                    _hoteles.Add("");
+                    foreach (string _hotel in LogicaHotel.ListaHoteles())
+                    {
+                        _hoteles.Add(_hotel);
+                    }
+                    DDLHotel.DataSource = _hoteles;
+                    DDLHotel.DataBind();
                 }
-                DDLHotel.DataSource = _hoteles;
-                DDLHotel.DataBind();
+            }
+            else if (Session["Usuario"] is Cliente)
+            {
+                Response.Redirect("BienvenidaCliente.aspx", false);
+            }
+            else
+            {
+                Response.Redirect("Login.aspx", false);
             }
         }
 

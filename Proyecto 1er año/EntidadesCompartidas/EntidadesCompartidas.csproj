@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Administrador.cs" />
     <Compile Include="Cliente.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="Habitacion.cs" />
     <Compile Include="Hotel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
